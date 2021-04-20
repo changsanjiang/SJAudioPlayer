@@ -66,9 +66,9 @@
 }
 
 - (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atOffset:(AVAudioFramePosition)offset completionHandler:(AVAudioNodeCompletionHandler)completionHandler {
+    _frameLengthInBuffers += buffer.frameLength;
     [self _prepareToPlay];
     [_playerNode scheduleBuffer:buffer completionHandler:completionHandler];
-    _frameLengthInBuffers += buffer.frameLength;
 }
 
 - (BOOL)play:(NSError **)error {
@@ -90,6 +90,9 @@
 }
 
 - (void)stop {
+    if ( _playerNode.ap_isPlaying ) {
+        _lastPosition = [_playerNode ap_currentFramePosition];
+    }
     [_playerNode stop];
     [_engine stop];
     _frameLengthInBuffers = 0;
