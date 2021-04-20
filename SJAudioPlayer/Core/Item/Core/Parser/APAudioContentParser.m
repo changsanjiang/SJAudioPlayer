@@ -71,7 +71,7 @@
     
     _reachedEnd = NO;
     [_parser clearPackets];
-    UInt64 nBytesOffset = [self _offsetForTime:time startPosition:&_startPosition];
+    UInt64 nBytesOffset = [self _offsetForTime:time framePosition:&_startPosition];
     [_reader seekToOffset:nBytesOffset];
 }
 
@@ -122,7 +122,7 @@
     _reachedEnd = reader.offset == reader.countOfBytesTotalLength; /* EOF */
     if ( _parser.countOfBytesFoundPackets >= _minimumCountOfBytesFoundPackets || _reachedEnd ) {
         // 有足够数量的packets之后, 刷新一下播放时长
-        _duration = (reader.countOfBytesTotalLength - _parser.audioDataOffset) * 8.0 / _parser.bitRate;
+        _duration = (reader.countOfBytesTotalLength - _parser.audioDataOffset) / (_parser.bitRate / 8.0);
         _seekable = YES;
         
         NSArray<id<APAudioContentPacket>> *foundPackets = _parser.foundPackets;
@@ -148,19 +148,24 @@
     [_reader resume];
 }
 
-- (UInt64)_offsetForTime:(NSTimeInterval)time startPosition:(AVAudioFramePosition *)startPosition {
+- (UInt64)_offsetForTime:(NSTimeInterval)time framePosition:(AVAudioFramePosition *)startPosition {
     UInt64 nBytesOffset = 0;
     BOOL isEstimated = NO;
-    AVAudioPacketCount position = floor(time / _parser.durationPerPacket);
-    if ( [_parser offsetAtPacket:position outOffset:&nBytesOffset isEstimated:&isEstimated] && !isEstimated ) {
+    Float64 mSampleRate = _parser.format.streamDescription->mSampleRate;
+    AVAudioFramePosition allFrames = time * mSampleRate;
+    AVAudioFramePosition mFramesPerPacket = _parser.format.streamDescription->mFramesPerPacket;
+    AVAudioPacketCount packetPosition = (AVAudioPacketCount)(allFrames * 1.0 / mFramesPerPacket);
+    AVAudioFramePosition framePosition = packetPosition * mFramesPerPacket;
+    if ( [_parser offsetAtPacket:packetPosition outOffset:&nBytesOffset isEstimated:&isEstimated] && !isEstimated ) {
         // nBytesOffset available
     }
     else {
-        UInt64 nBytesAllAudioData = _reader.countOfBytesTotalLength - _parser.audioDataOffset;
-        nBytesOffset = _parser.audioDataOffset + (time / _duration * nBytesAllAudioData);
+        NSTimeInterval t = framePosition / mSampleRate;
+        nBytesOffset = _parser.audioDataOffset + t * (_parser.bitRate / 8.0);
     }
+    
     if ( startPosition != NULL ) {
-        *startPosition = position * _parser.format.streamDescription->mFramesPerPacket;
+        *startPosition = framePosition;
     }
     return nBytesOffset;
 }

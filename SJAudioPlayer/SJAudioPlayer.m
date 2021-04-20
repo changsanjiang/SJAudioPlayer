@@ -37,7 +37,7 @@ static dispatch_queue_t ap_queue;
 }
 
 + (instancetype)player {
-    return SJAudioPlayer.alloc.init;
+    return [[self alloc] init];
 }
 
 - (instancetype)init {
@@ -58,6 +58,10 @@ static dispatch_queue_t ap_queue;
 - (void)dealloc {
     [NSNotificationCenter.defaultCenter removeObserver:self];
     [_playbackController stop];
+}
+
+- (dispatch_queue_t)queue {
+    return ap_queue;
 }
 
 - (NSTimeInterval)currentTime {
@@ -326,7 +330,7 @@ static dispatch_queue_t ap_queue;
     }
     __weak APAudioItem *item = _currentItem;
     __weak typeof(self) _self = self;
-    [_playbackController scheduleBuffer:buffer atOffset:offset completionHandler:^{
+    [_playbackController scheduleBuffer:buffer atOffset:offset startOffset:_currentItem.startPosition completionHandler:^{
         dispatch_async(ap_queue, ^{
             __strong typeof(_self) self = _self;
             if ( self == nil ) return;

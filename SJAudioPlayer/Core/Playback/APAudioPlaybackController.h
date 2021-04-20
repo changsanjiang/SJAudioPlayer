@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface APAudioPlaybackController : NSObject<APAudioPlaybackController>
 @property (nonatomic, readonly) AVAudioFramePosition lastPosition;
-- (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atOffset:(AVAudioFramePosition)offset completionHandler:(AVAudioNodeCompletionHandler __nullable)completionHandler;
+- (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atOffset:(AVAudioFramePosition)offset startOffset:(AVAudioFramePosition)startOffset completionHandler:(AVAudioNodeCompletionHandler __nullable)completionHandler;
 - (BOOL)play:(NSError **)error;
 - (void)pause;
 - (void)stop;

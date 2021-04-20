@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) NSURL *URL;
 @property (nonatomic, strong, readonly, nullable) NSError *error;
 @property (nonatomic, readonly) APAudioPlaybackStatus status;
+@property (nonatomic, readonly) dispatch_queue_t queue;
 
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
