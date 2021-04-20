@@ -1,0 +1,51 @@
+PODS:
+  - CocoaAsyncSocket (7.6.5)
+  - SJAudioPlayer (0.1.0):
+    - SJAudioPlayer/Core (= 0.1.0)
+  - SJAudioPlayer/Core (0.1.0)
+  - SJMediaCacheServer (1.6.3):
+    - SJMediaCacheServer/Core (= 1.6.3)
+    - SJMediaCacheServer/KTVCocoaHTTPServer (= 1.6.3)
+    - SJUIKit/SQLite3
+  - SJMediaCacheServer/Core (1.6.3):
+    - SJMediaCacheServer/KTVCocoaHTTPServer
+    - SJUIKit/SQLite3
+  - SJMediaCacheServer/KTVCocoaHTTPServer (1.6.3):
+    - CocoaAsyncSocket
+    - SJUIKit/SQLite3
+  - SJUIKit/SQLite3 (0.0.0.52):
+    - SJUIKit/SQLite3/Core (= 0.0.0.52)
+    - SJUIKit/SQLite3/Protocol (= 0.0.0.52)
+    - YYModel
+  - SJUIKit/SQLite3/Core (0.0.0.52):
+    - SJUIKit/SQLite3/Protocol
+    - YYModel
+  - SJUIKit/SQLite3/Protocol (0.0.0.52):
+    - YYModel
+  - YYModel (1.0.4)
+
+DEPENDENCIES:
+  - SJAudioPlayer (from `../`)
+  - SJMediaCacheServer
+
+SPEC REPOS:
+  trunk:
+    - CocoaAsyncSocket
+    - SJMediaCacheServer
+    - SJUIKit
+    - YYModel
+
+EXTERNAL SOURCES:
+  SJAudioPlayer:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  SJAudioPlayer: 10bf8d286a8185244fe253eec253a5d189916afb
+  SJMediaCacheServer: 74656385db09cf77d76a649143d1f870e344e4e9
+  SJUIKit: 8246b1001e616b0dbd090309fd58cdd609ae3fd4
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+
+PODFILE CHECKSUM: fd4b9d1a924306b4ab9b579f4ba6b96f347a3563
+
+COCOAPODS: 1.10.1

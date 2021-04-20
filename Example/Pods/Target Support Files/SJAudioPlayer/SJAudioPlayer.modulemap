@@ -1,0 +1,6 @@
+framework module SJAudioPlayer {
+  umbrella header "SJAudioPlayer-umbrella.h"
+
+  export *
+  module * { export * }
+}

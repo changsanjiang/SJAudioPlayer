@@ -1,0 +1,28 @@
+{
+  "name": "SJAudioPlayer",
+  "version": "0.1.0",
+  "summary": "A short description of SJAudioPlayer.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/changsanjiang@gmail.com/SJAudioPlayer",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "changsanjiang@gmail.com": "changsanjiang@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/changsanjiang@gmail.com/SJAudioPlayer.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "SJAudioPlayer/*.{h,m}",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "SJAudioPlayer/Core/**/*.{h,m}"
+    }
+  ]
+}

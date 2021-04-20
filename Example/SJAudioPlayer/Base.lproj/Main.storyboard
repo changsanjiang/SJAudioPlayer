@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="wQg-tq-qST">
+            <objects>
+                <viewController id="whP-gf-Uak" customClass="SJViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uEw-UM-LJ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mvr-aV-6Um"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3mK-eG-Hpb" customClass="SJButtonProgressSlider">
+                                <rect key="frame" x="36" y="100" width="303" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="gY0-Jb-IPI"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydS-42-u8f">
+                                <rect key="frame" x="166.5" y="166" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jSe-sC-Iib">
+                                <rect key="frame" x="172.5" y="212" width="30" height="30"/>
+                                <state key="normal" title="Play"/>
+                                <state key="selected" title="Pause"/>
+                                <connections>
+                                    <action selector="playOrPause:" destination="whP-gf-Uak" eventType="touchUpInside" id="Qjd-7v-dF8"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaM-FJ-KVL" customClass="SJProgressSlider">
+                                <rect key="frame" x="36" y="300" width="303" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2vg-id-0nb">
+                                <rect key="frame" x="36" y="271" width="62" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vv0-fN-oLS" customClass="SJProgressSlider">
+                                <rect key="frame" x="36" y="412" width="303" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7E7-Fq-fug">
+                                <rect key="frame" x="36" y="383" width="35" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y61-34-j5q">
+                                <rect key="frame" x="241" y="212" width="55" height="30"/>
+                                <state key="normal" title="Replace"/>
+                                <connections>
+                                    <action selector="replace" destination="whP-gf-Uak" eventType="touchUpInside" id="OjG-ii-dOX"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="y61-34-j5q" firstAttribute="leading" secondItem="jSe-sC-Iib" secondAttribute="trailing" constant="38.5" id="2XF-q4-QdT"/>
+                            <constraint firstItem="Vv0-fN-oLS" firstAttribute="top" secondItem="7E7-Fq-fug" secondAttribute="bottom" constant="8" symbolic="YES" id="4oD-Wb-Srp"/>
+                            <constraint firstItem="3mK-eG-Hpb" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="100" id="7Xj-AV-cub"/>
+                            <constraint firstItem="jSe-sC-Iib" firstAttribute="centerX" secondItem="3mK-eG-Hpb" secondAttribute="centerX" id="8dY-0z-gdi"/>
+                            <constraint firstItem="Vv0-fN-oLS" firstAttribute="leading" secondItem="HaM-FJ-KVL" secondAttribute="leading" id="9E4-DD-wxi"/>
+                            <constraint firstItem="HaM-FJ-KVL" firstAttribute="top" secondItem="jSe-sC-Iib" secondAttribute="bottom" constant="58" id="9Eb-hj-Mxl"/>
+                            <constraint firstItem="Vv0-fN-oLS" firstAttribute="height" secondItem="HaM-FJ-KVL" secondAttribute="height" id="9mF-fG-7Ok"/>
+                            <constraint firstItem="Vv0-fN-oLS" firstAttribute="trailing" secondItem="HaM-FJ-KVL" secondAttribute="trailing" id="B3x-h6-wZB"/>
+                            <constraint firstItem="HaM-FJ-KVL" firstAttribute="top" secondItem="2vg-id-0nb" secondAttribute="bottom" constant="8" symbolic="YES" id="EcM-xZ-fbr"/>
+                            <constraint firstItem="2vg-id-0nb" firstAttribute="leading" secondItem="HaM-FJ-KVL" secondAttribute="leading" id="L6h-bi-1rZ"/>
+                            <constraint firstItem="ydS-42-u8f" firstAttribute="top" secondItem="3mK-eG-Hpb" secondAttribute="bottom" constant="22" id="LYN-ED-RAN"/>
+                            <constraint firstItem="HaM-FJ-KVL" firstAttribute="leading" secondItem="3mK-eG-Hpb" secondAttribute="leading" id="MCU-10-l6b"/>
+                            <constraint firstItem="HaM-FJ-KVL" firstAttribute="height" secondItem="3mK-eG-Hpb" secondAttribute="height" id="ZFi-u8-YG0"/>
+                            <constraint firstItem="7E7-Fq-fug" firstAttribute="leading" secondItem="Vv0-fN-oLS" secondAttribute="leading" id="f6N-yW-7PI"/>
+                            <constraint firstItem="3mK-eG-Hpb" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="20" id="f8q-9B-FL6"/>
+                            <constraint firstItem="jSe-sC-Iib" firstAttribute="top" secondItem="3mK-eG-Hpb" secondAttribute="bottom" constant="68" id="gjE-ZI-wcs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3mK-eG-Hpb" secondAttribute="trailing" constant="20" id="jc4-w4-ovP"/>
+                            <constraint firstItem="HaM-FJ-KVL" firstAttribute="trailing" secondItem="3mK-eG-Hpb" secondAttribute="trailing" id="kPU-ID-I9u"/>
+                            <constraint firstItem="Vv0-fN-oLS" firstAttribute="top" secondItem="HaM-FJ-KVL" secondAttribute="bottom" constant="68" id="qYj-Hy-VXs"/>
+                            <constraint firstItem="y61-34-j5q" firstAttribute="centerY" secondItem="jSe-sC-Iib" secondAttribute="centerY" id="vDH-5d-FRz"/>
+                            <constraint firstItem="ydS-42-u8f" firstAttribute="centerX" secondItem="3mK-eG-Hpb" secondAttribute="centerX" id="zwk-AA-e1A"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="RateSlider" destination="Vv0-fN-oLS" id="Wo0-Me-KsN"/>
+                        <outlet property="playButton" destination="jSe-sC-Iib" id="IPv-a5-BFT"/>
+                        <outlet property="progressView" destination="3mK-eG-Hpb" id="6mD-8C-Ig7"/>
+                        <outlet property="statusLabel" destination="ydS-42-u8f" id="tUg-8e-bVN"/>
+                        <outlet property="volumeSlider" destination="HaM-FJ-KVL" id="8JQ-CQ-PVf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-431" y="-1746"/>
+        </scene>
+    </scenes>
+</document>
