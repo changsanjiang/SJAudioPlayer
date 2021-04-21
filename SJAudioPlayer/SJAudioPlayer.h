@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) float volume;
 @property (nonatomic, getter=isMuted) BOOL muted;
 
-- (void)replaceAudioWithURL:(NSURL *)URL;
+- (void)replaceAudioWithURL:(nullable NSURL *)URL;
 - (void)seekToTime:(NSTimeInterval)time;
 
 - (void)play;
@@ -38,6 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)registerObserver:(id<SJAudioPlayerObserver>)observer;
 - (void)removeObserver:(id<SJAudioPlayerObserver>)observer;
 - (void)reload;
+@end
+
+@interface SJAudioPlayer (SJAVAudioSessionExtended)
+- (void)setCategory:(AVAudioSessionCategory)category withOptions:(AVAudioSessionCategoryOptions)options;
+- (void)setActiveOptions:(AVAudioSessionSetActiveOptions)options;
 @end
 
 @protocol SJAudioPlayerObserver <NSObject>

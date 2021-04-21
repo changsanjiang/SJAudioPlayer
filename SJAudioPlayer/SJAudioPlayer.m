@@ -17,8 +17,11 @@ static NSInteger const SJAudioPlayerMaximumPCMBufferCount = 25;
 static NSInteger const SJAudioPlayerMinimumPCMBufferCountToBePlayable = 1;
 
 @interface SJAudioPlayer ()<APAudioItemDelegate> {
-    id<APAudioPlaybackController> _playbackController;
-    NSHashTable<id<SJAudioPlayerObserver>> *_Nullable _observers;
+    id<APAudioPlaybackController> _mPlaybackController;
+    NSHashTable<id<SJAudioPlayerObserver>> *_Nullable _mObservers;
+    AVAudioSessionCategory _mCategory;
+    AVAudioSessionCategoryOptions _mCategoryOptions;
+    AVAudioSessionSetActiveOptions _mSetActiveOptions;
 }
 
 @property (nonatomic, strong, nullable) APAudioItem *currentItem;
@@ -48,7 +51,10 @@ static dispatch_queue_t ap_queue;
     NSParameterAssert(playbackController != nil);
     self = [super init];
     if ( self ) {
-        _playbackController = playbackController;
+        _mPlaybackController = playbackController;
+        _mCategory = AVAudioSessionCategoryPlayback;
+        _mCategoryOptions = AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionDuckOthers;
+        _mSetActiveOptions = AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation;
         _status = APAudioPlaybackStatusPaused;
         [self _observeNotifies];
     }
@@ -57,7 +63,7 @@ static dispatch_queue_t ap_queue;
 
 - (void)dealloc {
     [NSNotificationCenter.defaultCenter removeObserver:self];
-    [_playbackController stop];
+    [_mPlaybackController stop];
 }
 
 - (dispatch_queue_t)queue {
@@ -90,58 +96,60 @@ static dispatch_queue_t ap_queue;
   
 - (void)setRate:(float)rate {
     dispatch_sync(ap_queue, ^{
-        _playbackController.rate = rate;
+        _mPlaybackController.rate = rate;
     });
 }
 
 - (float)rate {
     __block float rate = 0;
     dispatch_sync(ap_queue, ^{
-        rate = _playbackController.rate;
+        rate = _mPlaybackController.rate;
     });
     return rate;
 }
 
 - (void)setVolume:(float)volume {
     dispatch_sync(ap_queue, ^{
-        _playbackController.volume = volume;
+        _mPlaybackController.volume = volume;
     });
 }
 
 - (float)volume {
     __block float volume = 0;
     dispatch_sync(ap_queue, ^{
-        volume = _playbackController.volume;
+        volume = _mPlaybackController.volume;
     });
     return volume;
 }
 
 - (void)setMuted:(BOOL)muted {
     dispatch_sync(ap_queue, ^{
-        _playbackController.muted = muted;
+        _mPlaybackController.muted = muted;
     });
 }
 
 - (BOOL)isMuted {
     __block BOOL isMuted = 0;
     dispatch_sync(ap_queue, ^{
-        isMuted = _playbackController.isMuted;
+        isMuted = _mPlaybackController.isMuted;
     });
     return isMuted;
 }
 
-- (void)replaceAudioWithURL:(NSURL *)URL {
+- (void)replaceAudioWithURL:(nullable NSURL *)URL {
     dispatch_sync(ap_queue, ^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s { URL: %@ }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), URL);
 
         [self _resetPlayback];
         _URL = URL;
-        _currentItem = [APAudioItem.alloc initWithURL:_URL delegate:self queue:ap_queue];
-        [_currentItem prepare];
-        if ( _status & APAudioPlaybackStatusPlaying ) {
-            [self _setStatus:APAudioPlaybackStatusEvaluating];
+        if ( _URL != nil ) {
+            _currentItem = [APAudioItem.alloc initWithURL:_URL delegate:self queue:ap_queue];
+            [_currentItem prepare];
+            if ( _status & APAudioPlaybackStatusPlaying ) {
+                [self _setStatus:APAudioPlaybackStatusEvaluating];
+            }
+            [self _toEvaluating];
         }
-        [self _toEvaluating];
     });
 }
 
@@ -209,10 +217,10 @@ static dispatch_queue_t ap_queue;
     if ( observer == nil )
         return;
     dispatch_sync(ap_queue, ^{
-        if ( _observers == nil ) {
-            _observers = NSHashTable.weakObjectsHashTable;
+        if ( _mObservers == nil ) {
+            _mObservers = NSHashTable.weakObjectsHashTable;
         }
-        [_observers addObject:observer];
+        [_mObservers addObject:observer];
     });
 }
 
@@ -220,7 +228,7 @@ static dispatch_queue_t ap_queue;
     if ( observer == nil )
         return;
     dispatch_sync(ap_queue, ^{
-        [_observers removeObject:observer];
+        [_mObservers removeObject:observer];
     });
 }
 
@@ -238,7 +246,7 @@ static dispatch_queue_t ap_queue;
 
 - (void)audioItem:(id<APAudioItem>)item contentLoadProgressDidChange:(float)progress {
     dispatch_async(dispatch_get_main_queue(), ^{
-        for ( id<SJAudioPlayerObserver> observer in self->_observers ) {
+        for ( id<SJAudioPlayerObserver> observer in self->_mObservers ) {
             if ( [observer respondsToSelector:@selector(audioPlayer:bufferProgressDidChange:)] )
                 [observer audioPlayer:self bufferProgressDidChange:self.bufferProgress];
         }
@@ -256,7 +264,7 @@ static dispatch_queue_t ap_queue;
     if ( status != _status ) {
         _status = status;
         dispatch_async(dispatch_get_main_queue(), ^{
-            for ( id<SJAudioPlayerObserver> observer in self->_observers ) {
+            for ( id<SJAudioPlayerObserver> observer in self->_mObservers ) {
                 if ( [observer respondsToSelector:@selector(audioPlayer:statusDidChange:)] )
                     [observer audioPlayer:self statusDidChange:self.status];
             }
@@ -271,7 +279,7 @@ static dispatch_queue_t ap_queue;
     if ( _currentItem.outputFormat == nil )
         return 0;
     Float64 sampleRate = _currentItem.outputFormat.streamDescription->mSampleRate;
-    AVAudioFramePosition lastPosition = _playbackController.lastPosition;
+    AVAudioFramePosition lastPosition = _mPlaybackController.lastPosition;
     AVAudioFramePosition currentPosition = _currentItem.startPosition + lastPosition;
     return currentPosition / sampleRate;
 }
@@ -281,15 +289,15 @@ static dispatch_queue_t ap_queue;
     
     NSError *error = nil;
     // https://stackoverflow.com/questions/29036294/avaudiorecorder-not-recording-in-background-after-audio-session-interruption-end
-    if ( ![AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionDuckOthers error:&error] ) {
+    if ( ![AVAudioSession.sharedInstance setCategory:_mCategory withOptions:_mCategoryOptions error:&error] ) {
         [self _onError:error];
         return NO;
     }
-    if ( ![AVAudioSession.sharedInstance setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error] ) {
+    if ( ![AVAudioSession.sharedInstance setActive:YES withOptions:_mSetActiveOptions error:&error] ) {
         [self _onError:error];
         return NO;
     }
-    if ( ![_playbackController play:&error] ) {
+    if ( ![_mPlaybackController play:&error] ) {
         [self _onError:error];
         return NO;
     }
@@ -300,19 +308,19 @@ static dispatch_queue_t ap_queue;
 - (void)_pausePlayback {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
-    [_playbackController pause];
+    [_mPlaybackController pause];
 }
 
 - (void)_stopPlayback {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
-    [_playbackController stop];
+    [_mPlaybackController stop];
 }
 
 - (void)_resetPlayback {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
-    [_playbackController reset];
+    [_mPlaybackController reset];
     _currentItem = nil;
     _PCMBufferCount = 0;
     _error = nil;
@@ -322,7 +330,7 @@ static dispatch_queue_t ap_queue;
 
 - (void)_newBufferAvailable:(AVAudioPCMBuffer *)buffer {
     _PCMBufferCount += 1;
-    AVAudioFramePosition offset = _currentItem.startPosition + _playbackController.frameLengthInBuffers;
+    AVAudioFramePosition offset = _currentItem.startPosition + _mPlaybackController.frameLengthInBuffers;
     APAudioPlayerDebugLog(@"%@: <%p>.%s { newBuffer: %@, offset: %lld, curCount: %ld }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), buffer, offset, (long)_PCMBufferCount);
     
     if ( _PCMBufferCount >= SJAudioPlayerMaximumPCMBufferCount ) {
@@ -330,11 +338,11 @@ static dispatch_queue_t ap_queue;
     }
     __weak APAudioItem *item = _currentItem;
     __weak typeof(self) _self = self;
-    [_playbackController scheduleBuffer:buffer atOffset:offset startOffset:_currentItem.startPosition completionHandler:^{
+    [_mPlaybackController scheduleBuffer:buffer atOffset:offset startOffset:_currentItem.startPosition completionHandler:^{
         dispatch_async(ap_queue, ^{
             __strong typeof(_self) self = _self;
             if ( self == nil ) return;
-            if ( item == self.currentItem ) {
+            if ( self.currentItem != nil && item == self.currentItem ) {
                 [self _PCMBufferPlaybackDidComplete:buffer];
             }
         });
@@ -364,7 +372,7 @@ static dispatch_queue_t ap_queue;
 - (void)_observeNotifies {
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(audioSessionInterruptionWithNote:) name:AVAudioSessionInterruptionNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(audioSessionRouteChangeWithNote:) name:AVAudioSessionRouteChangeNotification object:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(audioEngineConfigurationChangeWithNote:) name:AVAudioEngineConfigurationChangeNotification object:_playbackController.engine];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(audioEngineConfigurationChangeWithNote:) name:AVAudioEngineConfigurationChangeNotification object:_mPlaybackController.engine];
 }
 
 - (void)audioSessionInterruptionWithNote:(NSNotification *)note {
@@ -454,6 +462,18 @@ static dispatch_queue_t ap_queue;
     APAudioPlayerDebugLog(@"%@: <%p>.error { error: %@ }\n", NSStringFromClass(self.class), self, error);
     _error = error;
     [self _toEvaluating];
+}
+@end
+
+
+@implementation SJAudioPlayer (SJAVAudioSessionExtended)
+- (void)setCategory:(AVAudioSessionCategory)category withOptions:(AVAudioSessionCategoryOptions)options {
+    _mCategory = category;
+    _mCategoryOptions = options;
+}
+
+- (void)setActiveOptions:(AVAudioSessionSetActiveOptions)options {
+    _mSetActiveOptions = options;
 }
 @end
 
