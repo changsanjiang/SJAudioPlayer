@@ -148,8 +148,8 @@ static dispatch_queue_t ap_queue;
             if ( _status & APAudioPlaybackStatusPlaying ) {
                 [self _setStatus:APAudioPlaybackStatusEvaluating];
             }
-            [self _toEvaluating];
         }
+        [self _toEvaluating];
     });
 }
 
