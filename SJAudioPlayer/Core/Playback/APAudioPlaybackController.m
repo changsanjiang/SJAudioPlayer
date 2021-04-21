@@ -114,14 +114,7 @@
     _rateNode.rate = _rate;
     _outputVolumeNode = AVAudioMixerNode.alloc.init;
     _outputVolumeNode.outputVolume = _muted ? 0 : _volume;
-    
-    [_engine attachNode:_outputVolumeNode];
-    [_engine attachNode:_rateNode];
-    [_engine attachNode:_playerNode];
-    
-    [_engine connect:_rateNode to:_engine.mainMixerNode format:nil];
-    [_engine connect:_outputVolumeNode to:_rateNode format:nil];
-    [_engine connect:_playerNode to:_outputVolumeNode format:nil];
+    [self _reconnectAllNodes];
 }
 
 - (BOOL)_startEngine:(NSError **)outError {
@@ -129,6 +122,8 @@
         NSError *innerError = nil;
         @try {
             if ( ![_engine startAndReturnError:&innerError] ) {
+                [self _disconnectAllNodes];
+                [self _reconnectAllNodes];
                 if ( outError != NULL ) {
                     *outError = [NSError ap_errorWithCode:APAudioEngineErrorUnableToStartEngine userInfo:@{
                         APErrorUserInfoErrorKey : innerError,
@@ -152,4 +147,19 @@
     return YES;
 }
 
+- (void)_disconnectAllNodes {
+    [_engine detachNode:_playerNode];
+    [_engine detachNode:_outputVolumeNode];
+    [_engine attachNode:_rateNode];
+}
+
+- (void)_reconnectAllNodes {
+    [_engine attachNode:_rateNode];
+    [_engine attachNode:_outputVolumeNode];
+    [_engine attachNode:_playerNode];
+    
+    [_engine connect:_rateNode to:_engine.mainMixerNode format:nil];
+    [_engine connect:_outputVolumeNode to:_rateNode format:nil];
+    [_engine connect:_playerNode to:_outputVolumeNode format:nil];
+}
 @end
