@@ -145,9 +145,9 @@ static dispatch_queue_t ap_queue;
         if ( _URL != nil ) {
             _currentItem = [APAudioItem.alloc initWithURL:_URL delegate:self queue:ap_queue];
             [_currentItem prepare];
-            if ( _status & APAudioPlaybackStatusPlaying ) {
-                [self _setStatus:APAudioPlaybackStatusEvaluating];
-            }
+        }
+        if ( _status & APAudioPlaybackStatusPlaying ) {
+            [self _setStatus:APAudioPlaybackStatusEvaluating];
         }
         [self _toEvaluating];
     });
