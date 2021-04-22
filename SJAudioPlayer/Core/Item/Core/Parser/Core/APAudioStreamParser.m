@@ -109,20 +109,33 @@
     if ( _foundPackets == nil )
         _foundPackets = NSMutableArray.array;
      
-    // 只处理mp3的
     BOOL isCompressed = inPacketDescriptions != NULL;
-    NSAssert(isCompressed, @"目前只处理MP3的!");
-    
-    for ( UInt32 i = 0 ; i < inNumberPackets ; ++ i ) {
-        AudioStreamPacketDescription packetDesc = inPacketDescriptions[i];
-        SInt64 packetStart = packetDesc.mStartOffset;
-        SInt64 packetSize = packetDesc.mDataByteSize;
-        NSData *data = [NSData dataWithBytes:inFillBuffer + packetStart length:(NSUInteger)packetSize];
-        APAudioContentPacket *packet = [APAudioContentPacket.alloc initWithData:data];
-        _countOfBytesFoundPackets += packetSize;
-        _nBytesTotalFoundPackets += packetSize;
-        _nCountTotalFoundPackets += 1;
-        [_foundPackets addObject:packet];
+    if ( isCompressed ) {
+        for ( UInt32 i = 0 ; i < inNumberPackets ; ++ i ) {
+            AudioStreamPacketDescription packetDesc = inPacketDescriptions[i];
+            SInt64 packetStart = packetDesc.mStartOffset;
+            SInt64 packetSize = packetDesc.mDataByteSize;
+            NSData *data = [NSData dataWithBytes:inFillBuffer + packetStart length:(NSUInteger)packetSize];
+            APAudioContentPacket *packet = [APAudioContentPacket.alloc initWithData:data];
+            _countOfBytesFoundPackets += packetSize;
+            _nBytesTotalFoundPackets += packetSize;
+            _nCountTotalFoundPackets += 1;
+            [_foundPackets addObject:packet];
+        }
+    }
+    else {
+        UInt32 bytesPerPacket = _format.streamDescription->mBytesPerPacket;
+        for ( UInt32 i = 0 ; i < inNumberPackets ; ++ i ) {
+            SInt64 packetStart = i * bytesPerPacket;
+            SInt64 packetSize = bytesPerPacket;
+            // 对于WAV和FLAC等未压缩格式, 我们不需要任何数据包描述
+            NSData *data = [NSData dataWithBytes:inFillBuffer + packetStart length:(NSUInteger)packetSize];
+            APAudioContentPacket *packet = [APAudioContentPacket.alloc initWithData:data];
+            _countOfBytesFoundPackets += packetSize;
+            _nBytesTotalFoundPackets += packetSize;
+            _nCountTotalFoundPackets += 1;
+            [_foundPackets addObject:packet];
+        }
     }
 }
 
