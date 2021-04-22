@@ -330,15 +330,15 @@ static dispatch_queue_t ap_queue;
 
 - (void)_newBufferAvailable:(AVAudioPCMBuffer *)buffer {
     _PCMBufferCount += 1;
-    AVAudioFramePosition offset = _currentItem.startPosition + _mPlaybackController.frameLengthInBuffers;
-    APAudioPlayerDebugLog(@"%@: <%p>.%s { newBuffer: %@, offset: %lld, curCount: %ld }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), buffer, offset, (long)_PCMBufferCount);
+    AVAudioFramePosition previousFrames = _mPlaybackController.frameLengthInBuffers;
+    APAudioPlayerDebugLog(@"%@: <%p>.%s { newBuffer: %@, offset: %lld, curCount: %ld }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), buffer, previousFrames, (long)_PCMBufferCount);
     
     if ( _PCMBufferCount >= SJAudioPlayerMaximumPCMBufferCount ) {
         [_currentItem suspend];
     }
     __weak APAudioItem *item = _currentItem;
     __weak typeof(self) _self = self;
-    [_mPlaybackController scheduleBuffer:buffer atOffset:offset startOffset:_currentItem.startPosition completionHandler:^{
+    [_mPlaybackController scheduleBuffer:buffer atPosition:(APAudioPCMBufferPosition){_currentItem.startPosition, previousFrames} completionHandler:^{
         dispatch_async(ap_queue, ^{
             __strong typeof(_self) self = _self;
             if ( self == nil ) return;

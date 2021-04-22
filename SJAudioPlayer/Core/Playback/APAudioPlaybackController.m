@@ -65,7 +65,7 @@
         _outputVolumeNode.outputVolume = muted ? 0 : _volume;
 }
 
-- (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atOffset:(AVAudioFramePosition)offset startOffset:(AVAudioFramePosition)startOffset completionHandler:(AVAudioNodeCompletionHandler)completionHandler {
+- (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atPosition:(APAudioPCMBufferPosition)position completionHandler:(AVAudioNodeCompletionHandler)completionHandler {
     _frameLengthInBuffers += buffer.frameLength;
     [self _prepareToPlay];
     [_playerNode scheduleBuffer:buffer completionHandler:completionHandler];

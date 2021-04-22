@@ -10,7 +10,6 @@
 #define APInterfaces_h
 
 #import "APDefines.h"
-#import <AVFoundation/AVFoundation.h>
 @protocol APAudioItemDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,8 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) float rate;
 @property (nonatomic) float volume;
 @property (nonatomic, getter=isMuted) BOOL muted;
-/// @offset offset = startOffset(sought) + previousPCMBufferFrames
-- (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atOffset:(AVAudioFramePosition)offset startOffset:(AVAudioFramePosition)startOffset completionHandler:(AVAudioNodeCompletionHandler __nullable)completionHandler;
+- (void)scheduleBuffer:(AVAudioPCMBuffer *)buffer atPosition:(APAudioPCMBufferPosition)position completionHandler:(AVAudioNodeCompletionHandler __nullable)completionHandler;
 - (BOOL)play:(NSError **)error;
 - (void)pause;
 - (void)stop; // stop all nodes

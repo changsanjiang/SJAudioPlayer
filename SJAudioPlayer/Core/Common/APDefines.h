@@ -9,7 +9,7 @@
 #ifndef APDefines_h
 #define APDefines_h
 
-#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 typedef NS_ENUM(NSUInteger, APAudioPlaybackStatus) {
     // Paused
@@ -43,5 +43,10 @@ typedef NS_ENUM(NSUInteger, APLogLevel) {
     APLogLevelDebug,
     APLogLevelError,
 };
+
+typedef struct {
+    AVAudioFramePosition startPosition; // seeked frames
+    AVAudioFramePosition offset; // previous PCMBuffer frames
+} APAudioPCMBufferPosition; // PCMBufferPositionInAudio = startPosition + offset
 
 #endif /* APDefines_h */
