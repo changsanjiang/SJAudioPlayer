@@ -1,1 +1,0 @@
-../../../SJMediaCacheServer/SJMediaCacheServer/Core/ProxyServer/MCSResponse.h

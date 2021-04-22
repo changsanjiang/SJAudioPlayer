@@ -19,7 +19,7 @@
     NSURL *_URL;
     APAudioStreamParser *_parser;
     UInt64 _minimumCountOfBytesFoundPackets;
-    
+    NSTimeInterval _maximumPlayableDuration; // 可播放时长限制, 缓冲到达指定时长后, 将停止解析
     BOOL _isFoundFormat;
 }
 
