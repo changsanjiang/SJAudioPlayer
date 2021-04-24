@@ -137,6 +137,10 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)replaceAudioWithURL:(nullable NSURL *)URL {
+    [self replaceAudioWithURL:URL options:nil];
+}
+
+- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable APAudioOptions *)options {
     dispatch_sync(ap_queue, ^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s { URL: %@ }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), URL);
 
@@ -144,7 +148,7 @@ static dispatch_queue_t ap_queue;
         _URL = URL;
         if ( _URL != nil ) {
             _currentItem = [APAudioItem.alloc initWithURL:_URL delegate:self queue:ap_queue];
-            [_currentItem prepare];
+            [_currentItem prepare:options.maximumPlayableDurationLimit];
         }
         if ( _status & APAudioPlaybackStatusPlaying ) {
             [self _setStatus:APAudioPlaybackStatusEvaluating];
@@ -188,6 +192,30 @@ static dispatch_queue_t ap_queue;
         }
         [self _toEvaluating];
     });
+}
+
+- (void)cancelPlayableDurationLimit {
+    dispatch_sync(ap_queue, ^{
+        APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
+        
+        [_currentItem cancelPlayableDurationLimit];
+    });
+}
+
+- (BOOL)isReachedEndPosition {
+    __block BOOL retv = NO;
+    dispatch_sync(ap_queue, ^{
+        retv = _currentItem.isReachedEndPosition;
+    });
+    return retv;
+}
+
+- (BOOL)isReachedMaximumPlayableDurationPosition {
+    __block BOOL retv = NO;
+    dispatch_sync(ap_queue, ^{
+        retv = _currentItem.isReachedMaximumPlayableDurationPosition;
+    });
+    return retv;
 }
 
 - (void)play {
@@ -407,7 +435,7 @@ static dispatch_queue_t ap_queue;
     
     /// 已播放完毕
     ///
-    BOOL isPlaybackFinished = _currentItem.isReachedEndPosition && _PCMBufferCount == 0;
+    BOOL isPlaybackFinished = (_currentItem.isReachedEndPosition || _currentItem.isReachedMaximumPlayableDurationPosition) && _PCMBufferCount == 0;
     if ( isPlaybackFinished ) {
         [self _stopPlayback];
         [self _setStatus:APAudioPlaybackStatusEnded];

@@ -7,112 +7,116 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		056886096795B68146D8638DD8158746 /* APAudioItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 89377AFE01E02CDA9F0145AD98FF927A /* APAudioItem.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		06AA9AA25180D511035699C56C15B8F0 /* APUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B5EC9F3C91E297089B9089DEED05FCAF /* APUtils.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		06EA825979DEC65602FBDDB19D007CAC /* APAudioContentDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E55B5943BA7F1AB05533762A353263 /* APAudioContentDownloader.m */; };
-		08303CC7B81A0AC678F65D11B6236DF6 /* SJAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F158F1C0FF411C7A2B3B0DADE71A326 /* SJAudioPlayer.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		0D8B8B92E7D56DF999F631296698BE47 /* APAudioPlaybackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4361E311906328D62D65B1CBF11F02A6 /* APAudioPlaybackController.m */; };
-		13085FAEDA729643CD85DB5CD4A47579 /* APAudioStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E4BA564D3F65A414CA4B372AACAF551 /* APAudioStreamParser.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		161A733B95FD89E498095D72F88492BD /* APTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C12431549046BD7217C47930B79F0D /* APTimer.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2051FB737D1FDF72F1A9A788E508E05A /* APDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = DF626206284E4C7ED7B0BF9C2F587CA5 /* APDefines.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		232CF095689383EC654443B6A63C937B /* AVAudioPlayerNode+AP.h in Headers */ = {isa = PBXBuildFile; fileRef = F0C92122CF7C8F8A8680DFD6465D0B1B /* AVAudioPlayerNode+AP.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		25EFAF15A0C637C0FFFC70F287A1AFF4 /* APAudioPlaybackController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62EE234FFEB5791E1925C4E1BC2993D9 /* APAudioPlaybackController.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		263CCA3B2B0063448AFF7135533F6479 /* APLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1F18280E47DC4222F8AB3E4F29131 /* APLogger.m */; };
-		2B2970F3FF971D547DC5741F5060E219 /* SJAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C13D94B8276B14DEB1C112F3D0647E /* SJAudioPlayer.m */; };
-		2EF396FE371806A9D54EF74A72D0A132 /* APError.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E6CD149869F0DA0971CCFCC1AB5A47 /* APError.m */; };
+		019BFD4BCD241BCDEE2A6FFE08A8EB65 /* APAudioContentConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8693DDD4FA5BEDF080F7EEF7873EC9FC /* APAudioContentConverter.m */; };
+		035283EC65EBCE4601264BB40EF4EFFC /* APUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6BD1F765147B9F66DCE3EB68F7FFDF /* APUtils.m */; };
+		03D0C0B5AE0A12E5C5ED7E2C4C673157 /* APAudioContentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD4F3D0ADD4290D07802F809901503C /* APAudioContentParser.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		09B93EA1B611F4E8AFCBDB622292F3B7 /* APTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = FC242167F8BBCF22EF6825DA82BF603C /* APTimer.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		100632C1BAF4492E88248B51D1BCBB2C /* APAudioPlaybackController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C6F626DCB5B6A2D5DA9D395A605425 /* APAudioPlaybackController.m */; };
+		111663D1A53FF838E0BDB93E9EF61883 /* APAudioContentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D9D4ABC89939CEF868DDB38DB29B5 /* APAudioContentReader.m */; };
+		14B2D70F40083822A2DB087EA2634698 /* APAudioItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7D472E3752DE22B568533ECDB163C /* APAudioItem.m */; };
+		2DB03C4EC499054DE120E3039F3FB87A /* APDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F87D0395BBDBF4500483911EA3A4186B /* APDefines.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3119E6495ADEF0327FA8762971620682 /* AVAudioPlayerNode+AP.h in Headers */ = {isa = PBXBuildFile; fileRef = 943BDD90B223002DA1BFF2068F7731D3 /* AVAudioPlayerNode+AP.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3181AD27312A77172B283DEA60DE1335 /* Pods-SJAudioPlayer_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7899BFE05C298BBFB6BC70E10DC2E6CD /* Pods-SJAudioPlayer_Tests-dummy.m */; };
-		38F2A7D6336393D178C12575AFD0D43C /* APLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CFDB34AFF6C8B9064043E95EEFF055F /* APLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		45269AC0F89BC096C02D54724FFD04F2 /* APAudioContentPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 381F9D9065BCFF6F39DE4CE8A6817B2C /* APAudioContentPacket.m */; };
-		46E718AA91AB5CB410193FFD7511F77D /* APInterfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = A63A3640FC26F4F1C3882A7B901DB966 /* APInterfaces.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		4A240A2FA345AC4A9F2821D23CEC3269 /* APError.h in Headers */ = {isa = PBXBuildFile; fileRef = DF407EC2AFF5E90993D798A306A7F605 /* APError.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		4CE7E9AD8572F8A1805571D0BFFAE36A /* APAudioStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F792A8F3FFDBE5B02A68827F753109 /* APAudioStreamParser.m */; };
-		6CEEFE3FD64B0C8C2131AAF65788A27B /* APTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F724FC0D9B51BFB80665512151122101 /* APTimer.m */; };
-		6D804AB1ABC3421F78F6F2C3854F124A /* APAudioItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 507A8E0326C1B3FACE860287A166501F /* APAudioItem.m */; };
-		7A88C322D456C11B3DB16E699FD345E2 /* APAudioContentConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C03734A65DA1B13B0C117CC5A0D8E53 /* APAudioContentConverter.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		7CF1D1E5ABFC74294CC26D6CAE4F035C /* AVAudioPlayerNode+AP.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA246C4393121810E3F388E997B32F6 /* AVAudioPlayerNode+AP.m */; };
-		7D3AD94FD169688A5823DB09E3D64A92 /* APAudioContentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BD9C15DEE36D7E5D09429E542C3502 /* APAudioContentReader.m */; };
-		950768027EF45DD6AF5C2AA1511D5EB2 /* APAudioInterfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = C33B5AC651AD6C510865B72DD89C1B0C /* APAudioInterfaces.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		336517B576004A7A6B585AD28E013070 /* APAudioContentPacket.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B04A00DEE390A59D8A03645F80311F7 /* APAudioContentPacket.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3E60597D724F1E9501A330A8C4F22EF5 /* APAudioPlaybackController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DE0FD7851551C912DFC27970970FC9B /* APAudioPlaybackController.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4043E3BD8466113C3E6097D6E29778FA /* APAudioOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC53D82D2D8F1FA4AE8356D97AFC8F9 /* APAudioOptions.m */; };
+		41C2E292900BC605F3A3AD723ACA3771 /* APLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE1B98EEE51AF997E445C57E48E352 /* APLogger.m */; };
+		429FA18600F80581749FD962CF1A3E2D /* APTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = DD656D7E1A89E17C3936A2CE2D14E835 /* APTimer.m */; };
+		4417D827AF52D9BC4218A6FAE1627730 /* SJAudioPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C7C7A1FEE1AB2BF1E5CE2954BF6C17 /* SJAudioPlayer-dummy.m */; };
+		455E28BAA9A7E52B1017BE876D1154F4 /* APAudioContentDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5703709995BE08BCD851D77CD1319BD1 /* APAudioContentDownloader.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		55684B3363ED272B82F1B30DD4E9B85D /* AVAudioPlayerNode+AP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAD8CA7B4F6018C52AD4E35F67F8BDC /* AVAudioPlayerNode+AP.m */; };
+		74D6C0B535EA5A727B51B950B6AAFEFC /* APError.h in Headers */ = {isa = PBXBuildFile; fileRef = EF8798CAACFD2AB29BFEC38526CF0F84 /* APError.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		7EA5169AC000543791E355BADE1A91D3 /* APAudioContentReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4861E20CF28E6661A5C494B49070621B /* APAudioContentReader.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8C4DC9021221498CD2217259E6843093 /* APAudioContentConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 199E53FDB7E96AF3214FD631FB73A98B /* APAudioContentConverter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8FFDC50640511102BE7D31E3B660AA44 /* SJAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F158F1C0FF411C7A2B3B0DADE71A326 /* SJAudioPlayer.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		95EBFE5B5F0061807C2A33EFDAADF7AE /* APInterfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = E0423C2AF9D46D33561DF5560630B3E8 /* APInterfaces.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		96F546872F9BF13AE6BA24EBA7A340E8 /* Pods-SJAudioPlayer_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B182543E209DEDFA722BC5EBA4E4B720 /* Pods-SJAudioPlayer_Example-dummy.m */; };
-		973299863F98DF0D2C23CC161FA994C7 /* APAudioContentConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7470A30E0D47686A0B7D49E96A50C67D /* APAudioContentConverter.m */; };
-		9A63B66EE21134E6602775D62018AB42 /* APAudioContentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 839E011EC57A7873A2CA60749EFCABB2 /* APAudioContentParser.m */; };
-		9F66C75A50DA6373B967CEB96FA83887 /* APAudioContentReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 09942B046FE0895C1C515D9727F38746 /* APAudioContentReader.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		B137840222EFE990ACA26CEC6883C7C8 /* APAudioContentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F229150730A56B2E48E8DC4928C1214 /* APAudioContentParser.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		B5435AC956723256D295FDF7B689E819 /* APUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DA300994063E9C42777230CE91AC1 /* APUtils.m */; };
-		B5A679BC0D46A7D9FAA34382E5489A17 /* APAudioContentDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 8388DA8BDF645D9E1D42559E3E2BF179 /* APAudioContentDownloader.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F011B814C890E1AE28098F6892B3E4E0 /* SJAudioPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C7C7A1FEE1AB2BF1E5CE2954BF6C17 /* SJAudioPlayer-dummy.m */; };
-		FEF5B1E57D0DC4996920EDD76E4362C6 /* APAudioContentPacket.h in Headers */ = {isa = PBXBuildFile; fileRef = E1A97C6900325BDA0FE517AB8FA87112 /* APAudioContentPacket.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A81BCC6E2046EA8D33B9888D628E71C5 /* SJAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C13D94B8276B14DEB1C112F3D0647E /* SJAudioPlayer.m */; };
+		A94F6A84DB264D42E2237A006123C174 /* APLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = A00DD0A5B0E037D1EAAE463391D8D5D1 /* APLogger.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		AF37FF204AFEAE63335A9CEF19C19DDB /* APAudioStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC5E39273B4A79AD2327DFE2BE77E4F /* APAudioStreamParser.m */; };
+		B30FBAF89FE52E6747FA0B7EC49E918E /* APAudioItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 85B900D9402A9928950481607C47DE6A /* APAudioItem.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B72CEA396C7697FF392F7483EB17D244 /* APUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CE736B356EBA259D0E12034BE1825231 /* APUtils.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		BC42E8769F9FA462A364145B816F2441 /* APAudioContentDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFDC91A1B20311E1C18313A56393781 /* APAudioContentDownloader.m */; };
+		BD92DA7D921B7AFB06177E780FFBE42C /* APAudioOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 63319B78D00495501685101C322ADFE2 /* APAudioOptions.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		BFD175FBB848834493A77265CFAA07A8 /* APAudioContentPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2BA7F78A69567C7E58D2E9CB7B227A /* APAudioContentPacket.m */; };
+		D8BA273AEF966D6B969DE7687EDBDE02 /* APAudioContentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A78579CC069911BD9098D0B5BB7C9B /* APAudioContentParser.m */; };
+		F3A489C03D48E61F82A3E2F1ADF15B24 /* APError.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F6A8AE60B11CB2E7C524F16D8C48D5 /* APError.m */; };
+		FBF08C34472EBE61CC5C3ABA1E2DA71E /* APAudioStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A439FA03EFAC5E82A71F89BF470672F /* APAudioStreamParser.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		FFDF967000DB803EA47463CA6344D506 /* APAudioInterfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 7923F90D771BF3D488B69597FE199F8F /* APAudioInterfaces.h */; settings = {ATTRIBUTES = (Project, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8D358DAE6CD62CA386E565E600CFE313 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E08FC6C3726B5800B742986AF2D724C0;
-			remoteInfo = SJAudioPlayer;
-		};
-		D63B917D361A5D2BF887F052C1171153 /* PBXContainerItemProxy */ = {
+		8FD7155D010FC9F3112FE6EC881E7428 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8B2CA8912165C6F7FEDF58697A2A0613;
 			remoteInfo = "Pods-SJAudioPlayer_Example";
 		};
+		C6F0298B1BDE447E3996B2CDDEF1E182 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E08FC6C3726B5800B742986AF2D724C0;
+			remoteInfo = SJAudioPlayer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		09942B046FE0895C1C515D9727F38746 /* APAudioContentReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentReader.h; sourceTree = "<group>"; };
-		0AA246C4393121810E3F388E997B32F6 /* AVAudioPlayerNode+AP.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AVAudioPlayerNode+AP.m"; sourceTree = "<group>"; };
-		0CFDB34AFF6C8B9064043E95EEFF055F /* APLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APLogger.h; sourceTree = "<group>"; };
 		0DF13060D1923F0572AD0BC99455AB0C /* Pods-SJAudioPlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SJAudioPlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		0E4BA564D3F65A414CA4B372AACAF551 /* APAudioStreamParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioStreamParser.h; sourceTree = "<group>"; };
 		1750F64ED7CF92D8E7F86F563CB1E046 /* Pods-SJAudioPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SJAudioPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		26F792A8F3FFDBE5B02A68827F753109 /* APAudioStreamParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioStreamParser.m; sourceTree = "<group>"; };
+		199E53FDB7E96AF3214FD631FB73A98B /* APAudioContentConverter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentConverter.h; sourceTree = "<group>"; };
+		1FD7D472E3752DE22B568533ECDB163C /* APAudioItem.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioItem.m; sourceTree = "<group>"; };
 		2AAEB3F9472E69A86FD2C01F9F127CE6 /* Pods-SJAudioPlayer_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SJAudioPlayer_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		2F158F1C0FF411C7A2B3B0DADE71A326 /* SJAudioPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJAudioPlayer.h; path = SJAudioPlayer/SJAudioPlayer.h; sourceTree = "<group>"; };
 		35140EA316D09F1D897E0DC05B247C19 /* libSJAudioPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libSJAudioPlayer.a; path = libSJAudioPlayer.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		381F9D9065BCFF6F39DE4CE8A6817B2C /* APAudioContentPacket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentPacket.m; sourceTree = "<group>"; };
-		4361E311906328D62D65B1CBF11F02A6 /* APAudioPlaybackController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioPlaybackController.m; sourceTree = "<group>"; };
-		507A8E0326C1B3FACE860287A166501F /* APAudioItem.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioItem.m; sourceTree = "<group>"; };
+		3B04A00DEE390A59D8A03645F80311F7 /* APAudioContentPacket.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentPacket.h; sourceTree = "<group>"; };
+		3DE0FD7851551C912DFC27970970FC9B /* APAudioPlaybackController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioPlaybackController.h; sourceTree = "<group>"; };
+		4861E20CF28E6661A5C494B49070621B /* APAudioContentReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentReader.h; sourceTree = "<group>"; };
+		4DDE1B98EEE51AF997E445C57E48E352 /* APLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APLogger.m; sourceTree = "<group>"; };
+		5703709995BE08BCD851D77CD1319BD1 /* APAudioContentDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentDownloader.h; sourceTree = "<group>"; };
 		588676A0B3CD47452D3E0F640C1FAE34 /* SJAudioPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SJAudioPlayer.release.xcconfig; sourceTree = "<group>"; };
-		5F229150730A56B2E48E8DC4928C1214 /* APAudioContentParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentParser.h; sourceTree = "<group>"; };
 		5F6B9FCDB41CB53535325978D22943FB /* Pods-SJAudioPlayer_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SJAudioPlayer_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		62EE234FFEB5791E1925C4E1BC2993D9 /* APAudioPlaybackController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioPlaybackController.h; sourceTree = "<group>"; };
+		63319B78D00495501685101C322ADFE2 /* APAudioOptions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioOptions.h; sourceTree = "<group>"; };
 		6901E990A04CD7B00B63E4B87B9D7092 /* SJAudioPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SJAudioPlayer.debug.xcconfig; sourceTree = "<group>"; };
+		6DD4F3D0ADD4290D07802F809901503C /* APAudioContentParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentParser.h; sourceTree = "<group>"; };
 		7351E701A401EE1F070CA7B3A58DE1A4 /* libPods-SJAudioPlayer_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SJAudioPlayer_Tests.a"; path = "libPods-SJAudioPlayer_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B70AC2E5462E5353FD39D7A7B404D9 /* Pods-SJAudioPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SJAudioPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
-		7470A30E0D47686A0B7D49E96A50C67D /* APAudioContentConverter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentConverter.m; sourceTree = "<group>"; };
+		73F6A8AE60B11CB2E7C524F16D8C48D5 /* APError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APError.m; sourceTree = "<group>"; };
 		762475F81D12489D2DCF7811D17DF672 /* Pods-SJAudioPlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SJAudioPlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		7899BFE05C298BBFB6BC70E10DC2E6CD /* Pods-SJAudioPlayer_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SJAudioPlayer_Tests-dummy.m"; sourceTree = "<group>"; };
-		7C03734A65DA1B13B0C117CC5A0D8E53 /* APAudioContentConverter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentConverter.h; sourceTree = "<group>"; };
+		7923F90D771BF3D488B69597FE199F8F /* APAudioInterfaces.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioInterfaces.h; sourceTree = "<group>"; };
+		79A78579CC069911BD9098D0B5BB7C9B /* APAudioContentParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentParser.m; sourceTree = "<group>"; };
+		7AFDC91A1B20311E1C18313A56393781 /* APAudioContentDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentDownloader.m; sourceTree = "<group>"; };
+		7BAD8CA7B4F6018C52AD4E35F67F8BDC /* AVAudioPlayerNode+AP.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AVAudioPlayerNode+AP.m"; sourceTree = "<group>"; };
+		7C6BD1F765147B9F66DCE3EB68F7FFDF /* APUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APUtils.m; sourceTree = "<group>"; };
+		7D2D9D4ABC89939CEF868DDB38DB29B5 /* APAudioContentReader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentReader.m; sourceTree = "<group>"; };
 		8331E5F12D4F2F2205C942A316F05C73 /* Pods-SJAudioPlayer_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SJAudioPlayer_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		8388DA8BDF645D9E1D42559E3E2BF179 /* APAudioContentDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentDownloader.h; sourceTree = "<group>"; };
-		839E011EC57A7873A2CA60749EFCABB2 /* APAudioContentParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentParser.m; sourceTree = "<group>"; };
-		89377AFE01E02CDA9F0145AD98FF927A /* APAudioItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioItem.h; sourceTree = "<group>"; };
-		89E55B5943BA7F1AB05533762A353263 /* APAudioContentDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentDownloader.m; sourceTree = "<group>"; };
-		8F2DA300994063E9C42777230CE91AC1 /* APUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APUtils.m; sourceTree = "<group>"; };
+		85B900D9402A9928950481607C47DE6A /* APAudioItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioItem.h; sourceTree = "<group>"; };
+		8693DDD4FA5BEDF080F7EEF7873EC9FC /* APAudioContentConverter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentConverter.m; sourceTree = "<group>"; };
+		8B2BA7F78A69567C7E58D2E9CB7B227A /* APAudioContentPacket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentPacket.m; sourceTree = "<group>"; };
+		8FC53D82D2D8F1FA4AE8356D97AFC8F9 /* APAudioOptions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioOptions.m; sourceTree = "<group>"; };
+		943BDD90B223002DA1BFF2068F7731D3 /* AVAudioPlayerNode+AP.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AVAudioPlayerNode+AP.h"; sourceTree = "<group>"; };
 		97716806E46B53B2AD22592D769D2E30 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		9AD1F18280E47DC4222F8AB3E4F29131 /* APLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APLogger.m; sourceTree = "<group>"; };
+		9A439FA03EFAC5E82A71F89BF470672F /* APAudioStreamParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioStreamParser.h; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A63A3640FC26F4F1C3882A7B901DB966 /* APInterfaces.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APInterfaces.h; sourceTree = "<group>"; };
+		A00DD0A5B0E037D1EAAE463391D8D5D1 /* APLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APLogger.h; sourceTree = "<group>"; };
 		AC9C1653FBA5143E4706CB49D5413BEE /* SJAudioPlayer.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = SJAudioPlayer.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B182543E209DEDFA722BC5EBA4E4B720 /* Pods-SJAudioPlayer_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SJAudioPlayer_Example-dummy.m"; sourceTree = "<group>"; };
 		B2C7C7A1FEE1AB2BF1E5CE2954BF6C17 /* SJAudioPlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SJAudioPlayer-dummy.m"; sourceTree = "<group>"; };
-		B5BD9C15DEE36D7E5D09429E542C3502 /* APAudioContentReader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioContentReader.m; sourceTree = "<group>"; };
-		B5EC9F3C91E297089B9089DEED05FCAF /* APUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APUtils.h; sourceTree = "<group>"; };
+		BFC5E39273B4A79AD2327DFE2BE77E4F /* APAudioStreamParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioStreamParser.m; sourceTree = "<group>"; };
 		C2C13D94B8276B14DEB1C112F3D0647E /* SJAudioPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJAudioPlayer.m; path = SJAudioPlayer/SJAudioPlayer.m; sourceTree = "<group>"; };
-		C33B5AC651AD6C510865B72DD89C1B0C /* APAudioInterfaces.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioInterfaces.h; sourceTree = "<group>"; };
+		CE736B356EBA259D0E12034BE1825231 /* APUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APUtils.h; sourceTree = "<group>"; };
 		D9839470E0EB157D15806AA77577ADE6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		DF407EC2AFF5E90993D798A306A7F605 /* APError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APError.h; sourceTree = "<group>"; };
-		DF626206284E4C7ED7B0BF9C2F587CA5 /* APDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APDefines.h; sourceTree = "<group>"; };
+		DD656D7E1A89E17C3936A2CE2D14E835 /* APTimer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APTimer.m; sourceTree = "<group>"; };
 		DFA161307A659C807B9A592654DF6D4B /* SJAudioPlayer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SJAudioPlayer-prefix.pch"; sourceTree = "<group>"; };
-		E1A97C6900325BDA0FE517AB8FA87112 /* APAudioContentPacket.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APAudioContentPacket.h; sourceTree = "<group>"; };
+		E0423C2AF9D46D33561DF5560630B3E8 /* APInterfaces.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APInterfaces.h; sourceTree = "<group>"; };
+		EF8798CAACFD2AB29BFEC38526CF0F84 /* APError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APError.h; sourceTree = "<group>"; };
 		F01C9922F467AFAC4C17CA2819F80AE0 /* Pods-SJAudioPlayer_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SJAudioPlayer_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		F0C92122CF7C8F8A8680DFD6465D0B1B /* AVAudioPlayerNode+AP.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AVAudioPlayerNode+AP.h"; sourceTree = "<group>"; };
-		F3C12431549046BD7217C47930B79F0D /* APTimer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APTimer.h; sourceTree = "<group>"; };
-		F4E6CD149869F0DA0971CCFCC1AB5A47 /* APError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APError.m; sourceTree = "<group>"; };
-		F724FC0D9B51BFB80665512151122101 /* APTimer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APTimer.m; sourceTree = "<group>"; };
+		F4C6F626DCB5B6A2D5DA9D395A605425 /* APAudioPlaybackController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = APAudioPlaybackController.m; sourceTree = "<group>"; };
 		F7DAFCB4D05E41D2C61BE560BDFB1F43 /* libPods-SJAudioPlayer_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SJAudioPlayer_Example.a"; path = "libPods-SJAudioPlayer_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F87D0395BBDBF4500483911EA3A4186B /* APDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APDefines.h; sourceTree = "<group>"; };
+		FC242167F8BBCF22EF6825DA82BF603C /* APTimer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = APTimer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +134,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A2CD2BD4D5FC20DE4A494B76C6273090 /* Frameworks */ = {
+		C406F8E31FB01C66AA840BAA0D0C07DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -160,15 +164,26 @@
 			name = Pod;
 			sourceTree = "<group>";
 		};
-		0C3DAFDDC8146CE40F21E2EE9DA816F1 /* Item */ = {
+		22BA8EA12B7BA06D75DC75BD9E544B12 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				89377AFE01E02CDA9F0145AD98FF927A /* APAudioItem.h */,
-				507A8E0326C1B3FACE860287A166501F /* APAudioItem.m */,
-				EB140A96CE252B441F901FBD85C33D05 /* Core */,
+				63319B78D00495501685101C322ADFE2 /* APAudioOptions.h */,
+				8FC53D82D2D8F1FA4AE8356D97AFC8F9 /* APAudioOptions.m */,
+				F87D0395BBDBF4500483911EA3A4186B /* APDefines.h */,
+				EF8798CAACFD2AB29BFEC38526CF0F84 /* APError.h */,
+				73F6A8AE60B11CB2E7C524F16D8C48D5 /* APError.m */,
+				E0423C2AF9D46D33561DF5560630B3E8 /* APInterfaces.h */,
+				A00DD0A5B0E037D1EAAE463391D8D5D1 /* APLogger.h */,
+				4DDE1B98EEE51AF997E445C57E48E352 /* APLogger.m */,
+				FC242167F8BBCF22EF6825DA82BF603C /* APTimer.h */,
+				DD656D7E1A89E17C3936A2CE2D14E835 /* APTimer.m */,
+				CE736B356EBA259D0E12034BE1825231 /* APUtils.h */,
+				7C6BD1F765147B9F66DCE3EB68F7FFDF /* APUtils.m */,
+				943BDD90B223002DA1BFF2068F7731D3 /* AVAudioPlayerNode+AP.h */,
+				7BAD8CA7B4F6018C52AD4E35F67F8BDC /* AVAudioPlayerNode+AP.m */,
 			);
-			name = Item;
-			path = SJAudioPlayer/Core/Item;
+			name = Common;
+			path = SJAudioPlayer/Core/Common;
 			sourceTree = "<group>";
 		};
 		2585826625AAE1A30B2AAB86C7A91E4A /* Targets Support Files */ = {
@@ -180,12 +195,23 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		3104632C1FBABDEAD53C9559782C4F96 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7923F90D771BF3D488B69597FE199F8F /* APAudioInterfaces.h */,
+				83CBF9540676E5B77E98A216DFC96AE4 /* Converter */,
+				416BED1EAB945920A06844FC2330F817 /* Parser */,
+			);
+			name = Core;
+			path = Core;
+			sourceTree = "<group>";
+		};
 		3256D41F0056D4B5D4BB0994ABD50DC0 /* SJAudioPlayer */ = {
 			isa = PBXGroup;
 			children = (
 				2F158F1C0FF411C7A2B3B0DADE71A326 /* SJAudioPlayer.h */,
 				C2C13D94B8276B14DEB1C112F3D0647E /* SJAudioPlayer.m */,
-				A5E381A94F4F61B010540B1DCB6F5F49 /* Core */,
+				EBEDA50FAC3B789DEF4274AF6D03CED8 /* Core */,
 				09F3E98E5239F4DBF994347BA035F70A /* Pod */,
 				E914D94A316D7137A251A6971FD2DADC /* Support Files */,
 			);
@@ -193,31 +219,43 @@
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		6830A8203F9DF7928274C6286E0A7F77 /* Common */ = {
+		416BED1EAB945920A06844FC2330F817 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				DF626206284E4C7ED7B0BF9C2F587CA5 /* APDefines.h */,
-				DF407EC2AFF5E90993D798A306A7F605 /* APError.h */,
-				F4E6CD149869F0DA0971CCFCC1AB5A47 /* APError.m */,
-				A63A3640FC26F4F1C3882A7B901DB966 /* APInterfaces.h */,
-				0CFDB34AFF6C8B9064043E95EEFF055F /* APLogger.h */,
-				9AD1F18280E47DC4222F8AB3E4F29131 /* APLogger.m */,
-				F3C12431549046BD7217C47930B79F0D /* APTimer.h */,
-				F724FC0D9B51BFB80665512151122101 /* APTimer.m */,
-				B5EC9F3C91E297089B9089DEED05FCAF /* APUtils.h */,
-				8F2DA300994063E9C42777230CE91AC1 /* APUtils.m */,
-				F0C92122CF7C8F8A8680DFD6465D0B1B /* AVAudioPlayerNode+AP.h */,
-				0AA246C4393121810E3F388E997B32F6 /* AVAudioPlayerNode+AP.m */,
+				6DD4F3D0ADD4290D07802F809901503C /* APAudioContentParser.h */,
+				79A78579CC069911BD9098D0B5BB7C9B /* APAudioContentParser.m */,
+				F5F9E7655FBDF315FDEABE58DC10F178 /* Core */,
 			);
-			name = Common;
-			path = SJAudioPlayer/Core/Common;
+			name = Parser;
+			path = Parser;
 			sourceTree = "<group>";
 		};
-		A219E525FFB1F52EE3B427E7C72818DA /* Playback */ = {
+		67A3DB2B5B41252665959CF606C56497 /* Item */ = {
 			isa = PBXGroup;
 			children = (
-				62EE234FFEB5791E1925C4E1BC2993D9 /* APAudioPlaybackController.h */,
-				4361E311906328D62D65B1CBF11F02A6 /* APAudioPlaybackController.m */,
+				85B900D9402A9928950481607C47DE6A /* APAudioItem.h */,
+				1FD7D472E3752DE22B568533ECDB163C /* APAudioItem.m */,
+				3104632C1FBABDEAD53C9559782C4F96 /* Core */,
+			);
+			name = Item;
+			path = SJAudioPlayer/Core/Item;
+			sourceTree = "<group>";
+		};
+		83CBF9540676E5B77E98A216DFC96AE4 /* Converter */ = {
+			isa = PBXGroup;
+			children = (
+				199E53FDB7E96AF3214FD631FB73A98B /* APAudioContentConverter.h */,
+				8693DDD4FA5BEDF080F7EEF7873EC9FC /* APAudioContentConverter.m */,
+			);
+			name = Converter;
+			path = Converter;
+			sourceTree = "<group>";
+		};
+		92CE3B8D9BDC22A98C8A5D6CA9227205 /* Playback */ = {
+			isa = PBXGroup;
+			children = (
+				3DE0FD7851551C912DFC27970970FC9B /* APAudioPlaybackController.h */,
+				F4C6F626DCB5B6A2D5DA9D395A605425 /* APAudioPlaybackController.m */,
 			);
 			name = Playback;
 			path = SJAudioPlayer/Core/Playback;
@@ -234,42 +272,6 @@
 			);
 			name = "Pods-SJAudioPlayer_Tests";
 			path = "Target Support Files/Pods-SJAudioPlayer_Tests";
-			sourceTree = "<group>";
-		};
-		A5E381A94F4F61B010540B1DCB6F5F49 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				6830A8203F9DF7928274C6286E0A7F77 /* Common */,
-				0C3DAFDDC8146CE40F21E2EE9DA816F1 /* Item */,
-				A219E525FFB1F52EE3B427E7C72818DA /* Playback */,
-			);
-			name = Core;
-			sourceTree = "<group>";
-		};
-		A6D2D43CE48779BEA3CD097444401537 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				8388DA8BDF645D9E1D42559E3E2BF179 /* APAudioContentDownloader.h */,
-				89E55B5943BA7F1AB05533762A353263 /* APAudioContentDownloader.m */,
-				E1A97C6900325BDA0FE517AB8FA87112 /* APAudioContentPacket.h */,
-				381F9D9065BCFF6F39DE4CE8A6817B2C /* APAudioContentPacket.m */,
-				09942B046FE0895C1C515D9727F38746 /* APAudioContentReader.h */,
-				B5BD9C15DEE36D7E5D09429E542C3502 /* APAudioContentReader.m */,
-				0E4BA564D3F65A414CA4B372AACAF551 /* APAudioStreamParser.h */,
-				26F792A8F3FFDBE5B02A68827F753109 /* APAudioStreamParser.m */,
-			);
-			name = Core;
-			path = Core;
-			sourceTree = "<group>";
-		};
-		B0B25F773FF63201AD5E2302FD789A93 /* Converter */ = {
-			isa = PBXGroup;
-			children = (
-				7C03734A65DA1B13B0C117CC5A0D8E53 /* APAudioContentConverter.h */,
-				7470A30E0D47686A0B7D49E96A50C67D /* APAudioContentConverter.m */,
-			);
-			name = Converter;
-			path = Converter;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -315,15 +317,14 @@
 			path = "Example/Pods/Target Support Files/SJAudioPlayer";
 			sourceTree = "<group>";
 		};
-		EB140A96CE252B441F901FBD85C33D05 /* Core */ = {
+		EBEDA50FAC3B789DEF4274AF6D03CED8 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C33B5AC651AD6C510865B72DD89C1B0C /* APAudioInterfaces.h */,
-				B0B25F773FF63201AD5E2302FD789A93 /* Converter */,
-				F523480B9E533C5D8C3E695051A06668 /* Parser */,
+				22BA8EA12B7BA06D75DC75BD9E544B12 /* Common */,
+				67A3DB2B5B41252665959CF606C56497 /* Item */,
+				92CE3B8D9BDC22A98C8A5D6CA9227205 /* Playback */,
 			);
 			name = Core;
-			path = Core;
 			sourceTree = "<group>";
 		};
 		F15CA9523D6FD61916FD895B46988D77 /* Development Pods */ = {
@@ -334,15 +335,20 @@
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		F523480B9E533C5D8C3E695051A06668 /* Parser */ = {
+		F5F9E7655FBDF315FDEABE58DC10F178 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				5F229150730A56B2E48E8DC4928C1214 /* APAudioContentParser.h */,
-				839E011EC57A7873A2CA60749EFCABB2 /* APAudioContentParser.m */,
-				A6D2D43CE48779BEA3CD097444401537 /* Core */,
+				5703709995BE08BCD851D77CD1319BD1 /* APAudioContentDownloader.h */,
+				7AFDC91A1B20311E1C18313A56393781 /* APAudioContentDownloader.m */,
+				3B04A00DEE390A59D8A03645F80311F7 /* APAudioContentPacket.h */,
+				8B2BA7F78A69567C7E58D2E9CB7B227A /* APAudioContentPacket.m */,
+				4861E20CF28E6661A5C494B49070621B /* APAudioContentReader.h */,
+				7D2D9D4ABC89939CEF868DDB38DB29B5 /* APAudioContentReader.m */,
+				9A439FA03EFAC5E82A71F89BF470672F /* APAudioStreamParser.h */,
+				BFC5E39273B4A79AD2327DFE2BE77E4F /* APAudioStreamParser.m */,
 			);
-			name = Parser;
-			path = Parser;
+			name = Core;
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,34 +361,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5CFA82C0EB7F6B6C49B82A9FC7C28C44 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7A88C322D456C11B3DB16E699FD345E2 /* APAudioContentConverter.h in Headers */,
-				B5A679BC0D46A7D9FAA34382E5489A17 /* APAudioContentDownloader.h in Headers */,
-				FEF5B1E57D0DC4996920EDD76E4362C6 /* APAudioContentPacket.h in Headers */,
-				B137840222EFE990ACA26CEC6883C7C8 /* APAudioContentParser.h in Headers */,
-				9F66C75A50DA6373B967CEB96FA83887 /* APAudioContentReader.h in Headers */,
-				950768027EF45DD6AF5C2AA1511D5EB2 /* APAudioInterfaces.h in Headers */,
-				056886096795B68146D8638DD8158746 /* APAudioItem.h in Headers */,
-				25EFAF15A0C637C0FFFC70F287A1AFF4 /* APAudioPlaybackController.h in Headers */,
-				13085FAEDA729643CD85DB5CD4A47579 /* APAudioStreamParser.h in Headers */,
-				2051FB737D1FDF72F1A9A788E508E05A /* APDefines.h in Headers */,
-				4A240A2FA345AC4A9F2821D23CEC3269 /* APError.h in Headers */,
-				46E718AA91AB5CB410193FFD7511F77D /* APInterfaces.h in Headers */,
-				38F2A7D6336393D178C12575AFD0D43C /* APLogger.h in Headers */,
-				161A733B95FD89E498095D72F88492BD /* APTimer.h in Headers */,
-				06AA9AA25180D511035699C56C15B8F0 /* APUtils.h in Headers */,
-				232CF095689383EC654443B6A63C937B /* AVAudioPlayerNode+AP.h in Headers */,
-				08303CC7B81A0AC678F65D11B6236DF6 /* SJAudioPlayer.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9F5F14AEF9E76BEC9653C3230ED85B08 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4B5806610216411989912EF0ABA7516 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C4DC9021221498CD2217259E6843093 /* APAudioContentConverter.h in Headers */,
+				455E28BAA9A7E52B1017BE876D1154F4 /* APAudioContentDownloader.h in Headers */,
+				336517B576004A7A6B585AD28E013070 /* APAudioContentPacket.h in Headers */,
+				03D0C0B5AE0A12E5C5ED7E2C4C673157 /* APAudioContentParser.h in Headers */,
+				7EA5169AC000543791E355BADE1A91D3 /* APAudioContentReader.h in Headers */,
+				FFDF967000DB803EA47463CA6344D506 /* APAudioInterfaces.h in Headers */,
+				B30FBAF89FE52E6747FA0B7EC49E918E /* APAudioItem.h in Headers */,
+				BD92DA7D921B7AFB06177E780FFBE42C /* APAudioOptions.h in Headers */,
+				3E60597D724F1E9501A330A8C4F22EF5 /* APAudioPlaybackController.h in Headers */,
+				FBF08C34472EBE61CC5C3ABA1E2DA71E /* APAudioStreamParser.h in Headers */,
+				2DB03C4EC499054DE120E3039F3FB87A /* APDefines.h in Headers */,
+				74D6C0B535EA5A727B51B950B6AAFEFC /* APError.h in Headers */,
+				95EBFE5B5F0061807C2A33EFDAADF7AE /* APInterfaces.h in Headers */,
+				A94F6A84DB264D42E2237A006123C174 /* APLogger.h in Headers */,
+				09B93EA1B611F4E8AFCBDB622292F3B7 /* APTimer.h in Headers */,
+				B72CEA396C7697FF392F7483EB17D244 /* APUtils.h in Headers */,
+				3119E6495ADEF0327FA8762971620682 /* AVAudioPlayerNode+AP.h in Headers */,
+				8FFDC50640511102BE7D31E3B660AA44 /* SJAudioPlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,7 +407,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				E68DF4FF78A7F4547AFC3D8025400645 /* PBXTargetDependency */,
+				4A5A0E51407639BEA86D3A2B88259350 /* PBXTargetDependency */,
 			);
 			name = "Pods-SJAudioPlayer_Tests";
 			productName = "Pods-SJAudioPlayer_Tests";
@@ -418,7 +425,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				8F62EFD413A3BDF6735CDB441DE3F426 /* PBXTargetDependency */,
+				60B8BFFDD71CA6E245A25839CB285B96 /* PBXTargetDependency */,
 			);
 			name = "Pods-SJAudioPlayer_Example";
 			productName = "Pods-SJAudioPlayer_Example";
@@ -427,11 +434,11 @@
 		};
 		E08FC6C3726B5800B742986AF2D724C0 /* SJAudioPlayer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BE5D2B9756CC74869D48D7EA3301123A /* Build configuration list for PBXNativeTarget "SJAudioPlayer" */;
+			buildConfigurationList = 5A2CE729F8D75DEBE06BF2FD773FE65C /* Build configuration list for PBXNativeTarget "SJAudioPlayer" */;
 			buildPhases = (
-				5CFA82C0EB7F6B6C49B82A9FC7C28C44 /* Headers */,
-				DDF91E480EAA04BF82C84558C81EB9A7 /* Sources */,
-				A2CD2BD4D5FC20DE4A494B76C6273090 /* Frameworks */,
+				C4B5806610216411989912EF0ABA7516 /* Headers */,
+				307AE1A3DE8B4817946307FE67C81D31 /* Sources */,
+				C406F8E31FB01C66AA840BAA0D0C07DA /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -472,6 +479,29 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		307AE1A3DE8B4817946307FE67C81D31 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019BFD4BCD241BCDEE2A6FFE08A8EB65 /* APAudioContentConverter.m in Sources */,
+				BC42E8769F9FA462A364145B816F2441 /* APAudioContentDownloader.m in Sources */,
+				BFD175FBB848834493A77265CFAA07A8 /* APAudioContentPacket.m in Sources */,
+				D8BA273AEF966D6B969DE7687EDBDE02 /* APAudioContentParser.m in Sources */,
+				111663D1A53FF838E0BDB93E9EF61883 /* APAudioContentReader.m in Sources */,
+				14B2D70F40083822A2DB087EA2634698 /* APAudioItem.m in Sources */,
+				4043E3BD8466113C3E6097D6E29778FA /* APAudioOptions.m in Sources */,
+				100632C1BAF4492E88248B51D1BCBB2C /* APAudioPlaybackController.m in Sources */,
+				AF37FF204AFEAE63335A9CEF19C19DDB /* APAudioStreamParser.m in Sources */,
+				F3A489C03D48E61F82A3E2F1ADF15B24 /* APError.m in Sources */,
+				41C2E292900BC605F3A3AD723ACA3771 /* APLogger.m in Sources */,
+				429FA18600F80581749FD962CF1A3E2D /* APTimer.m in Sources */,
+				035283EC65EBCE4601264BB40EF4EFFC /* APUtils.m in Sources */,
+				55684B3363ED272B82F1B30DD4E9B85D /* AVAudioPlayerNode+AP.m in Sources */,
+				4417D827AF52D9BC4218A6FAE1627730 /* SJAudioPlayer-dummy.m in Sources */,
+				A81BCC6E2046EA8D33B9888D628E71C5 /* SJAudioPlayer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7E8D1E33AD2436F8FFF0E07B48D3D2A8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -488,69 +518,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDF91E480EAA04BF82C84558C81EB9A7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				973299863F98DF0D2C23CC161FA994C7 /* APAudioContentConverter.m in Sources */,
-				06EA825979DEC65602FBDDB19D007CAC /* APAudioContentDownloader.m in Sources */,
-				45269AC0F89BC096C02D54724FFD04F2 /* APAudioContentPacket.m in Sources */,
-				9A63B66EE21134E6602775D62018AB42 /* APAudioContentParser.m in Sources */,
-				7D3AD94FD169688A5823DB09E3D64A92 /* APAudioContentReader.m in Sources */,
-				6D804AB1ABC3421F78F6F2C3854F124A /* APAudioItem.m in Sources */,
-				0D8B8B92E7D56DF999F631296698BE47 /* APAudioPlaybackController.m in Sources */,
-				4CE7E9AD8572F8A1805571D0BFFAE36A /* APAudioStreamParser.m in Sources */,
-				2EF396FE371806A9D54EF74A72D0A132 /* APError.m in Sources */,
-				263CCA3B2B0063448AFF7135533F6479 /* APLogger.m in Sources */,
-				6CEEFE3FD64B0C8C2131AAF65788A27B /* APTimer.m in Sources */,
-				B5435AC956723256D295FDF7B689E819 /* APUtils.m in Sources */,
-				7CF1D1E5ABFC74294CC26D6CAE4F035C /* AVAudioPlayerNode+AP.m in Sources */,
-				F011B814C890E1AE28098F6892B3E4E0 /* SJAudioPlayer-dummy.m in Sources */,
-				2B2970F3FF971D547DC5741F5060E219 /* SJAudioPlayer.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8F62EFD413A3BDF6735CDB441DE3F426 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SJAudioPlayer;
-			target = E08FC6C3726B5800B742986AF2D724C0 /* SJAudioPlayer */;
-			targetProxy = 8D358DAE6CD62CA386E565E600CFE313 /* PBXContainerItemProxy */;
-		};
-		E68DF4FF78A7F4547AFC3D8025400645 /* PBXTargetDependency */ = {
+		4A5A0E51407639BEA86D3A2B88259350 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-SJAudioPlayer_Example";
 			target = 8B2CA8912165C6F7FEDF58697A2A0613 /* Pods-SJAudioPlayer_Example */;
-			targetProxy = D63B917D361A5D2BF887F052C1171153 /* PBXContainerItemProxy */;
+			targetProxy = 8FD7155D010FC9F3112FE6EC881E7428 /* PBXContainerItemProxy */;
+		};
+		60B8BFFDD71CA6E245A25839CB285B96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SJAudioPlayer;
+			target = E08FC6C3726B5800B742986AF2D724C0 /* SJAudioPlayer */;
+			targetProxy = C6F0298B1BDE447E3996B2CDDEF1E182 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		209DC368FCADBF03310D8E58166713B6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6901E990A04CD7B00B63E4B87B9D7092 /* SJAudioPlayer.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SJAudioPlayer/SJAudioPlayer-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = SJAudioPlayer;
-				PRODUCT_NAME = SJAudioPlayer;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		25AD9454612BF454A1E3DC4CD4FA8C6D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -636,30 +621,6 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
-		};
-		BC69A0133139D681F561435235E16DFF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 588676A0B3CD47452D3E0F640C1FAE34 /* SJAudioPlayer.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SJAudioPlayer/SJAudioPlayer-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = SJAudioPlayer;
-				PRODUCT_NAME = SJAudioPlayer;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
 		};
 		C5529DF046EE7A4D3B87C4065736B967 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -764,6 +725,53 @@
 			};
 			name = Release;
 		};
+		D22CD4F89C3CDE38D24086C69C99A66C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6901E990A04CD7B00B63E4B87B9D7092 /* SJAudioPlayer.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SJAudioPlayer/SJAudioPlayer-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SJAudioPlayer;
+				PRODUCT_NAME = SJAudioPlayer;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D289C202A4143F657F30329E69190EE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 588676A0B3CD47452D3E0F640C1FAE34 /* SJAudioPlayer.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SJAudioPlayer/SJAudioPlayer-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SJAudioPlayer;
+				PRODUCT_NAME = SJAudioPlayer;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		DBEC799C806284F35CA47B89AC9F03C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 762475F81D12489D2DCF7811D17DF672 /* Pods-SJAudioPlayer_Tests.release.xcconfig */;
@@ -797,6 +805,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		5A2CE729F8D75DEBE06BF2FD773FE65C /* Build configuration list for PBXNativeTarget "SJAudioPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D22CD4F89C3CDE38D24086C69C99A66C /* Debug */,
+				D289C202A4143F657F30329E69190EE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7A8C160E73E799763D86DEAC79D03CC4 /* Build configuration list for PBXNativeTarget "Pods-SJAudioPlayer_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -811,15 +828,6 @@
 			buildConfigurations = (
 				988BD48233629DBDE20B0B0B821AB451 /* Debug */,
 				DBEC799C806284F35CA47B89AC9F03C8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BE5D2B9756CC74869D48D7EA3301123A /* Build configuration list for PBXNativeTarget "SJAudioPlayer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				209DC368FCADBF03310D8E58166713B6 /* Debug */,
-				BC69A0133139D681F561435235E16DFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

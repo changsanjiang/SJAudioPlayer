@@ -38,12 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) float contentLoadProgress;
 @property (nonatomic, readonly) NSTimeInterval duration;
 @property (nonatomic, readonly) NSTimeInterval maximumPlayableDuration; // 可播放时长限制, 缓冲到达指定时长后, 将停止解析
-- (void)prepare;
+- (void)prepare:(NSTimeInterval)maximumPlayableDuration;
 @property (nonatomic, readonly) AVAudioFramePosition startPosition; // seekToTime 所处的位置
 - (void)seekToTime:(NSTimeInterval)time;
 - (void)suspend;
 - (void)resume;
 - (void)retry;
+- (void)cancelPlayableDurationLimit;
 @end
 
 @protocol APAudioItemDelegate <NSObject>

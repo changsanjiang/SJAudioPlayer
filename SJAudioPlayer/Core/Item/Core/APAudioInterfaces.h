@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSTimeInterval duration;
 @property (nonatomic, readonly) NSTimeInterval maximumPlayableDuration; // 可播放时长限制, 缓冲到达指定时长后, 将停止解析
 
-- (void)prepare;
+- (void)prepare:(NSTimeInterval)maximumPlayableDuration;
 @property (nonatomic, readonly, getter=isSeekable) BOOL seekable;
 @property (nonatomic, readonly, getter=isReachedEndPosition) BOOL reachedEndPosition;
 @property (nonatomic, readonly, getter=isReachedMaximumPlayableDurationPosition) BOOL reachedMaximumPlayableDurationPosition;
@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)suspend; // 暂停
 - (void)resume;  // 恢复
 - (void)retry;   // 从当前位置重试(报错后, 可调用该方法重试)
+- (void)cancelPlayableDurationLimit;
 @end
 
 @protocol APAudioContentParserDelegate <NSObject>

@@ -71,8 +71,13 @@
     return _parser.maximumPlayableDuration;
 }
 
-- (void)prepare {
-    [self _prepareIfNeeded];
+- (void)prepare:(NSTimeInterval)maximumPlayableDuration {
+    if ( _isPrepared  )
+        return;
+    _isPrepared = YES;
+    
+    _parser = [APAudioContentParser.alloc initWithURL:_URL minimumCountOfBytesFoundPackets:APBytes_MinimumFoundPackets delegate:self queue:_queue];
+    [_parser prepare:maximumPlayableDuration];
 }
 
 - (AVAudioFramePosition)startPosition {
@@ -96,15 +101,8 @@
     [_parser retry];
 }
 
-#pragma mark - prepare
-
-- (void)_prepareIfNeeded {
-    if ( _isPrepared  )
-        return;
-    _isPrepared = YES;
-    
-    _parser = [APAudioContentParser.alloc initWithURL:_URL minimumCountOfBytesFoundPackets:APBytes_MinimumFoundPackets delegate:self queue:_queue];
-    [_parser prepare];
+- (void)cancelPlayableDurationLimit {
+    [_parser cancelPlayableDurationLimit];
 }
 
 #pragma mark - APAudioContentParserDelegate

@@ -57,8 +57,13 @@
     return _reader.contentLoadProgress;
 }
 
-- (void)prepare {
-    [self _prepareIfNeeded];
+- (void)prepare:(NSTimeInterval)maximumPlayableDuration {
+    if ( _isPrepared )
+        return;
+    _isPrepared = YES;
+    _maximumPlayableDuration = maximumPlayableDuration;
+    _reader = [APAudioContentReader contentReaderWithURL:_URL delegate:self queue:_queue];
+    [_reader resume];
 }
 
 - (void)seekToTime:(NSTimeInterval)time {
@@ -97,6 +102,11 @@
     if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
         return;
     [_reader retry];
+}
+
+- (void)cancelPlayableDurationLimit {
+    _maximumPlayableDuration = 0;
+    _reachedMaximumPlayableDurationPosition = NO;
 }
 
 #pragma mark - APAudioContentReaderDelegate
@@ -185,18 +195,7 @@
 - (void)contentReader:(id<APAudioContentReader>)reader anErrorOccurred:(NSError *)error {
     [_delegate parser:self anErrorOccurred:error];
 }
-
-#pragma mark - mark
-
-- (void)_prepareIfNeeded {
-    if ( _isPrepared )
-        return;
-    _isPrepared = YES;
-    
-    _reader = [APAudioContentReader contentReaderWithURL:_URL delegate:self queue:_queue];
-    [_reader resume];
-}
-
+ 
 - (UInt64)_expectedOffsetForTime:(NSTimeInterval)time framePosition:(AVAudioFramePosition *)startPosition {
     UInt64 nBytesOffset = 0;
     Float64 mSampleRate = _parser.format.streamDescription->mSampleRate;

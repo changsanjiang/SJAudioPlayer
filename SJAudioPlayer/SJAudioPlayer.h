@@ -8,6 +8,7 @@
 
 #import "APDefines.h"
 #import "APInterfaces.h"
+#import "APAudioOptions.h"
 @protocol SJAudioPlayerObserver;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, getter=isMuted) BOOL muted;
 
 - (void)replaceAudioWithURL:(nullable NSURL *)URL;
+- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable APAudioOptions *)options;
 - (void)seekToTime:(NSTimeInterval)time;
 
 - (void)play;
@@ -38,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)registerObserver:(id<SJAudioPlayerObserver>)observer;
 - (void)removeObserver:(id<SJAudioPlayerObserver>)observer;
 - (void)reload;
+- (void)cancelPlayableDurationLimit;
+@property (nonatomic, readonly, getter=isReachedEndPosition) BOOL reachedEndPosition;
+@property (nonatomic, readonly, getter=isReachedMaximumPlayableDurationPosition) BOOL reachedMaximumPlayableDurationPosition;
 @end
 
 @interface SJAudioPlayer (SJAVAudioSessionExtended)
