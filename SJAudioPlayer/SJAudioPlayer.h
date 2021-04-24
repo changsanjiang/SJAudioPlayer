@@ -17,8 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init;
 - (instancetype)initWithPlaybackController:(id<APAudioPlaybackController>)playbackController;
 
+/// The current audio URL of the player.
+///
+///     You can call the `replaceAudioWithURL:` to replace the current URL with a new URL of audio.
+///
 @property (nonatomic, strong, readonly, nullable) NSURL *URL;
+
+/// If the player.status is APAudioPlaybackStatusFailed, this describes the error that caused the failure.
+///
 @property (nonatomic, strong, readonly, nullable) NSError *error;
+
+/// The current status of the player.
+///
 @property (nonatomic, readonly) APAudioPlaybackStatus status;
 @property (nonatomic, readonly) dispatch_queue_t queue;
 
@@ -30,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) float volume;
 @property (nonatomic, getter=isMuted) BOOL muted;
 
+/// Replaces the current audio with a new URL of audio.
+///
 - (void)replaceAudioWithURL:(nullable NSURL *)URL;
 - (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable APAudioOptions *)options;
 - (void)seekToTime:(NSTimeInterval)time;

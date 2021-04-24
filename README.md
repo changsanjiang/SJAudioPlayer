@@ -20,6 +20,17 @@ it, simply add the following line to your Podfile:
 pod 'SJAudioPlayer'
 ```
 
+## Usage
+
+```Objective-C
+#import <SJAudioPlayer/SJAudioPlayer.h>
+
+    NSURL *URL = [NSURL URLWithString:@"http://.../auido.mp3"];
+    _player = SJAudioPlayer.player;
+    [_player replaceAudioWithURL:URL];
+    [_player play];
+```
+
 ## Author
 
 changsanjiang@gmail.com, changsanjiang@gmail.com

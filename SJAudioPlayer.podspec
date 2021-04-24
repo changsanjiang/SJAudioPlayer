@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SJAudioPlayer'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of SJAudioPlayer.'
+  s.version          = '1.0.0'
+  s.summary          = 'iOS MP3 Audio Player using AVAudioEngine.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,15 +17,13 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = "https://github.com/changsanjiang/SJAudioPlayer/blob/master/README.md"
 
-  s.homepage         = 'https://github.com/changsanjiang@gmail.com/SJAudioPlayer'
+  s.homepage         = 'https://github.com/changsanjiang/SJAudioPlayer'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'changsanjiang@gmail.com' => 'changsanjiang@gmail.com' }
-  s.source           = { :git => 'https://github.com/changsanjiang@gmail.com/SJAudioPlayer.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/changsanjiang/SJAudioPlayer.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'

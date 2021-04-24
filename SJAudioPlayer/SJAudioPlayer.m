@@ -429,7 +429,7 @@ static dispatch_queue_t ap_queue;
     //TODO: 发生错误的可能不是来自AudioItem, 将来如果做retry可能会出现播放位置错误的问题
     if ( _error != nil ) {
         [self _stopPlayback];
-        [self _setStatus:APAudioPlaybackStatusError];
+        [self _setStatus:APAudioPlaybackStatusFailed];
         return;
     }
     
@@ -438,7 +438,7 @@ static dispatch_queue_t ap_queue;
     BOOL isPlaybackFinished = (_currentItem.isReachedEndPosition || _currentItem.isReachedMaximumPlayableDurationPosition) && _PCMBufferCount == 0;
     if ( isPlaybackFinished ) {
         [self _stopPlayback];
-        [self _setStatus:APAudioPlaybackStatusEnded];
+        [self _setStatus:APAudioPlaybackStatusFinished];
         return;
     }
     

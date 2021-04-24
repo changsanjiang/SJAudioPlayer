@@ -86,11 +86,11 @@
             case APAudioPlaybackStatusPaused:
                 _statusLabel.text = @"APAudioPlaybackStatusPaused";
                 break;
-            case APAudioPlaybackStatusEnded:
-                _statusLabel.text = @"APAudioPlaybackStatusEnded";
+            case APAudioPlaybackStatusFinished:
+                _statusLabel.text = @"APAudioPlaybackStatusFinished";
                 break;
-            case APAudioPlaybackStatusError:
-                _statusLabel.text = @"APAudioPlaybackStatusError";
+            case APAudioPlaybackStatusFailed:
+                _statusLabel.text = @"APAudioPlaybackStatusFailed";
                 break;
             default: break;
         }
@@ -122,9 +122,9 @@
         [self replace];
     }
     else {
-        if ( _player.status == APAudioPlaybackStatusEnded )
+        if ( _player.status == APAudioPlaybackStatusFinished )
             [_player seekToTime:0];
-        else if ( _player.status == APAudioPlaybackStatusError ) {
+        else if ( _player.status == APAudioPlaybackStatusFailed ) {
             [_player reload];
             [_player play];
         }
