@@ -103,7 +103,7 @@ _mAudioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
     }
     
     AVAudioFrameCount nAllFrames = (AVAudioFrameCount)(_streamFormat.streamDescription->mFramesPerPacket * packets.count);
-    AVAudioPacketCount nAllPackets = (AVAudioPacketCount)(nAllFrames / _outputFormat.streamDescription->mFramesPerPacket);
+    UInt32 nAllPackets = (AVAudioPacketCount)(nAllFrames / _outputFormat.streamDescription->mFramesPerPacket);
     AVAudioPCMBuffer *buffer = [AVAudioPCMBuffer.alloc initWithPCMFormat:_outputFormat frameCapacity:nAllFrames];
     if ( buffer == nil ) {
         if ( error != NULL ) {

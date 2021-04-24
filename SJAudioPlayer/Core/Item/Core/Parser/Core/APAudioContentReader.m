@@ -333,7 +333,7 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
         return NSData.data;
     
     @try {
-        NSData *data = [_reader readDataOfLength:length];
+        NSData *data = [_reader readDataOfLength:(NSUInteger)length];
         return data;
     } @catch (NSException *exception) {
         if ( error != NULL ) {
@@ -525,10 +525,10 @@ static dispatch_semaphore_t ap_semaphore;
     // 距离offset最近的file(前面的)
     APAudioContentFile *pre = nil;
     while ( cur != nil ) {
-        NSRange range = NSMakeRange(cur.offset, cur.length);
+        NSRange range = NSMakeRange((NSUInteger)cur.offset, (NSUInteger)cur.length);
         if ( cur.offset == offset )
             break;
-        if ( NSLocationInRange(offset, range) )
+        if ( NSLocationInRange((NSUInteger)offset, range) )
             break;
         if ( cur.offset <= offset )
             pre = cur;

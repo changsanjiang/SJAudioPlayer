@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/changsanjiang/SJAudioPlayer'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'changsanjiang@gmail.com' => 'changsanjiang@gmail.com' }
+  s.author           = { 'changsanjiang' => 'changsanjiang@gmail.com' }
   s.source           = { :git => 'https://github.com/changsanjiang/SJAudioPlayer.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
