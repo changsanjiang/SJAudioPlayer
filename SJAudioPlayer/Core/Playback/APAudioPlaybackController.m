@@ -71,13 +71,36 @@
     [_playerNode scheduleBuffer:buffer completionHandler:completionHandler];
 }
 
-- (BOOL)play:(NSError **)error {
+- (BOOL)play:(NSError **)outError {
     [self _prepareToPlay];
-    if ( ![self _startEngine:error] ) {
+    
+    NSError *innerError = nil;
+    @try {
+        if ( !_engine.isRunning ) {
+            if ( ![_engine startAndReturnError:&innerError] ) {
+                [self _disconnectAllNodes];
+                [self _reconnectAllNodes];
+                if ( outError != NULL ) {
+                    *outError = [NSError ap_errorWithCode:APAudioEngineErrorUnableToStartEngine userInfo:@{
+                        APErrorUserInfoErrorKey : innerError,
+                        APErrorUserInfoAudioEngineKey : _engine,
+                        NSLocalizedDescriptionKey : APErrorLocalizedDescription(APAudioEngineErrorUnableToStartEngine),
+                    }];
+                }
+                return NO;
+            }
+        }
+        [_playerNode play];
+    } @catch (NSException *exception) {
+        if ( outError != NULL ) {
+            *outError = [NSError ap_errorWithCode:APAudioEngineErrorThrowException userInfo:@{
+                APErrorUserInfoExceptionKey : exception,
+                APErrorUserInfoAudioEngineKey : _engine,
+                NSLocalizedDescriptionKey : APErrorLocalizedDescription(APAudioEngineErrorThrowException),
+            }];
+        }
         return NO;
     }
-    
-    [_playerNode play];
     return YES;
 }
 
@@ -117,40 +140,8 @@
     [self _reconnectAllNodes];
 }
 
-- (BOOL)_startEngine:(NSError **)outError {
-    if ( !_engine.isRunning ) {
-        NSError *innerError = nil;
-        @try {
-            if ( ![_engine startAndReturnError:&innerError] ) {
-                [self _disconnectAllNodes];
-                [self _reconnectAllNodes];
-                if ( outError != NULL ) {
-                    *outError = [NSError ap_errorWithCode:APAudioEngineErrorUnableToStartEngine userInfo:@{
-                        APErrorUserInfoErrorKey : innerError,
-                        APErrorUserInfoAudioEngineKey : _engine,
-                        NSLocalizedDescriptionKey : APErrorLocalizedDescription(APAudioEngineErrorUnableToStartEngine),
-                    }];
-                }
-                return NO;
-            }
-        } @catch (NSException *exception) {
-            if ( outError != NULL ) {
-                *outError = [NSError ap_errorWithCode:APAudioEngineErrorThrowException userInfo:@{
-                    APErrorUserInfoExceptionKey : exception,
-                    APErrorUserInfoAudioEngineKey : _engine,
-                    NSLocalizedDescriptionKey : APErrorLocalizedDescription(APAudioEngineErrorThrowException),
-                }];
-            }
-            return NO;
-        }
-    }
-    return YES;
-}
-
 - (void)_disconnectAllNodes {
-    [_engine detachNode:_playerNode];
-    [_engine detachNode:_outputVolumeNode];
-    [_engine attachNode:_rateNode];
+    [_engine reset];
 }
 
 - (void)_reconnectAllNodes {
