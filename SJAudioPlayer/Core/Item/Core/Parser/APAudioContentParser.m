@@ -19,8 +19,8 @@
     NSURL *_URL;
     APAudioStreamParser *_parser;
     UInt64 _minimumCountOfBytesFoundPackets;
-    NSTimeInterval _maximumPlayableDuration; // 可播放时长限制, 缓冲到达指定时长后, 将停止解析
     BOOL _isFoundFormat;
+    BOOL _isDiscontinuous;
 }
 
 @property (nonatomic, strong, nullable) AVAudioFormat *contentFormat;
@@ -30,7 +30,8 @@
 @synthesize delegate = _delegate;
 @synthesize duration = _duration;
 @synthesize seekable = _seekable;
-@synthesize reachedEnd = _reachedEnd;
+@synthesize reachedMaximumPlayableDurationPosition = _reachedMaximumPlayableDurationPosition;
+@synthesize maximumPlayableDuration = _maximumPlayableDuration;
 @synthesize startPosition = _startPosition;
 
 - (instancetype)initWithURL:(NSURL *)URL minimumCountOfBytesFoundPackets:(UInt64)size delegate:(id<APAudioContentParserDelegate>)delegate queue:(dispatch_queue_t)queue {
@@ -42,6 +43,10 @@
         _queue = queue;
     }
     return self;
+}
+
+- (BOOL)isReachedEndPosition {
+    return _reader.countOfBytesTotalLength != 0 && _reader.offset == _reader.countOfBytesTotalLength;
 }
  
 - (nullable AVAudioFormat *)contentFormat {
@@ -64,14 +69,17 @@
         return;
     }
     
-    if ( time >= _duration )
-        time = _duration * 0.98;
+    NSTimeInterval maxDuration = _maximumPlayableDuration > 0 ? _maximumPlayableDuration : _duration;
+    
+    if ( time >= maxDuration )
+        time = maxDuration * 0.98;
     else if ( time < 0 )
         time = 0;
     
-    _reachedEnd = NO;
-    [_parser clearPackets];
-    UInt64 nBytesOffset = [self _offsetForTime:time framePosition:&_startPosition];
+    _isDiscontinuous = YES;
+    _reachedMaximumPlayableDurationPosition = NO;
+    [_parser removeAllFoundPackets];
+    UInt64 nBytesOffset = [self _expectedOffsetForTime:time framePosition:&_startPosition];
     [_reader seekToOffset:nBytesOffset];
 }
 
@@ -80,10 +88,14 @@
 }
 
 - (void)resume {
+    if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
+        return;
     [_reader resume];
 }
 
 - (void)retry {
+    if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
+        return;
     [_reader retry];
 }
 
@@ -95,42 +107,79 @@
 
 - (void)contentReader:(id<APAudioContentReader>)reader hasNewAvailableData:(NSData *)data atOffset:(UInt64)offset {
     if ( _parser == nil ) _parser = APAudioStreamParser.alloc.init;
-     
+
+    BOOL isDiscontinuous = _isDiscontinuous;
+    _isDiscontinuous = NO;
     NSError *error = nil;
-    if ( ![_parser process:data error:&error] ) {
+    if ( ![_parser process:data isDiscontinuous:isDiscontinuous error:&error] ) {
+        [self suspend];
         [_delegate parser:self anErrorOccurred:error];
         return;
     }
-    
+
     AVAudioFormat *format = _parser.format;
     BOOL isFoundFormat = format != nil;
     // 未解析出文件格式期间, 将不会上报packets
     if ( !isFoundFormat ) {
         return;
     }
-    
+
     if ( _isFoundFormat != isFoundFormat ) {
         _isFoundFormat = isFoundFormat;
         [_delegate parser:self foundFormat:format];
         [_delegate parser:self contentLoadProgressDidChange:reader.contentLoadProgress];
     }
 
-    // 解析出足够的packets后
-    //  - 将本此packets上报给代理
-    //  - 清空packets, 以进行下一次计数
-    //  - 更新播放时长
-    _reachedEnd = reader.offset == reader.countOfBytesTotalLength; /* EOF */
-    if ( _parser.countOfBytesFoundPackets >= _minimumCountOfBytesFoundPackets || _reachedEnd ) {
+    BOOL isBufferFull = _parser.countOfBytesFoundPackets >= _minimumCountOfBytesFoundPackets;
+    BOOL isReachedEndPosition = self.isReachedEndPosition;
+    //
+    NSArray<id<APAudioContentPacket>> *_Nullable foundPackets = nil;
+    BOOL isReachedMaximumPlayableDurationPosition = NO;
+
+    if ( !isReachedEndPosition && _maximumPlayableDuration != 0 ) {
+        // 达到最大播放时长的位置后
+        // - 清除相交部分的packets
+        // - 将相交packets上报给代理
+        UInt64 maxOffset = [self _expectedOffsetForTime:_maximumPlayableDuration framePosition:NULL];
+        AVAudioPacketCount maxPos = [self _expectedPacketPositionForOffset:maxOffset];
+        AVAudioPacketCount curPos = [self _expectedPacketPositionForOffset:_reader.offset];
+        isReachedMaximumPlayableDurationPosition = (curPos >= _parser.foundPackets.count) && (curPos >= maxPos);
+        if ( isReachedMaximumPlayableDurationPosition ) {
+            // 暂停解析
+            _reachedMaximumPlayableDurationPosition = YES;
+            [self suspend];
+
+            // 删除相交部分的packets, 剩余的packets继续保留
+            AVAudioPacketCount startPos = curPos - (AVAudioPacketCount)_parser.foundPackets.count;
+            if ( startPos < maxPos ) {
+                AVAudioPacketCount length = maxPos - startPos;
+                NSRange range = NSMakeRange(0, (NSUInteger)length);
+                foundPackets = [_parser.foundPackets subarrayWithRange:range];
+                [_parser removeFoundPacketsInRange:range];
+            }
+        }
+    }
+
+    if ( !isReachedMaximumPlayableDurationPosition ) {
+        if ( isBufferFull || isReachedEndPosition/* EOF */ ) {
+            foundPackets = _parser.foundPackets;
+            // 解析出足够的packets后
+            //  - 清空packets, 以进行下一次计数
+            [_parser removeAllFoundPackets];
+        }
+    }
+
+    // 刷新播放时长和seekable状态
+    if ( isReachedMaximumPlayableDurationPosition || isBufferFull || isReachedEndPosition ) {
         // 有足够数量的packets之后, 刷新一下播放时长
         _duration = (reader.countOfBytesTotalLength - _parser.audioDataOffset) / (_parser.bitRate / 8.0);
         _seekable = YES;
-        
-        NSArray<id<APAudioContentPacket>> *foundPackets = _parser.foundPackets;
-        // clean
-        [_parser clearPackets];
-        // report
-        [_delegate parser:self foundPackets:foundPackets];
     }
+
+    // report
+    if ( foundPackets != nil )
+        [_delegate parser:self foundPackets:foundPackets];
+
 }
 
 - (void)contentReader:(id<APAudioContentReader>)reader anErrorOccurred:(NSError *)error {
@@ -148,25 +197,31 @@
     [_reader resume];
 }
 
-- (UInt64)_offsetForTime:(NSTimeInterval)time framePosition:(AVAudioFramePosition *)startPosition {
+- (UInt64)_expectedOffsetForTime:(NSTimeInterval)time framePosition:(AVAudioFramePosition *)startPosition {
     UInt64 nBytesOffset = 0;
-    BOOL isEstimated = NO;
     Float64 mSampleRate = _parser.format.streamDescription->mSampleRate;
     AVAudioFramePosition allFrames = time * mSampleRate;
     AVAudioFramePosition mFramesPerPacket = _parser.format.streamDescription->mFramesPerPacket;
     AVAudioPacketCount packetPosition = (AVAudioPacketCount)(allFrames * 1.0 / mFramesPerPacket);
     AVAudioFramePosition framePosition = packetPosition * mFramesPerPacket;
-    if ( [_parser offsetAtPacket:packetPosition outOffset:&nBytesOffset isEstimated:&isEstimated] && !isEstimated ) {
-        // nBytesOffset available
-    }
-    else {
-        NSTimeInterval t = framePosition / mSampleRate;
-        nBytesOffset = _parser.audioDataOffset + t * (_parser.bitRate / 8.0);
-    }
+    NSTimeInterval t = framePosition / mSampleRate;
+    nBytesOffset = _parser.audioDataOffset + t * (_parser.bitRate / 8.0);
     
     if ( startPosition != NULL ) {
         *startPosition = framePosition;
     }
     return nBytesOffset;
 }
+
+- (AVAudioPacketCount)_expectedPacketPositionForOffset:(UInt64)nBytesOffset {
+    if ( nBytesOffset <= _parser.audioDataOffset )
+        return 0;
+    Float64 mSampleRate = _parser.format.streamDescription->mSampleRate;
+    AVAudioFramePosition mFramesPerPacket = _parser.format.streamDescription->mFramesPerPacket;
+    NSTimeInterval t = (double)nBytesOffset / (_parser.bitRate / 8.0);
+    AVAudioFramePosition allFrames = t * mSampleRate;
+    AVAudioPacketCount packetPosition = (AVAudioPacketCount)(allFrames * 1.0 / mFramesPerPacket);
+    return packetPosition;
+}
+
 @end

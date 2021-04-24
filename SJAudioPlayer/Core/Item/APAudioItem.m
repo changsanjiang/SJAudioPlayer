@@ -24,7 +24,6 @@
   
 @implementation APAudioItem
 @synthesize delegate = _delegate;
-@synthesize reachedEnd = _reachedEnd;
 @synthesize error = _error;
 - (instancetype)initWithURL:(NSURL *)URL delegate:(id<APAudioItemDelegate>)delegate queue:(dispatch_queue_t)queue {
     self = [super init];
@@ -44,6 +43,14 @@
     return APAudioItemStatusUnknown;
 }
 
+- (BOOL)isReachedEndPosition {
+    return _parser.isReachedEndPosition;
+}
+
+- (BOOL)isReachedMaximumPlayableDurationPosition {
+    return _parser.isReachedMaximumPlayableDurationPosition;
+}
+
 - (nullable AVAudioFormat *)contentFormat {
     return _converter.streamFormat;
 }
@@ -60,6 +67,10 @@
     return _parser.duration;
 }
 
+- (NSTimeInterval)maximumPlayableDuration {
+    return _parser.maximumPlayableDuration;
+}
+
 - (void)prepare {
     [self _prepareIfNeeded];
 }
@@ -69,7 +80,6 @@
 }
 
 - (void)seekToTime:(NSTimeInterval)time {
-    _reachedEnd = NO;
     [_parser seekToTime:time];
 }
 
@@ -116,7 +126,6 @@
         return;
     }
     
-    _reachedEnd = _parser.isReachedEnd;
     [_delegate audioItem:self newBufferAvailable:buffer];
 }
 

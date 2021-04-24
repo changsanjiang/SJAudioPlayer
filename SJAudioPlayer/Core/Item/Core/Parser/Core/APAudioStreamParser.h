@@ -19,8 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSTimeInterval durationPerPacket;
 @property (nonatomic, readonly) double bitRate;
 
-- (BOOL)process:(NSData *)data error:(NSError **)error; // throw exception
-- (void)clearPackets;
+- (BOOL)process:(NSData *)data isDiscontinuous:(BOOL)isDiscontinuous error:(NSError **)error; // throw exception
+- (void)removeAllFoundPackets;
+- (void)removeFoundPacketsInRange:(NSRange)range;
 
 - (BOOL)offsetAtPacket:(AVAudioPacketCount)index outOffset:(UInt64 *)outOffset isEstimated:(BOOL *)isEstimated;
 @end

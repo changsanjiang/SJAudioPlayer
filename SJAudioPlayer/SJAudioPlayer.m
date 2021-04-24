@@ -407,7 +407,7 @@ static dispatch_queue_t ap_queue;
     
     /// 已播放完毕
     ///
-    BOOL isPlaybackFinished = _currentItem.isReachedEnd && _PCMBufferCount == 0;
+    BOOL isPlaybackFinished = _currentItem.isReachedEndPosition && _PCMBufferCount == 0;
     if ( isPlaybackFinished ) {
         [self _stopPlayback];
         [self _setStatus:APAudioPlaybackStatusEnded];
@@ -449,7 +449,7 @@ static dispatch_queue_t ap_queue;
 
 - (void)_pullNextBufferIfNeeded {
     // PCM缓存未满(未到达最大限定值), 恢复缓存
-    if ( !_currentItem.isReachedEnd && _currentItem.error == nil && _PCMBufferCount < (SJAudioPlayerMaximumPCMBufferCount * 0.5) ) {
+    if ( !_currentItem.isReachedEndPosition && _currentItem.error == nil && _PCMBufferCount < (SJAudioPlayerMaximumPCMBufferCount * 0.5) ) {
         [_currentItem resume];
     }
 }

@@ -29,13 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol APAudioItem <NSObject>
 @property (nonatomic, readonly) APAudioItemStatus status;
-@property (nonatomic, readonly, getter=isReachedEnd) BOOL reachedEnd;
+@property (nonatomic, readonly, getter=isReachedEndPosition) BOOL reachedEndPosition;
+@property (nonatomic, readonly, getter=isReachedMaximumPlayableDurationPosition) BOOL reachedMaximumPlayableDurationPosition;
 @property (nonatomic, weak, readonly, nullable) id<APAudioItemDelegate> delegate;
 @property (nonatomic, strong, readonly, nullable) AVAudioFormat *contentFormat;
 @property (nonatomic, strong, readonly, nullable) AVAudioFormat *outputFormat;
 @property (nonatomic, strong, readonly, nullable) NSError *error;
 @property (nonatomic, readonly) float contentLoadProgress;
 @property (nonatomic, readonly) NSTimeInterval duration;
+@property (nonatomic, readonly) NSTimeInterval maximumPlayableDuration; // 可播放时长限制, 缓冲到达指定时长后, 将停止解析
 - (void)prepare;
 @property (nonatomic, readonly) AVAudioFramePosition startPosition; // seekToTime 所处的位置
 - (void)seekToTime:(NSTimeInterval)time;

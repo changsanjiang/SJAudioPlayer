@@ -22,7 +22,7 @@
         AudioFileStreamClose(_streamParser);
 }
 
-- (BOOL)process:(NSData *)data error:(NSError **)error {
+- (BOOL)process:(NSData *)data isDiscontinuous:(BOOL)isDiscontinuous error:(NSError **)error {
     if ( _streamParser == 0 ) {
         OSStatus status = AudioFileStreamOpen((__bridge void *)self, _mAudioFileStream_PropertyListenerProc, _mAudioFileStream_PacketsProc, kAudioFileMP3Type, &_streamParser);
         if ( status != noErr ) {
@@ -35,7 +35,7 @@
         }
     }
     
-    OSStatus status = AudioFileStreamParseBytes(_streamParser, (UInt32)data.length, data.bytes, NO);
+    OSStatus status = AudioFileStreamParseBytes(_streamParser, (UInt32)data.length, data.bytes, isDiscontinuous);
     if ( status != noErr ) {
         if ( error != NULL ) {
             *error = [NSError ap_errorWithCode:APContentParserErrorFailedToParseBytes userInfo:@{
@@ -48,9 +48,16 @@
     return YES;
 }
 
-- (void)clearPackets {
+- (void)removeAllFoundPackets {
     _countOfBytesFoundPackets = 0;
     [_foundPackets removeAllObjects];
+}
+
+- (void)removeFoundPacketsInRange:(NSRange)range {
+    [_foundPackets removeObjectsInRange:range];
+    for ( id<APAudioContentPacket> packet in _foundPackets ) {
+        _countOfBytesFoundPackets += packet.data.length;
+    }
 }
 
 - (BOOL)offsetAtPacket:(AVAudioPacketCount)index outOffset:(UInt64 *)outOffset isEstimated:(BOOL *)isEstimated {

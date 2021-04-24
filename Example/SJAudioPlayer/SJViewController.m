@@ -124,7 +124,7 @@
     else {
         if ( _player.status == APAudioPlaybackStatusEnded )
             [_player seekToTime:0];
-        if ( _player.status == APAudioPlaybackStatusError ) {
+        else if ( _player.status == APAudioPlaybackStatusError ) {
             [_player reload];
             [_player play];
         }
