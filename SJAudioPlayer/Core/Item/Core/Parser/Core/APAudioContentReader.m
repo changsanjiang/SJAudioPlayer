@@ -187,7 +187,7 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
     if ( capacity > APBytes_ThrottleValue )
         capacity = APBytes_ThrottleValue;
     if ( _buffer == NULL )
-        _buffer = malloc(capacity);
+        _buffer = malloc(APBytes_ThrottleValue);
 
     if ( _buffer != NULL ) {
         // man 2 read
