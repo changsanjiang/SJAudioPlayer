@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)retry;
 - (void)resume;
 - (void)suspend;
+- (void)stop;
 @end
 
 @protocol APAudioContentReaderDelegate <NSObject>

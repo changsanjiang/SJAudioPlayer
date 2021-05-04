@@ -13,6 +13,14 @@
 
 #define APBytes_ThrottleValue (8192)
 
+
+typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
+    APAudioContentReaderStatusSuspend = 1 << 0,
+    APAudioContentReaderStatusRunning = 1 << 1,
+    APAudioContentReaderStatusError   = 1 << 2 | APAudioContentReaderStatusSuspend,
+    APAudioContentReaderStatusStopped = 1 << 3 | APAudioContentReaderStatusSuspend,
+};
+
 @interface APAudioContentFileReader : APAudioContentReader
 
 @end
@@ -23,6 +31,7 @@
 
 @interface APAudioContentReader () {
     @protected
+    APAudioContentReaderStatus _status;
     NSURL *_URL;
     id<APAudioOptions> _options;
     __weak id<APAudioContentReaderDelegate> _delegate;
@@ -44,6 +53,7 @@
 - (instancetype)initWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
     self = [super init];
     if ( self ) {
+        _status = APAudioContentReaderStatusSuspend;
         _URL = URL;
         _options = options;
         _delegate = delegate;
@@ -66,17 +76,11 @@
 - (void)retry { }
 - (void)resume { }
 - (void)suspend { }
+- (void)stop { }
 @end
-
-typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
-    APAudioContentReaderStatusSuspend,
-    APAudioContentReaderStatusRunning,
-    APAudioContentReaderStatusError,
-};
 
 @implementation APAudioContentFileReader {
     dispatch_source_t _sourceForRead;
-    APAudioContentReaderStatus _status;
     int _file;
     void *_buffer;
 }
@@ -85,7 +89,7 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
     if ( _sourceForRead != nil ) {
         dispatch_source_cancel(_sourceForRead);
         // Cancelling a dispatch source doesn't invoke the cancel handler if the dispatch source is paused.
-        if ( _status == APAudioContentReaderStatusSuspend )
+        if ( _status & APAudioContentReaderStatusSuspend )
             dispatch_resume(_sourceForRead);
     }
     if ( _buffer != NULL )
@@ -127,10 +131,12 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
         case APAudioContentReaderStatusRunning:
         case APAudioContentReaderStatusError:
             break;
+        case APAudioContentReaderStatusStopped:
         case APAudioContentReaderStatusSuspend: {
             [self _prepareIfNeeded];
             _status = APAudioContentReaderStatusRunning;
-            dispatch_resume(_sourceForRead);
+            if ( _sourceForRead != nil )
+                dispatch_resume(_sourceForRead);
         }
             break;
     }
@@ -138,13 +144,29 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
 
 - (void)suspend {
     switch ( _status ) {
+        case APAudioContentReaderStatusStopped:
         case APAudioContentReaderStatusSuspend:
         case APAudioContentReaderStatusError:
             break;
         case APAudioContentReaderStatusRunning: {
-            _status = APAudioContentReaderStatusSuspend;
-            if ( _sourceForRead != nil )
+            if ( _sourceForRead != nil && _status == APAudioContentReaderStatusRunning )
                 dispatch_suspend(_sourceForRead);
+            _status = APAudioContentReaderStatusSuspend;
+        }
+            break;
+    }
+}
+
+- (void)stop {
+    switch ( _status ) {
+        case APAudioContentReaderStatusError:
+        case APAudioContentReaderStatusStopped:
+            break;
+        case APAudioContentReaderStatusSuspend:
+        case APAudioContentReaderStatusRunning: {
+            if ( _sourceForRead != nil && _status == APAudioContentReaderStatusRunning )
+                dispatch_suspend(_sourceForRead);
+            _status = APAudioContentReaderStatusStopped;
         }
             break;
     }
@@ -457,6 +479,7 @@ AP_MD5(NSString *str) {
 @property (nonatomic, readonly) UInt64 offset;
 @property (nonatomic, readonly) float contentLoadProgress;
 - (void)seekToOffset:(UInt64)offset;
+- (void)stop;
 @end
 
 @protocol APAudioContentDownloadLineDelegate <NSObject>
@@ -570,6 +593,10 @@ static dispatch_semaphore_t ap_semaphore;
     [_delegate downloadLine:self didFinishSeekWithFile:cur];
 }
 
+- (void)stop {
+    [self _cancelCurrentTask];
+}
+
 // 从参数指定的file开始, 获取未下载部分重置下载任务
 - (void)_resetTask:(APAudioContentFile *)file {
 //
@@ -623,6 +650,7 @@ static dispatch_semaphore_t ap_semaphore;
 - (void)_cancelCurrentTask {
     if ( _task != nil && _task.state == NSURLSessionTaskStateRunning )
         [_task cancel];
+    _task = nil;
 }
 
 #pragma mark - APAudioContentDownloaderTaskDelegate
@@ -680,7 +708,6 @@ static dispatch_semaphore_t ap_semaphore;
 
 @interface APAudioContentHTTPReader()<APAudioContentDownloadLineDelegate> {
     APAudioContentDownloadLine *_download;
-    APAudioContentReaderStatus _status;
     APAudioContentFile *_cur;
     NSError *_Nullable _errorAfterNoData;
 }
@@ -723,6 +750,7 @@ static dispatch_semaphore_t ap_semaphore;
         case APAudioContentReaderStatusError:
         case APAudioContentReaderStatusRunning:
             break;
+        case APAudioContentReaderStatusStopped:
         case APAudioContentReaderStatusSuspend: {
             if ( _cur != nil ) {
                 _status = APAudioContentReaderStatusRunning;
@@ -738,6 +766,7 @@ static dispatch_semaphore_t ap_semaphore;
 
 - (void)suspend {
     switch ( _status ) {
+        case APAudioContentReaderStatusStopped:
         case APAudioContentReaderStatusSuspend:
         case APAudioContentReaderStatusError:
             break;
@@ -745,6 +774,13 @@ static dispatch_semaphore_t ap_semaphore;
             _status = APAudioContentReaderStatusSuspend;
         }
             break;
+    }
+}
+
+- (void)stop {
+    if ( _status != APAudioContentReaderStatusStopped ) {
+        _status = APAudioContentReaderStatusStopped;
+        [_download stop];
     }
 }
 
@@ -811,8 +847,7 @@ static dispatch_semaphore_t ap_semaphore;
     
     [_delegate contentReader:self hasNewAvailableData:data atOffset:offset];
     
-    if ( _status == APAudioContentReaderStatusRunning )
-        [self _readDataRecursively];
+    [self _readDataRecursively];
 }
 
 - (void)_onError:(NSError *)error {

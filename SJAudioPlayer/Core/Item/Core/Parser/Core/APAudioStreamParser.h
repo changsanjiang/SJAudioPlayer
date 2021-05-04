@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSTimeInterval durationPerPacket;
 @property (nonatomic, readonly) double bitRate;
 
-- (BOOL)process:(NSData *)data isDiscontinuous:(BOOL)isDiscontinuous error:(NSError **)error; // throw exception
+- (BOOL)process:(NSData *)data isDiscontinuous:(BOOL)isDiscontinuous error:(NSError **)error;
 - (void)removeAllFoundPackets;
 - (void)removeFoundPacketsInRange:(NSRange)range;
 

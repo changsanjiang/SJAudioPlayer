@@ -11,23 +11,13 @@
 #import "APAudioContentReader.h"
 #import "APAudioStreamParser.h"
 #import "APError.h"
-
-typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
-    APAudioContentParserStatusSuspend,
-    APAudioContentParserStatusRunning,
-    APAudioContentParserStatusError,
-};
-
+ 
 @interface APAudioContentParser ()<APAudioContentReaderDelegate> {
     APAudioContentReader *_reader;
     dispatch_queue_t _queue;
     BOOL _isPrepared;
     NSURL *_URL;
     APAudioStreamParser *_parser;
-    APAudioContentParserStatus _status;
-    
-#warning next ...
-    UInt64 _minimumCountOfBytesFoundPackets;
     BOOL _isFoundFormat;
     BOOL _isDiscontinuous;
     id<APAudioOptions> _options;
@@ -41,6 +31,7 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
 @synthesize duration = _duration;
 @synthesize seekable = _seekable;
 @synthesize reachedMaximumPlayableDurationPosition = _reachedMaximumPlayableDurationPosition;
+@synthesize reachedEndPosition = _reachedEndPosition;
 @synthesize maximumPlayableDuration = _maximumPlayableDuration;
 @synthesize startPosition = _startPosition;
 
@@ -53,10 +44,6 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
         _queue = queue;
     }
     return self;
-}
-
-- (BOOL)isReachedEndPosition {
-    return _reader.countOfBytesTotalLength != 0 && _reader.offset == _reader.countOfBytesTotalLength;
 }
  
 - (nullable AVAudioFormat *)contentFormat {
@@ -72,7 +59,6 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
         return;
     _isPrepared = YES;
     _maximumPlayableDuration = _options.maximumPlayableDuration;
-    _minimumCountOfBytesFoundPackets = _options.maximumCountOfBytesPerPCMBufferPackets;
     _reader = [APAudioContentReader contentReaderWithURL:_URL options:_options delegate:self queue:_queue];
     [_reader resume];
 }
@@ -91,9 +77,9 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
         time = maxDuration * 0.98;
     else if ( time < 0 )
         time = 0;
-    
-    _status = APAudioContentParserStatusRunning;
+     
     _isDiscontinuous = YES;
+    _reachedEndPosition = NO;
     _reachedMaximumPlayableDurationPosition = NO;
     [_parser removeAllFoundPackets];
     UInt64 nBytesOffset = [self _expectedOffsetForTime:time framePosition:&_startPosition];
@@ -101,37 +87,18 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
 }
 
 - (void)suspend {
-    switch ( _status ) {
-        case APAudioContentParserStatusSuspend:
-        case APAudioContentParserStatusError:
-            break;
-        case APAudioContentParserStatusRunning: {
-            _status = APAudioContentParserStatusSuspend;
-            [_reader suspend];
-        }
-            break;
-    }
+    [_reader suspend];
 }
 
 - (void)resume {
     if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
         return;
-    switch ( _status ) {
-        case APAudioContentParserStatusRunning:
-        case APAudioContentParserStatusError:
-            break;
-        case APAudioContentParserStatusSuspend: {
-            _status = APAudioContentParserStatusRunning;
-            [_reader resume];
-        }
-            break;
-    }
+    [_reader resume];
 }
 
 - (void)retry {
     if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
         return;
-    _status = APAudioContentParserStatusRunning;
     [_reader retry];
 }
 
@@ -160,9 +127,8 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
     AVAudioFormat *format = _parser.format;
     BOOL isFoundFormat = format != nil;
     // 未解析出文件格式期间, 将不会上报packets
-    if ( !isFoundFormat ) {
+    if ( !isFoundFormat )
         return;
-    }
 
     if ( _isFoundFormat != isFoundFormat ) {
         _isFoundFormat = isFoundFormat;
@@ -170,58 +136,47 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
         [_delegate parser:self contentLoadProgressDidChange:reader.contentLoadProgress];
     }
 
+    NSArray<id<APAudioContentPacket>> *_Nullable foundPackets = _parser.foundPackets;
+    // 数量为0时直接退出
+    if ( foundPackets.count == 0 )
+        return;
+    // 刷新播放时长
+    _duration = (reader.countOfBytesTotalLength - _parser.audioDataOffset) / (_parser.bitRate / 8.0);
+    _seekable = YES;
     
-#warning next ... while
-    BOOL isBufferFull = _parser.countOfBytesFoundPackets >= _minimumCountOfBytesFoundPackets;
-    BOOL isReachedEndPosition = self.isReachedEndPosition;
-    //
-    NSArray<id<APAudioContentPacket>> *_Nullable foundPackets = nil;
-    BOOL isReachedMaximumPlayableDurationPosition = NO;
-
-    if ( !isReachedEndPosition && _maximumPlayableDuration != 0 ) {
-        // 达到最大播放时长的位置后
-        // - 清除相交部分的packets
+    if ( _maximumPlayableDuration != 0 ) {
+        // 到达时长限制的位置后
         // - 将相交packets上报给代理
+        // - 清除相交部分的packets
         UInt64 maxOffset = [self _expectedOffsetForTime:_maximumPlayableDuration framePosition:NULL];
         AVAudioPacketCount maxPos = [self _expectedPacketPositionForOffset:maxOffset];
         AVAudioPacketCount curPos = [self _expectedPacketPositionForOffset:_reader.offset];
-        isReachedMaximumPlayableDurationPosition = (curPos >= _parser.foundPackets.count) && (curPos >= maxPos);
-        if ( isReachedMaximumPlayableDurationPosition ) {
-            // 暂停解析
-            _reachedMaximumPlayableDurationPosition = YES;
-            [self suspend];
-
+        // 确认是否到达时长限制的位置
+        _reachedMaximumPlayableDurationPosition = (curPos >= foundPackets.count) && (curPos >= maxPos);
+        if ( _reachedMaximumPlayableDurationPosition ) {
+            // 停止读取
+            [reader stop];
+            
             // 删除相交部分的packets, 剩余的packets继续保留
-            AVAudioPacketCount startPos = curPos - (AVAudioPacketCount)_parser.foundPackets.count;
+            AVAudioPacketCount startPos = curPos - (AVAudioPacketCount)foundPackets.count;
             if ( startPos < maxPos ) {
                 AVAudioPacketCount length = maxPos - startPos;
                 NSRange range = NSMakeRange(0, (NSUInteger)length);
-                foundPackets = [_parser.foundPackets subarrayWithRange:range];
+                foundPackets = [foundPackets subarrayWithRange:range];
                 [_parser removeFoundPacketsInRange:range];
             }
         }
     }
-
-    if ( !isReachedMaximumPlayableDurationPosition ) {
-        if ( isBufferFull || isReachedEndPosition/* EOF */ ) {
-            foundPackets = _parser.foundPackets;
-            // 解析出足够的packets后
-            //  - 清空packets, 以进行下一次计数
-            [_parser removeAllFoundPackets];
-        }
+    
+    if ( !_reachedMaximumPlayableDurationPosition ) {
+        // 确认是否已到达文件结束的位置
+        _reachedEndPosition = reader.countOfBytesTotalLength != 0 && reader.offset == reader.countOfBytesTotalLength;
+        //  - 清空packets, 以进行下一次解析
+        [_parser removeAllFoundPackets];
     }
-
-    // 刷新播放时长和seekable状态
-    if ( isReachedMaximumPlayableDurationPosition || isBufferFull || isReachedEndPosition ) {
-        // 有足够数量的packets之后, 刷新一下播放时长
-        _duration = (reader.countOfBytesTotalLength - _parser.audioDataOffset) / (_parser.bitRate / 8.0);
-        _seekable = YES;
-    }
-
+     
     // report
-    if ( foundPackets != nil )
-        [_delegate parser:self foundPackets:foundPackets];
-
+    [_delegate parser:self foundPackets:foundPackets];
 }
 
 - (void)contentReader:(id<APAudioContentReader>)reader anErrorOccurred:(NSError *)error {
@@ -256,8 +211,7 @@ typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
 }
 
 - (void)_onError:(NSError *)error {
-    _status = APAudioContentParserStatusError;
-    [_reader suspend];
+    [_reader stop];
     [_delegate parser:self anErrorOccurred:error];
 }
 

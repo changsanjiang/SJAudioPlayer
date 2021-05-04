@@ -10,13 +10,20 @@
 #import "APAudioContentParser.h"
 #import "APAudioContentConverter.h"
 
+typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
+    APAudioItemInnerStatusSuspend,
+    APAudioItemInnerStatusRunning,
+};
+
 @interface APAudioItem ()<APAudioContentParserDelegate> {
     dispatch_queue_t _queue;
     NSURL *_URL;
     id<APAudioOptions>_Nullable _options;
-    APAudioContentParser *_parser;
-    APAudioContentConverter *_converter;
+    APAudioContentParser *_Nullable _parser;
+    APAudioContentConverter *_Nullable _converter;
+    NSMutableArray<id<APAudioContentPacket>> *_Nullable _packetBuffer;
     BOOL _isPrepared;
+    APAudioItemInnerStatus _innerStatus;
 }
 @end
   
@@ -72,6 +79,7 @@
     _isPrepared = YES;
     
     _parser = [APAudioContentParser.alloc initWithURL:_URL options:_options delegate:self queue:_queue];
+    _innerStatus = APAudioItemInnerStatusRunning;
     [_parser prepare];
 }
 
@@ -80,19 +88,41 @@
 }
 
 - (void)seekToTime:(NSTimeInterval)time {
+    _error = nil;
+    _innerStatus = APAudioItemInnerStatusRunning;
+    [_packetBuffer removeAllObjects];
     [_parser seekToTime:time];
 }
 
 - (void)suspend{
-    [_parser suspend];
+    switch ( _innerStatus ) {
+        case APAudioItemInnerStatusSuspend:
+            break;
+        case APAudioItemInnerStatusRunning: {
+            _innerStatus = APAudioItemInnerStatusSuspend;
+            [_parser suspend];
+        }
+            break;
+    }
 }
 
 - (void)resume {
-    [_parser resume];
+    switch ( _innerStatus ) {
+        case APAudioItemInnerStatusSuspend: {
+            _innerStatus = APAudioItemInnerStatusRunning;
+            [_parser resume];
+            [self _convertPacketsToPCMBufferRecursively];
+        }
+            break;
+        case APAudioItemInnerStatusRunning:
+            break;
+    }
 }
 
 - (void)retry {
     _error = nil;
+    _innerStatus = APAudioItemInnerStatusRunning;
+    [_packetBuffer removeAllObjects];
     [_parser retry];
 }
 
@@ -107,19 +137,10 @@
 }
 
 - (void)parser:(id<APAudioContentParser>)parser foundPackets:(NSArray<id<APAudioContentPacket>> *)packets {
-    if ( _converter == nil ) {
-        _converter = [APAudioContentConverter.alloc initWithStreamFormat:_parser.contentFormat];
-    }
-    
-    // 转换为PCMBuffer
-    NSError *error = nil;
-    AVAudioPCMBuffer *buffer = [_converter convertPackets:packets error:&error];
-    if ( error != nil ) {
-        [self _onError:error];
-        return;
-    }
-    
-    [_delegate audioItem:self newBufferAvailable:buffer];
+    if ( _packetBuffer == nil )
+        _packetBuffer = [NSMutableArray arrayWithCapacity:packets.count];
+    [_packetBuffer addObjectsFromArray:packets];
+    [self _convertPacketsToPCMBufferRecursively];
 }
 
 - (void)parser:(id<APAudioContentParser>)parser contentLoadProgressDidChange:(float)progress {
@@ -133,5 +154,43 @@
 - (void)_onError:(NSError *)error {
     _error = error;
     [_delegate audioItem:self anErrorOccurred:error];
+}
+
+- (void)_convertPacketsToPCMBufferRecursively {
+    if ( _innerStatus != APAudioItemInnerStatusRunning )
+        return;
+    
+    if ( _packetBuffer.count == 0 )
+        return;
+    
+    if ( _converter == nil )
+        _converter = [APAudioContentConverter.alloc initWithStreamFormat:_parser.contentFormat];
+
+    NSMutableArray<id<APAudioContentPacket>> *m = NSMutableArray.array;
+    UInt64 length = 0;
+    BOOL isFull = NO;
+    for ( id<APAudioContentPacket> packet in _packetBuffer ) {
+        UInt64 packetLength = packet.data.length;
+        isFull = (length + packetLength) > _options.maximumCountOfBytesPerPCMBufferPackets;
+        if ( isFull )
+            break;
+        [m addObject:packet];
+        packetLength += packet.data.length;
+    }
+    
+    if ( isFull || _parser.isReachedEndPosition || _parser.isReachedMaximumPlayableDurationPosition ) {
+        [_packetBuffer removeObjectsInRange:NSMakeRange(0, m.count)];
+        
+        // 转换为PCMBuffer
+        NSError *error = nil;
+        AVAudioPCMBuffer *buffer = [_converter convertPackets:m error:&error];
+        if ( error != nil ) {
+            [self _onError:error];
+            return;
+        }
+        
+        [_delegate audioItem:self newBufferAvailable:buffer];
+        [self _convertPacketsToPCMBufferRecursively];
+    }
 }
 @end
