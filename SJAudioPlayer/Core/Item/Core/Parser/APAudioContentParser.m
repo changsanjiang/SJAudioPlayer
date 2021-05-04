@@ -12,12 +12,19 @@
 #import "APAudioStreamParser.h"
 #import "APError.h"
 
+typedef NS_ENUM(NSUInteger, APAudioContentParserStatus) {
+    APAudioContentParserStatusSuspend,
+    APAudioContentParserStatusRunning,
+    APAudioContentParserStatusError,
+};
+
 @interface APAudioContentParser ()<APAudioContentReaderDelegate> {
     APAudioContentReader *_reader;
     dispatch_queue_t _queue;
     BOOL _isPrepared;
     NSURL *_URL;
     APAudioStreamParser *_parser;
+    APAudioContentParserStatus _status;
     
 #warning next ...
     UInt64 _minimumCountOfBytesFoundPackets;
@@ -85,6 +92,7 @@
     else if ( time < 0 )
         time = 0;
     
+    _status = APAudioContentParserStatusRunning;
     _isDiscontinuous = YES;
     _reachedMaximumPlayableDurationPosition = NO;
     [_parser removeAllFoundPackets];
@@ -93,18 +101,37 @@
 }
 
 - (void)suspend {
-    [_reader suspend];
+    switch ( _status ) {
+        case APAudioContentParserStatusSuspend:
+        case APAudioContentParserStatusError:
+            break;
+        case APAudioContentParserStatusRunning: {
+            _status = APAudioContentParserStatusSuspend;
+            [_reader suspend];
+        }
+            break;
+    }
 }
 
 - (void)resume {
     if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
         return;
-    [_reader resume];
+    switch ( _status ) {
+        case APAudioContentParserStatusRunning:
+        case APAudioContentParserStatusError:
+            break;
+        case APAudioContentParserStatusSuspend: {
+            _status = APAudioContentParserStatusRunning;
+            [_reader resume];
+        }
+            break;
+    }
 }
 
 - (void)retry {
     if ( _reachedMaximumPlayableDurationPosition || self.isReachedEndPosition )
         return;
+    _status = APAudioContentParserStatusRunning;
     [_reader retry];
 }
 
@@ -126,8 +153,7 @@
     _isDiscontinuous = NO;
     NSError *error = nil;
     if ( ![_parser process:data isDiscontinuous:isDiscontinuous error:&error] ) {
-        [self suspend];
-        [_delegate parser:self anErrorOccurred:error];
+        [self _onError:error];
         return;
     }
 
@@ -144,6 +170,8 @@
         [_delegate parser:self contentLoadProgressDidChange:reader.contentLoadProgress];
     }
 
+    
+#warning next ... while
     BOOL isBufferFull = _parser.countOfBytesFoundPackets >= _minimumCountOfBytesFoundPackets;
     BOOL isReachedEndPosition = self.isReachedEndPosition;
     //
@@ -197,7 +225,7 @@
 }
 
 - (void)contentReader:(id<APAudioContentReader>)reader anErrorOccurred:(NSError *)error {
-    [_delegate parser:self anErrorOccurred:error];
+    [self _onError:error];
 }
  
 - (UInt64)_expectedOffsetForTime:(NSTimeInterval)time framePosition:(AVAudioFramePosition *)startPosition {
@@ -225,6 +253,12 @@
     AVAudioFramePosition allFrames = t * mSampleRate;
     AVAudioPacketCount packetPosition = (AVAudioPacketCount)(allFrames * 1.0 / mFramesPerPacket);
     return packetPosition;
+}
+
+- (void)_onError:(NSError *)error {
+    _status = APAudioContentParserStatusError;
+    [_reader suspend];
+    [_delegate parser:self anErrorOccurred:error];
 }
 
 @end
