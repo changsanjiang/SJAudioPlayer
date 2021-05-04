@@ -24,6 +24,7 @@
 @interface APAudioContentReader () {
     @protected
     NSURL *_URL;
+    id<APAudioOptions> _options;
     __weak id<APAudioContentReaderDelegate> _delegate;
     dispatch_queue_t _queue;
     UInt64 _offset;
@@ -34,16 +35,17 @@
  
 @implementation APAudioContentReader
 
-+ (instancetype)contentReaderWithURL:(NSURL *)URL delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
++ (instancetype)contentReaderWithURL:(NSURL *)URL  options:(nullable id<APAudioOptions>)options delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
     return URL.isFileURL ?
-                [APAudioContentFileReader.alloc initWithURL:URL delegate:delegate queue:queue] :
-                [APAudioContentHTTPReader.alloc initWithURL:URL delegate:delegate queue:queue];
+                [APAudioContentFileReader.alloc initWithURL:URL options:options delegate:delegate queue:queue] :
+                [APAudioContentHTTPReader.alloc initWithURL:URL options:options delegate:delegate queue:queue];
 }
 
-- (instancetype)initWithURL:(NSURL *)URL delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
+- (instancetype)initWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
     self = [super init];
     if ( self ) {
         _URL = URL;
+        _options = options;
         _delegate = delegate;
         _queue = queue;
     }
@@ -197,6 +199,9 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
             UInt64 offset = _offset;
             _offset += length;
             NSData *data = [NSData.alloc initWithBytes:_buffer length:length];
+            if ( _options.dataReadDecoder != nil ) {
+                data = _options.dataReadDecoder(data, offset);
+            }
             // eof
             BOOL isEOF = _offset == _countOfBytesTotalLength;
             if ( isEOF ) {
@@ -446,7 +451,7 @@ AP_MD5(NSString *str) {
 @protocol APAudioContentDownloadLineDelegate;
 
 @interface APAudioContentDownloadLine : NSObject<APAudioContentDownloaderTaskDelegate>
-- (instancetype)initWithURL:(NSURL *)URL queue:(dispatch_queue_t)queue delegate:(id<APAudioContentDownloadLineDelegate>)delegate;
+- (instancetype)initWithURL:(NSURL *)URL HTTPAdditionalHeaders:(NSDictionary *)HTTPAdditionalHeaders queue:(dispatch_queue_t)queue delegate:(id<APAudioContentDownloadLineDelegate>)delegate;
 @property (nonatomic, weak, readonly, nullable) id<APAudioContentDownloadLineDelegate> delegate;
 @property (nonatomic, readonly) UInt64 countOfBytesTotalLength;
 @property (nonatomic, readonly) UInt64 offset;
@@ -468,6 +473,7 @@ AP_MD5(NSString *str) {
     NSURLSessionTask *_Nullable _task;
     APAudioContentFile *_Nullable _head;
     NSMutableDictionary<NSNumber *, APAudioContentFile *> *_taskFiles;
+    NSDictionary *_Nullable _HTTPAdditionalHeaders;
 }
 
 static dispatch_semaphore_t ap_semaphore;
@@ -478,10 +484,11 @@ static dispatch_semaphore_t ap_semaphore;
     });
 }
 
-- (instancetype)initWithURL:(NSURL *)URL queue:(dispatch_queue_t)queue delegate:(id<APAudioContentDownloadLineDelegate>)delegate {
+- (instancetype)initWithURL:(NSURL *)URL HTTPAdditionalHeaders:(NSDictionary *)HTTPAdditionalHeaders queue:(dispatch_queue_t)queue delegate:(id<APAudioContentDownloadLineDelegate>)delegate {
     self = [super init];
     if ( self ) {
         _URL = URL;
+        _HTTPAdditionalHeaders = HTTPAdditionalHeaders;
         _queue = queue;
         _delegate = delegate;
     }
@@ -597,6 +604,9 @@ static dispatch_semaphore_t ap_semaphore;
     }
     
     NSMutableURLRequest *request = [NSMutableURLRequest.alloc initWithURL:_URL];
+    [_HTTPAdditionalHeaders enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [request setValue:obj forHTTPHeaderField:key];
+    }];
     [request setValue:[NSString stringWithFormat:@"bytes=%@-%@", start, end ?: @""] forHTTPHeaderField:@"Range"];
     _task = [APAudioContentDownloader.shared downloadWithRequest:request priority:1 delegate:self];
     if ( _taskFiles == nil )
@@ -678,10 +688,10 @@ static dispatch_semaphore_t ap_semaphore;
 
 @implementation APAudioContentHTTPReader
 
-- (instancetype)initWithURL:(NSURL *)URL delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
-    self = [super initWithURL:URL delegate:delegate queue:queue];
+- (instancetype)initWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue {
+    self = [super initWithURL:URL options:options delegate:delegate queue:queue];
     if ( self ) {
-        _download = [APAudioContentDownloadLine.alloc initWithURL:URL queue:queue delegate:self];
+        _download = [APAudioContentDownloadLine.alloc initWithURL:URL HTTPAdditionalHeaders:options.HTTPAdditionalHeaders queue:queue delegate:self];
         _status = APAudioContentReaderStatusSuspend;
     }
     return self;
@@ -792,6 +802,10 @@ static dispatch_semaphore_t ap_semaphore;
     UInt64 offset = _offset;
     _offset += data.length;
     
+    if ( _options.dataReadDecoder != nil ) {
+        data = _options.dataReadDecoder(data, offset);
+    }
+
     if ( _offset == _download.countOfBytesTotalLength )
         [self suspend];
     

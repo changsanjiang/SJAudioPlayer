@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///     You can call the `replaceAudioWithURL:` to replace the current URL with a new URL of audio.
 ///
 @property (nonatomic, strong, readonly, nullable) NSURL *URL;
+@property (nonatomic, strong, readonly, nullable) APAudioOptions *options;
 
 /// If the player.status is APAudioPlaybackStatusFailed, this describes the error that caused the failure.
 ///

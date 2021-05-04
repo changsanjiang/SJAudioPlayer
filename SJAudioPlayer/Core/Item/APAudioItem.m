@@ -10,12 +10,10 @@
 #import "APAudioContentParser.h"
 #import "APAudioContentConverter.h"
 
-// 8k
-#define APBytes_MinimumFoundPackets (8192)
-
 @interface APAudioItem ()<APAudioContentParserDelegate> {
     dispatch_queue_t _queue;
     NSURL *_URL;
+    id<APAudioOptions>_Nullable _options;
     APAudioContentParser *_parser;
     APAudioContentConverter *_converter;
     BOOL _isPrepared;
@@ -25,10 +23,11 @@
 @implementation APAudioItem
 @synthesize delegate = _delegate;
 @synthesize error = _error;
-- (instancetype)initWithURL:(NSURL *)URL delegate:(id<APAudioItemDelegate>)delegate queue:(dispatch_queue_t)queue {
+- (instancetype)initWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioItemDelegate>)delegate queue:(dispatch_queue_t)queue {
     self = [super init];
     if ( self ) {
         _URL = URL;
+        _options = options;
         _delegate = delegate;
         _queue = queue;
     }
@@ -67,17 +66,13 @@
     return _parser.duration;
 }
 
-- (NSTimeInterval)maximumPlayableDuration {
-    return _parser.maximumPlayableDuration;
-}
-
-- (void)prepare:(NSTimeInterval)maximumPlayableDuration {
+- (void)prepare {
     if ( _isPrepared  )
         return;
     _isPrepared = YES;
     
-    _parser = [APAudioContentParser.alloc initWithURL:_URL minimumCountOfBytesFoundPackets:APBytes_MinimumFoundPackets delegate:self queue:_queue];
-    [_parser prepare:maximumPlayableDuration];
+    _parser = [APAudioContentParser.alloc initWithURL:_URL options:_options delegate:self queue:_queue];
+    [_parser prepare];
 }
 
 - (AVAudioFramePosition)startPosition {

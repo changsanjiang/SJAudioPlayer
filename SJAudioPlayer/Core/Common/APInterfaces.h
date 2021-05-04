@@ -37,8 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) NSError *error;
 @property (nonatomic, readonly) float contentLoadProgress;
 @property (nonatomic, readonly) NSTimeInterval duration;
-@property (nonatomic, readonly) NSTimeInterval maximumPlayableDuration; // 可播放时长限制, 缓冲到达指定时长后, 将停止解析
-- (void)prepare:(NSTimeInterval)maximumPlayableDuration;
+- (void)prepare;
 @property (nonatomic, readonly) AVAudioFramePosition startPosition; // seekToTime 所处的位置
 - (void)seekToTime:(NSTimeInterval)time;
 - (void)suspend;
@@ -52,6 +51,34 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)audioItem:(id<APAudioItem>)item newBufferAvailable:(AVAudioPCMBuffer *)buffer; // 转码为可播放的buffer的回调
 - (void)audioItem:(id<APAudioItem>)item contentLoadProgressDidChange:(float)progress; // 文件内容加载进度的回调
 - (void)audioItem:(id<APAudioItem>)item anErrorOccurred:(NSError *)error;
+@end
+
+@protocol APAudioOptions <NSObject>
+/// 播放时长限制. 最大可播放到的时长, 播放到该位置后将停止播放
+///
+///     默认值为 0, 即不做限制
+///
+@property (nonatomic, readonly) NSTimeInterval maximumPlayableDuration;
+
+/// 每个 PCMBuffer packets 的字节数限制
+///
+///     default value is 8192;
+///
+@property (nonatomic, readonly) UInt64 maximumCountOfBytesPerPCMBufferPackets;
+
+/// PCMBuffer的数量大于等于最小数量后开始播放
+///
+///     default value is 1;
+///
+@property (nonatomic, readonly) NSInteger minimumCountOfPCMBufferToBePlayable;
+
+/// 数据读取回调
+///
+@property (nonatomic, copy, readonly, nullable) NSData *(^dataReadDecoder)(NSData *data, NSUInteger offset);
+
+/// 附加请求头
+///
+@property (nonatomic, copy, readonly, nullable) NSDictionary<NSString *, NSString *> *HTTPAdditionalHeaders;
 @end
 NS_ASSUME_NONNULL_END
 

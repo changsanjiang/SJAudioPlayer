@@ -18,9 +18,12 @@
     BOOL _isPrepared;
     NSURL *_URL;
     APAudioStreamParser *_parser;
+    
+#warning next ...
     UInt64 _minimumCountOfBytesFoundPackets;
     BOOL _isFoundFormat;
     BOOL _isDiscontinuous;
+    id<APAudioOptions> _options;
 }
 
 @property (nonatomic, strong, nullable) AVAudioFormat *contentFormat;
@@ -34,11 +37,11 @@
 @synthesize maximumPlayableDuration = _maximumPlayableDuration;
 @synthesize startPosition = _startPosition;
 
-- (instancetype)initWithURL:(NSURL *)URL minimumCountOfBytesFoundPackets:(UInt64)size delegate:(id<APAudioContentParserDelegate>)delegate queue:(dispatch_queue_t)queue {
+- (instancetype)initWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioContentParserDelegate>)delegate queue:(dispatch_queue_t)queue {
     self = [super init];
     if ( self ) {
         _URL = URL;
-        _minimumCountOfBytesFoundPackets = size;
+        _options = options;
         _delegate = delegate;
         _queue = queue;
     }
@@ -57,12 +60,13 @@
     return _reader.contentLoadProgress;
 }
 
-- (void)prepare:(NSTimeInterval)maximumPlayableDuration {
+- (void)prepare {
     if ( _isPrepared )
         return;
     _isPrepared = YES;
-    _maximumPlayableDuration = maximumPlayableDuration;
-    _reader = [APAudioContentReader contentReaderWithURL:_URL delegate:self queue:_queue];
+    _maximumPlayableDuration = _options.maximumPlayableDuration;
+    _minimumCountOfBytesFoundPackets = _options.maximumCountOfBytesPerPCMBufferPackets;
+    _reader = [APAudioContentReader contentReaderWithURL:_URL options:_options delegate:self queue:_queue];
     [_reader resume];
 }
 

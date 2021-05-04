@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APAudioItem : NSObject<APAudioItem>
-- (instancetype)initWithURL:(NSURL *)URL delegate:(id<APAudioItemDelegate>)delegate queue:(dispatch_queue_t)queue;
+- (instancetype)initWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioItemDelegate>)delegate queue:(dispatch_queue_t)queue;
 
 @end
 

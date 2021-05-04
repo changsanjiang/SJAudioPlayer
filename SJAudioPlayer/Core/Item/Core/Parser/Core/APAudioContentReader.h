@@ -7,12 +7,13 @@
 //
 
 #import "APAudioInterfaces.h"
+#import "APInterfaces.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APAudioContentReader : NSObject<APAudioContentReader>
 
-+ (instancetype)contentReaderWithURL:(NSURL *)URL delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue;
++ (instancetype)contentReaderWithURL:(NSURL *)URL options:(nullable id<APAudioOptions>)options delegate:(id<APAudioContentReaderDelegate>)delegate queue:(dispatch_queue_t)queue;
 
 @property (nonatomic, weak, nullable) id<APAudioContentReaderDelegate> delegate;
 @property (nonatomic, readonly) UInt64 countOfBytesTotalLength;
