@@ -247,20 +247,13 @@ static dispatch_queue_t ap_queue;
 - (void)registerObserver:(id<SJAudioPlayerObserver>)observer {
     if ( observer == nil )
         return;
-    dispatch_sync(ap_queue, ^{
-        if ( _mObservers == nil ) {
-            _mObservers = NSHashTable.weakObjectsHashTable;
-        }
-        [_mObservers addObject:observer];
-    });
+    [self performSelectorOnMainThread:@selector(_registerObserver:) withObject:observer waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
 }
 
 - (void)removeObserver:(id<SJAudioPlayerObserver>)observer {
     if ( observer == nil )
         return;
-    dispatch_sync(ap_queue, ^{
-        [_mObservers removeObject:observer];
-    });
+    [self performSelectorOnMainThread:@selector(_removeObserver:) withObject:observer waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - APAudioItemDelegate
@@ -505,6 +498,18 @@ static dispatch_queue_t ap_queue;
     _error = error;
     [self _toEvaluating];
 }
+
+- (void)_registerObserver:(id<SJAudioPlayerObserver>)observer {
+    if ( _mObservers == nil ) {
+        _mObservers = NSHashTable.weakObjectsHashTable;
+    }
+    [_mObservers addObject:observer];
+}
+
+- (void)_removeObserver:(id<SJAudioPlayerObserver>)observer {
+    [_mObservers removeObject:observer];
+}
+
 @end
 
 
