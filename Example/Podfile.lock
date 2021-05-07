@@ -1,7 +1,7 @@
 PODS:
-  - SJAudioPlayer (0.1.0):
-    - SJAudioPlayer/Core (= 0.1.0)
-  - SJAudioPlayer/Core (0.1.0)
+  - SJAudioPlayer (1.0.1):
+    - SJAudioPlayer/Core (= 1.0.1)
+  - SJAudioPlayer/Core (1.0.1)
 
 DEPENDENCIES:
   - SJAudioPlayer (from `../`)
@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SJAudioPlayer: 10bf8d286a8185244fe253eec253a5d189916afb
+  SJAudioPlayer: fbcd8cc7c36e6a9109716f94e49eab252df07890
 
 PODFILE CHECKSUM: 04ace31981e2163660b2b311309546932112e7d9
 

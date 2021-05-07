@@ -1,19 +1,19 @@
 {
   "name": "SJAudioPlayer",
-  "version": "0.1.0",
-  "summary": "A short description of SJAudioPlayer.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/changsanjiang@gmail.com/SJAudioPlayer",
+  "version": "1.0.1",
+  "summary": "iOS MP3 Audio Player using AVAudioEngine.",
+  "description": "https://github.com/changsanjiang/SJAudioPlayer/blob/master/README.md",
+  "homepage": "https://github.com/changsanjiang/SJAudioPlayer",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "changsanjiang@gmail.com": "changsanjiang@gmail.com"
+    "changsanjiang": "changsanjiang@gmail.com"
   },
   "source": {
-    "git": "https://github.com/changsanjiang@gmail.com/SJAudioPlayer.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/changsanjiang/SJAudioPlayer.git",
+    "tag": "1.0.1"
   },
   "platforms": {
     "ios": "9.0"
