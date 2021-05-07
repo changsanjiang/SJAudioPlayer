@@ -7,14 +7,12 @@
 //
 
 #import "SJAudioPlayer.h"
+#import "SJAudioPlayerSubclass.h"
 #import "APAudioPlaybackController.h"
 #import "APAudioItem.h"
 #import "APError.h"
 #import "APUtils.h"
 #import "APLogger.h"
-
-static NSInteger const SJAudioPlayerMaximumPCMBufferCount = 25;
-static NSInteger const SJAudioPlayerMinimumPCMBufferCountToBePlayable = 1;
 
 @interface SJAudioPlayer ()<APAudioItemDelegate> {
     id<APAudioPlaybackController> _mPlaybackController;
@@ -22,6 +20,8 @@ static NSInteger const SJAudioPlayerMinimumPCMBufferCountToBePlayable = 1;
     AVAudioSessionCategory _mCategory;
     AVAudioSessionCategoryOptions _mCategoryOptions;
     AVAudioSessionSetActiveOptions _mSetActiveOptions;
+    __kindof id<APAudioOptions>_Nullable _mOptions;
+    NSURL *_Nullable _mURL;
 }
 
 @property (nonatomic, strong, nullable) APAudioItem *currentItem;
@@ -66,10 +66,6 @@ static dispatch_queue_t ap_queue;
     [_mPlaybackController stop];
 }
 
-- (dispatch_queue_t)queue {
-    return ap_queue;
-}
-
 - (NSTimeInterval)currentTime {
     __block NSTimeInterval currentTime = 0;
     dispatch_sync(ap_queue, ^{
@@ -84,6 +80,22 @@ static dispatch_queue_t ap_queue;
         duration = _currentItem.duration;
     });
     return duration;
+}
+
+- (__kindof id<APAudioOptions>_Nullable)options {
+    __block id<APAudioOptions> options = nil;
+    dispatch_sync(ap_queue, ^{
+        options = _mOptions;
+    });
+    return options;
+}
+
+- (nullable NSURL *)URL {
+    __block NSURL *URL;
+    dispatch_sync(ap_queue, ^{
+       URL = _mURL;
+    });
+    return URL;
 }
 
 - (float)bufferProgress {
@@ -140,21 +152,11 @@ static dispatch_queue_t ap_queue;
     [self replaceAudioWithURL:URL options:nil];
 }
 
-- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable APAudioOptions *)options {
+- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable __kindof id<APAudioOptions>)options {
     dispatch_sync(ap_queue, ^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s { URL: %@ }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), URL);
 
-        [self _resetPlayback];
-        _URL = URL;
-        _options = options;
-        if ( _URL != nil ) {
-            _currentItem = [APAudioItem.alloc initWithURL:_URL options:options ?: APAudioOptions.defaultOptions delegate:self queue:ap_queue];
-            [_currentItem prepare];
-        }
-        if ( _status & APAudioPlaybackStatusPlaying ) {
-            [self _setStatus:APAudioPlaybackStatusEvaluating];
-        }
-        [self _toEvaluating];
+        [self resetPlaybackWithURL:URL options:options];
     });
 }
 
@@ -165,7 +167,7 @@ static dispatch_queue_t ap_queue;
         if ( _currentItem.status == APAudioItemStatusUnknown )
             return;
         _error = nil;
-        [self _stopPlayback];
+        [self stopPlayback];
         if ( _currentItem.status == APAudioItemStatusFailed )
             [_currentItem retry];
         else
@@ -183,7 +185,7 @@ static dispatch_queue_t ap_queue;
         if ( _currentItem.status == APAudioItemStatusUnknown )
             return;
         _error = nil;
-        [self _stopPlayback];
+        [self stopPlayback];
         if ( _currentItem.status == APAudioItemStatusFailed )
             [_currentItem retry];
         else
@@ -313,7 +315,7 @@ static dispatch_queue_t ap_queue;
     return currentPosition / sampleRate;
 }
 
-- (BOOL)_playPlayback {
+- (BOOL)playPlayback {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
     
     NSError *error = nil;
@@ -334,25 +336,36 @@ static dispatch_queue_t ap_queue;
     return YES;
 }
 
-- (void)_pausePlayback {
+- (void)pausePlayback {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
     [_mPlaybackController pause];
 }
 
-- (void)_stopPlayback {
+- (void)stopPlayback {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
     [_mPlaybackController stop];
 }
 
-- (void)_resetPlayback {
+- (void)resetPlaybackWithURL:(NSURL *)newURL options:(id<APAudioOptions>)options {
     APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
     [_mPlaybackController reset];
     _currentItem = nil;
     _PCMBufferCount = 0;
     _error = nil;
+    
+    _mURL = newURL;
+    _mOptions = options ?: APAudioOptions.defaultOptions;
+    if ( _mURL != nil ) {
+        _currentItem = [APAudioItem.alloc initWithURL:_mURL options:_mOptions delegate:self queue:ap_queue];
+        [_currentItem prepare];
+    }
+    if ( _status & APAudioPlaybackStatusPlaying ) {
+        [self _setStatus:APAudioPlaybackStatusEvaluating];
+    }
+    [self _toEvaluating];
 }
 
 #pragma mark -
@@ -362,7 +375,7 @@ static dispatch_queue_t ap_queue;
     AVAudioFramePosition previousFrames = _mPlaybackController.frameLengthInBuffers;
     APAudioPlayerDebugLog(@"%@: <%p>.%s { newBuffer: %@, offset: %lld, curCount: %ld }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), buffer, previousFrames, (long)_PCMBufferCount);
     
-    if ( _PCMBufferCount >= SJAudioPlayerMaximumPCMBufferCount ) {
+    if ( _PCMBufferCount >= _mOptions.maximumCountOfPCMBufferForPlayback ) {
         [_currentItem suspend];
     }
     __weak APAudioItem *item = _currentItem;
@@ -429,7 +442,7 @@ static dispatch_queue_t ap_queue;
     // 发生错误
     //TODO: 发生错误的可能不是来自AudioItem, 将来如果做retry可能会出现播放位置错误的问题
     if ( _error != nil ) {
-        [self _stopPlayback];
+        [self stopPlayback];
         [self _setStatus:APAudioPlaybackStatusFailed];
         return;
     }
@@ -438,7 +451,7 @@ static dispatch_queue_t ap_queue;
     ///
     BOOL isPlaybackFinished = (_currentItem.isReachedEndPosition || _currentItem.isReachedMaximumPlayableDurationPosition) && _PCMBufferCount == 0;
     if ( isPlaybackFinished ) {
-        [self _stopPlayback];
+        [self stopPlayback];
         [self _setStatus:APAudioPlaybackStatusFinished];
         return;
     }
@@ -446,7 +459,7 @@ static dispatch_queue_t ap_queue;
     /// 暂停态
     ///
     if ( _status & APAudioPlaybackStatusPaused ) {
-        [self _pausePlayback];
+        [self pausePlayback];
         return;
     }
     
@@ -456,7 +469,7 @@ static dispatch_queue_t ap_queue;
     ///
     BOOL isNoItemToPlay = _status & APAudioPlaybackStatusPlaying && _currentItem == nil;
     if ( isNoItemToPlay ) {
-        [self _stopPlayback];
+        [self stopPlayback];
         [self _setStatus:APAudioPlaybackStatusNoItemToPlay];
         return;
     }
@@ -464,21 +477,21 @@ static dispatch_queue_t ap_queue;
     ///
     ///     - PCMBuffer数量小于最小播放量时, 修改为缓冲状态
     ///
-    BOOL isBuffering = _PCMBufferCount < SJAudioPlayerMinimumPCMBufferCountToBePlayable;
+    BOOL isBuffering = _PCMBufferCount < (_mOptions.minimumCountOfPCMBufferToBePlayable ?: 1);
     if ( isBuffering ) {
-        [self _pausePlayback];
+        [self pausePlayback];
         [self _setStatus:APAudioPlaybackStatusBuffering];
         return;
     }
     
-    if ( _status != APAudioPlaybackStatusPlaying && [self _playPlayback] ) {
+    if ( _status != APAudioPlaybackStatusPlaying && [self playPlayback] ) {
         [self _setStatus:APAudioPlaybackStatusPlaying];
     }
 }
 
 - (void)_pullNextBufferIfNeeded {
     // PCM缓存未满(未到达最大限定值), 恢复缓存
-    if ( !_currentItem.isReachedEndPosition && _currentItem.error == nil && _PCMBufferCount < (SJAudioPlayerMaximumPCMBufferCount * 0.5) ) {
+    if ( !_currentItem.isReachedEndPosition && _currentItem.error == nil && _PCMBufferCount < (_mOptions.maximumCountOfPCMBufferForPlayback * 0.5) ) {
         [_currentItem resume];
     }
 }

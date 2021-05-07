@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///     You can call the `replaceAudioWithURL:` to replace the current URL with a new URL of audio.
 ///
 @property (nonatomic, strong, readonly, nullable) NSURL *URL;
-@property (nonatomic, strong, readonly, nullable) APAudioOptions *options;
+@property (nonatomic, strong, readonly, nullable) __kindof id<APAudioOptions> options;
 
 /// If the player.status is APAudioPlaybackStatusFailed, this describes the error that caused the failure.
 ///
@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// The current status of the player.
 ///
 @property (nonatomic, readonly) APAudioPlaybackStatus status;
-@property (nonatomic, readonly) dispatch_queue_t queue;
 
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
@@ -44,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Replaces the current audio with a new URL of audio.
 ///
 - (void)replaceAudioWithURL:(nullable NSURL *)URL;
-- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable APAudioOptions *)options;
+- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable __kindof id<APAudioOptions>)options;
 - (void)seekToTime:(NSTimeInterval)time;
 
 - (void)play;

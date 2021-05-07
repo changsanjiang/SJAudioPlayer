@@ -9,7 +9,7 @@
 
 @implementation APAudioOptions
 + (instancetype)defaultOptions {
-    return APAudioOptions.alloc.init;
+    return [self.alloc init];
 }
 
 - (instancetype)init {
@@ -17,6 +17,7 @@
     if ( self ) {
         _maximumCountOfBytesPerPCMBufferPackets = 8192;
         _minimumCountOfPCMBufferToBePlayable = 1;
+        _maximumCountOfPCMBufferForPlayback = 25;
     }
     return self;
 }

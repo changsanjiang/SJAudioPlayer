@@ -167,11 +167,12 @@ typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
         _converter = [APAudioContentConverter.alloc initWithStreamFormat:_parser.contentFormat];
 
     NSMutableArray<id<APAudioContentPacket>> *m = NSMutableArray.array;
-    UInt64 length = 0;
+    UInt64 packetLength = 0;
     BOOL isFull = NO;
+    UInt64 maxBytes = _options.maximumCountOfBytesPerPCMBufferPackets ?: 8192;
     for ( id<APAudioContentPacket> packet in _packetBuffer ) {
-        UInt64 packetLength = packet.data.length;
-        isFull = (length + packetLength) > _options.maximumCountOfBytesPerPCMBufferPackets;
+        UInt64 curPacketLength = packet.data.length;
+        isFull = (packetLength + curPacketLength) > maxBytes;
         if ( isFull )
             break;
         [m addObject:packet];
