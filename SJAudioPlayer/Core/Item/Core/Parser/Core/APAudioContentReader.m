@@ -442,12 +442,15 @@ AP_MD5(NSString *str) {
                 continue;
             }
             if ( ![NSFileManager.defaultManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:error] ) {
-                return nil;
+                break;
             }
             _directory = directory;
             break;
         }
         dispatch_semaphore_signal(ap_semaphore);
+        // error
+        if ( _directory == nil )
+            return nil;
     }
     
     NSString *filename = [self _filenameWithOffset:offset];
