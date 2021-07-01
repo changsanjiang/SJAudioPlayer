@@ -222,7 +222,7 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
             _offset += length;
             NSData *data = [NSData.alloc initWithBytes:_buffer length:length];
             if ( _options.dataReadDecoder != nil ) {
-                data = _options.dataReadDecoder(data, offset);
+                data = _options.dataReadDecoder(data, (NSUInteger)offset);
             }
             // eof
             BOOL isEOF = _offset == _countOfBytesTotalLength;
@@ -842,7 +842,7 @@ static dispatch_semaphore_t ap_semaphore;
     _offset += data.length;
     
     if ( _options.dataReadDecoder != nil ) {
-        data = _options.dataReadDecoder(data, offset);
+        data = _options.dataReadDecoder(data, (NSUInteger)offset);
     }
 
     if ( _offset == _download.countOfBytesTotalLength )

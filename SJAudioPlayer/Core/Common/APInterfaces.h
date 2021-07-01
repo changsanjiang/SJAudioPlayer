@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @protocol APAudioOptions <NSObject>
++ (instancetype)defaultOptions;
 /// 播放时长限制. 最大可播放到的时长, 播放到该位置后将停止播放
 ///
 ///     默认值为 0, 即不做限制

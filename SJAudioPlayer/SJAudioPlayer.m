@@ -61,6 +61,10 @@ static dispatch_queue_t ap_queue;
     return self;
 }
 
++ (Class)defaultOptionsClass {
+    return APAudioOptions.class;
+}
+
 - (void)dealloc {
     [NSNotificationCenter.defaultCenter removeObserver:self];
     [_mPlaybackController stop];
@@ -350,7 +354,7 @@ static dispatch_queue_t ap_queue;
     _error = nil;
     
     _mURL = newURL;
-    _mOptions = options ?: APAudioOptions.defaultOptions;
+    _mOptions = options ?: [[[self class] defaultOptionsClass]  defaultOptions];
     if ( _mURL != nil ) {
         _currentItem = [APAudioItem.alloc initWithURL:_mURL options:_mOptions delegate:self queue:ap_queue];
         [_currentItem prepare];
