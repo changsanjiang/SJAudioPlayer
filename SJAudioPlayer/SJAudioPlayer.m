@@ -206,6 +206,7 @@ static dispatch_queue_t ap_queue;
         APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
         
         [_currentItem cancelPlayableDurationLimit];
+        [self _pullNextBufferIfNeeded];
     });
 }
 
