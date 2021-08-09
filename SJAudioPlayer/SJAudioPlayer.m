@@ -28,14 +28,33 @@
 @property (nonatomic) NSInteger PCMBufferCount;
 @end
 
-static dispatch_queue_t ap_queue;
+static void *mAPQueueKey = &mAPQueueKey;
+static dispatch_queue_t mAPQueue;
+FOUNDATION_STATIC_INLINE void
+ap_queue_init() {
+    mAPQueue = dispatch_queue_create("queue.SJAudioPlayer", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_set_specific(mAPQueue, mAPQueueKey, mAPQueueKey, NULL);
+}
+
+FOUNDATION_STATIC_INLINE void
+ap_queue_sync(NS_NOESCAPE dispatch_block_t block) {
+    if ( dispatch_get_specific(mAPQueueKey) )
+        block();
+    else
+        dispatch_sync(mAPQueue, block);
+}
+
+FOUNDATION_STATIC_INLINE void
+ap_queue_async(dispatch_block_t block) {
+    dispatch_async(mAPQueue, block);
+}
 
 @implementation SJAudioPlayer
 
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        ap_queue = dispatch_queue_create("queue.SJAudioPlayer", DISPATCH_QUEUE_SERIAL);
+        ap_queue_init();
     });
 }
 
@@ -72,7 +91,7 @@ static dispatch_queue_t ap_queue;
 
 - (NSTimeInterval)currentTime {
     __block NSTimeInterval currentTime = 0;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         currentTime = [self _currentTime];
     });
     return currentTime;
@@ -80,7 +99,7 @@ static dispatch_queue_t ap_queue;
 
 - (NSTimeInterval)duration {
     __block NSTimeInterval duration = 0;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         duration = _currentItem.duration;
     });
     return duration;
@@ -88,7 +107,7 @@ static dispatch_queue_t ap_queue;
 
 - (__kindof id<APAudioOptions>_Nullable)options {
     __block id<APAudioOptions> options = nil;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         options = _mOptions;
     });
     return options;
@@ -96,7 +115,7 @@ static dispatch_queue_t ap_queue;
 
 - (nullable NSURL *)URL {
     __block NSURL *URL;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
        URL = _mURL;
     });
     return URL;
@@ -104,49 +123,49 @@ static dispatch_queue_t ap_queue;
 
 - (float)bufferProgress {
     __block float progress = 0;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         progress = _currentItem.contentLoadProgress;
     });
     return progress;
 }
   
 - (void)setRate:(float)rate {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         _mPlaybackController.rate = rate;
     });
 }
 
 - (float)rate {
     __block float rate = 0;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         rate = _mPlaybackController.rate;
     });
     return rate;
 }
 
 - (void)setVolume:(float)volume {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         _mPlaybackController.volume = volume;
     });
 }
 
 - (float)volume {
     __block float volume = 0;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         volume = _mPlaybackController.volume;
     });
     return volume;
 }
 
 - (void)setMuted:(BOOL)muted {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         _mPlaybackController.muted = muted;
     });
 }
 
 - (BOOL)isMuted {
     __block BOOL isMuted = 0;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         isMuted = _mPlaybackController.isMuted;
     });
     return isMuted;
@@ -157,7 +176,7 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable __kindof id<APAudioOptions>)options {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s { URL: %@ }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), URL);
 
         [self resetPlaybackWithURL:URL options:options];
@@ -165,7 +184,7 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)seekToTime:(NSTimeInterval)time {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s { time: %lf }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), time);
         
         if ( _currentItem.status == APAudioItemStatusUnknown )
@@ -183,7 +202,7 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)reload {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
         if ( _currentItem.status == APAudioItemStatusUnknown )
@@ -202,7 +221,7 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)cancelPlayableDurationLimit {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
         
         [_currentItem cancelPlayableDurationLimit];
@@ -212,7 +231,7 @@ static dispatch_queue_t ap_queue;
 
 - (BOOL)isReachedEndPosition {
     __block BOOL retv = NO;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         retv = _currentItem.isReachedEndPosition;
     });
     return retv;
@@ -220,14 +239,14 @@ static dispatch_queue_t ap_queue;
 
 - (BOOL)isReachedMaximumPlayableDurationPosition {
     __block BOOL retv = NO;
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         retv = _currentItem.isReachedMaximumPlayableDurationPosition;
     });
     return retv;
 }
 
 - (void)play {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
 
         if ( _status & APAudioPlaybackStatusPlaying )
@@ -238,7 +257,7 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)pause {
-    dispatch_sync(ap_queue, ^{
+    ap_queue_sync(^{
         APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
         
         if ( _status & APAudioPlaybackStatusPaused )
@@ -357,7 +376,7 @@ static dispatch_queue_t ap_queue;
     _mURL = newURL;
     _mOptions = options ?: [[[self class] defaultOptionsClass]  defaultOptions];
     if ( _mURL != nil ) {
-        _currentItem = [APAudioItem.alloc initWithURL:_mURL options:_mOptions delegate:self queue:ap_queue];
+        _currentItem = [APAudioItem.alloc initWithURL:_mURL options:_mOptions delegate:self queue:mAPQueue];
         [_currentItem prepare];
     }
     if ( _status & APAudioPlaybackStatusPlaying ) {
@@ -379,7 +398,7 @@ static dispatch_queue_t ap_queue;
     __weak APAudioItem *item = _currentItem;
     __weak typeof(self) _self = self;
     [_mPlaybackController scheduleBuffer:buffer atPosition:(APAudioPCMBufferPosition){_currentItem.startPosition, previousFrames} completionHandler:^{
-        dispatch_async(ap_queue, ^{
+        ap_queue_async(^{
             __strong typeof(_self) self = _self;
             if ( self == nil ) return;
             if ( self.currentItem != nil && item == self.currentItem ) {
@@ -416,18 +435,47 @@ static dispatch_queue_t ap_queue;
 }
 
 - (void)audioSessionInterruptionWithNote:(NSNotification *)note {
-    [self pause];
+    ap_queue_sync(^{
+        APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
+        
+        switch ( (AVAudioSessionInterruptionType)[note.userInfo[AVAudioSessionInterruptionTypeKey] integerValue] ) {
+            case AVAudioSessionInterruptionTypeBegan: {
+                if ( !(_status & APAudioPlaybackStatusPaused) ) {
+                    [self _setStatus:APAudioPlaybackStatusInterruptive];
+                    [self _toEvaluating];
+                }
+            }
+                break;
+            case AVAudioSessionInterruptionTypeEnded: {
+                if ( _status == APAudioPlaybackStatusInterruptive ) {
+                    AVAudioSessionInterruptionOptions options = [note.userInfo[AVAudioSessionInterruptionOptionKey] integerValue];
+                    if ( options == AVAudioSessionInterruptionOptionShouldResume ) {
+                        [self _setStatus:APAudioPlaybackStatusEvaluating];
+                        [self _toEvaluating];
+                    }
+                }
+            }
+                break;
+        }
+    });
 }
 
 - (void)audioSessionRouteChangeWithNote:(NSNotification *)note {
-    NSDictionary *info = note.userInfo;
-    AVAudioSessionRouteChangeReason reason = [[info valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
-    if      ( reason == AVAudioSessionRouteChangeReasonOldDeviceUnavailable ) {
-        [self pause];
-    }
-    else if ( reason == AVAudioSessionRouteChangeReasonNewDeviceAvailable ) {
-        [self reload];
-    }
+    ap_queue_sync(^{
+        APAudioPlayerDebugLog(@"%@: <%p>.%s\n", NSStringFromClass(self.class), self, sel_getName(_cmd));
+        
+        NSDictionary *info = note.userInfo;
+        AVAudioSessionRouteChangeReason reason = [[info valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
+        if      ( reason == AVAudioSessionRouteChangeReasonOldDeviceUnavailable ) {
+            if ( !(_status & APAudioPlaybackStatusPaused) ) {
+                [self _setStatus:APAudioPlaybackStatusRouteChangedOldDeviceUnavailable];
+                [self _toEvaluating];
+            }
+        }
+        else if ( reason == AVAudioSessionRouteChangeReasonNewDeviceAvailable ) {
+            [self reload];
+        }
+    });
 }
 
 - (void)audioEngineConfigurationChangeWithNote:(NSNotification *)note {

@@ -16,6 +16,8 @@ typedef NS_ENUM(NSUInteger, APAudioPlaybackStatus) {
     APAudioPlaybackStatusPaused             = 1 << 0,
     APAudioPlaybackStatusFinished           = 1 << 1 | APAudioPlaybackStatusPaused, // 已暂停, 播放完毕
     APAudioPlaybackStatusFailed             = 1 << 2 | APAudioPlaybackStatusPaused, // 已暂停, 播放报错
+    APAudioPlaybackStatusInterruptive       = 1 << 3 | APAudioPlaybackStatusPaused, // 已暂停, 被中断(通话等)
+    APAudioPlaybackStatusRouteChangedOldDeviceUnavailable = 1 << 4 | APAudioPlaybackStatusPaused, // 已暂停, 耳机拔下
 
     // Playing
     APAudioPlaybackStatusPlaying            = 1 << 8,
