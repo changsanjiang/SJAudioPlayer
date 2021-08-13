@@ -11,8 +11,9 @@
 #import "APError.h"
 #import "APLogger.h"
 
-#define APBytes_ThrottleValue (8192)
-
+#define APBytes_ThrottleValue       (8192)
+#define APDownload_MaxRetryCount    (5)
+#define APDownload_RetryAfter       (1)
 
 typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
     APAudioContentReaderStatusSuspend = 1 << 0,
@@ -492,14 +493,31 @@ AP_MD5(NSString *str) {
 @end
 
 
+@interface APAudioContentDownloadItem : NSObject
+- (instancetype)initWithTask:(NSURLSessionTask *)task file:(APAudioContentFile *)file;
+@property (nonatomic, strong, readonly) NSURLSessionTask *task;
+@property (nonatomic, strong, readonly) APAudioContentFile *file;
+@end
+
+@implementation APAudioContentDownloadItem
+- (instancetype)initWithTask:(NSURLSessionTask *)task file:(APAudioContentFile *)file {
+    self = [super init];
+    if ( self ) {
+        _task = task;
+        _file = file;
+    }
+    return self;
+}
+@end
+
 @implementation APAudioContentDownloadLine {
     NSURL *_URL;
     dispatch_queue_t _queue;
     APAudioContentFileProvider *_Nullable _provider;
-    NSURLSessionTask *_Nullable _task;
     APAudioContentFile *_Nullable _head;
-    NSMutableDictionary<NSNumber *, APAudioContentFile *> *_taskFiles;
     NSDictionary *_Nullable _HTTPAdditionalHeaders;
+    APAudioContentDownloadItem *_Nullable _curItem; // 当前下载的项目
+    NSInteger _retryCount;
 }
 
 static dispatch_semaphore_t ap_semaphore;
@@ -522,7 +540,7 @@ static dispatch_semaphore_t ap_semaphore;
 }
 
 - (void)dealloc {
-    [self _cancelCurrentTask];
+    [self _cancel];
 }
 
 - (float)contentLoadProgress {
@@ -552,7 +570,7 @@ static dispatch_semaphore_t ap_semaphore;
     _offset = offset;
     APContentDownloadLineDebugLog(@"%@: <%p>.%s { offset: %llu }\n", NSStringFromClass(self.class), self, sel_getName(_cmd), offset);
     
-    [self _cancelCurrentTask];
+    [self _cancel];
     // 遍历所有file, 查询是否有 offset 相交的file
     APAudioContentFile *cur = _head;
     // 距离offset最近的file(前面的)
@@ -597,7 +615,7 @@ static dispatch_semaphore_t ap_semaphore;
 }
 
 - (void)stop {
-    [self _cancelCurrentTask];
+    [self _cancel];
 }
 
 // 从参数指定的file开始, 获取未下载部分重置下载任务
@@ -638,11 +656,8 @@ static dispatch_semaphore_t ap_semaphore;
         [request setValue:obj forHTTPHeaderField:key];
     }];
     [request setValue:[NSString stringWithFormat:@"bytes=%@-%@", start, end ?: @""] forHTTPHeaderField:@"Range"];
-    _task = [APAudioContentDownloader.shared downloadWithRequest:request priority:1 delegate:self];
-    if ( _taskFiles == nil )
-        _taskFiles = NSMutableDictionary.dictionary;
-    _taskFiles[@(_task.taskIdentifier)] = cur;
-    
+    NSURLSessionTask *task = [APAudioContentDownloader.shared downloadWithRequest:request priority:1 delegate:self];
+    _curItem = [APAudioContentDownloadItem.alloc initWithTask:task file:cur];
     APContentDownloadLineDebugLog(@"%@: <%p>.didResetTask { start: %@, end: %@ }\n", NSStringFromClass(self.class), self, start, end);
 }
 
@@ -650,10 +665,12 @@ static dispatch_semaphore_t ap_semaphore;
     [_delegate downloadLine:self anErrorOccurred:error];
 }
 
-- (void)_cancelCurrentTask {
-    if ( _task != nil && _task.state == NSURLSessionTaskStateRunning )
-        [_task cancel];
-    _task = nil;
+- (void)_cancel {
+    NSURLSessionTask *task = _curItem.task;
+    if ( task != nil && task.state == NSURLSessionTaskStateRunning )
+        [task cancel];
+    _curItem = nil;
+    _retryCount = 0;
 }
 
 #pragma mark - APAudioContentDownloaderTaskDelegate
@@ -662,6 +679,8 @@ static dispatch_semaphore_t ap_semaphore;
     APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, response: %@ }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, response);
 
     dispatch_sync(_queue, ^{
+        if ( task.taskIdentifier != self->_curItem.task.taskIdentifier ) return;
+        
         if ( _countOfBytesTotalLength == 0 ) {
             NSDictionary *responseHeaders = response.allHeaderFields;
             NSString *bytes = responseHeaders[@"Content-Range"] ?: responseHeaders[@"content-range"];
@@ -679,8 +698,9 @@ static dispatch_semaphore_t ap_semaphore;
     APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, length: %lu }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, (unsigned long)data.length);
 
     dispatch_async(_queue, ^{
+        if ( task.taskIdentifier != self->_curItem.task.taskIdentifier ) return;
         NSError *error = nil;
-        APAudioContentFile *file = self->_taskFiles[@(task.taskIdentifier)];
+        APAudioContentFile *file = self->_curItem.file;
         if ( file != nil && ![file writeData:data error:&error] ) {
             [self _onError:error];
             return;
@@ -693,16 +713,27 @@ static dispatch_semaphore_t ap_semaphore;
     APContentDownloadLineDebugLog(@"%@: <%p>.didCompleteWithError { task: %lu, error: %@ }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, error);
 
     dispatch_sync(_queue, ^{
-        APAudioContentFile *file = _taskFiles[@(task.taskIdentifier)];
-        _taskFiles[@(task.taskIdentifier)] = nil;
-        
+        if ( task.taskIdentifier != self->_curItem.task.taskIdentifier ) return;
+        APAudioContentFile *file = self->_curItem.file;
         if ( error != nil ) {
-            if ( error.code != NSURLErrorCancelled )
-                [self _onError:error];
+            if ( error.code != NSURLErrorCancelled ) {
+                if ( _retryCount < APDownload_MaxRetryCount ) {
+                    _retryCount += 1;
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(APDownload_RetryAfter * NSEC_PER_SEC)), _queue, ^{
+                        if ( self->_curItem.task.taskIdentifier != task.taskIdentifier ) return;
+                        [self _resetTask:file]; // retry
+                    });
+                }
+                else {
+                    _curItem = nil;
+                    _retryCount = 0;
+                    [self _onError:error]; // error
+                }
+            }
             return;
         }
         
-        [self _resetTask:file];
+        [self _resetTask:file]; // finished
     });
 }
 
