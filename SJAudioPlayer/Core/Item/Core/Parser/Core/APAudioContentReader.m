@@ -678,14 +678,14 @@ static dispatch_semaphore_t ap_semaphore;
 - (void)downloadTask:(NSURLSessionTask *)task didReceiveData:(NSData *)data {
     APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, length: %lu }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, (unsigned long)data.length);
 
-    dispatch_sync(_queue, ^{
+    dispatch_async(_queue, ^{
         NSError *error = nil;
-        APAudioContentFile *file = _taskFiles[@(task.taskIdentifier)];
+        APAudioContentFile *file = self->_taskFiles[@(task.taskIdentifier)];
         if ( file != nil && ![file writeData:data error:&error] ) {
             [self _onError:error];
             return;
         }
-        [_delegate downloadLine:self didWriteDataWithFile:file];
+        [self->_delegate downloadLine:self didWriteDataWithFile:file];
     });
 }
 
