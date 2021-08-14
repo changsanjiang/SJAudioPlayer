@@ -721,6 +721,9 @@ static dispatch_semaphore_t ap_semaphore;
                     _retryCount += 1;
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(APDownload_RetryAfter * NSEC_PER_SEC)), _queue, ^{
                         if ( self->_curItem.task.taskIdentifier != task.taskIdentifier ) return;
+#ifdef DEBUG
+                        printf("%s.retry: %ld\n", NSStringFromClass(self.class).UTF8String, (long)self->_retryCount);
+#endif
                         [self _resetTask:file]; // retry
                     });
                 }
