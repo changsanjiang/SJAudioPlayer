@@ -196,6 +196,11 @@
     if ( startPosition != NULL ) {
         *startPosition = framePosition;
     }
+    
+    UInt64 countOfBytesTotalLength = _reader.countOfBytesTotalLength;
+    if ( nBytesOffset > countOfBytesTotalLength ) {
+        nBytesOffset = countOfBytesTotalLength;
+    }
     return nBytesOffset;
 }
 

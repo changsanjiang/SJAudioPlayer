@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, APErrorCode) {
     APContentReaderErrorCouldNotOpenFile,
     APContentReaderErrorFileFailedToSeek,
     APContentReaderErrorFileFailedToReadData,
+    APContentReaderErrorHTTPResponseInvalid,
     
     APContentParserErrorCouldNotOpenStream,
     APContentParserErrorFailedToParseBytes,
@@ -41,6 +42,8 @@ FOUNDATION_EXTERN NSString *const APErrorUserInfoAudioEngineKey;
 FOUNDATION_EXTERN NSString *const APErrorUserInfoExceptionKey;
 FOUNDATION_EXPORT NSString *const APErrorUserInfoFileTotalLengthKey;
 FOUNDATION_EXPORT NSString *const APErrorUserInfoFileSeekOffsetKey;
+FOUNDATION_EXPORT NSString *const APErrorUserInfoHTTPTaskKey;
+FOUNDATION_EXPORT NSString *const APErrorUserInfoHTTPResponseKey;
 FOUNDATION_EXTERN NSString *const APErrorUserInfoErrorStatusKey;
 FOUNDATION_EXPORT NSString *const APErrorUserInfoInputFormatKey;
 FOUNDATION_EXPORT NSString *const APErrorUserInfoOutputFormatKey;

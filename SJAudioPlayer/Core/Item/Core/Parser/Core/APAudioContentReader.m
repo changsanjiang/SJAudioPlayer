@@ -391,10 +391,15 @@ typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
     NSMutableArray<APAudioContentFile *> *_files;
 }
 static dispatch_semaphore_t ap_semaphore;
+static NSString *ap_cacheFolder;
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         ap_semaphore = dispatch_semaphore_create(1);
+        ap_cacheFolder = [NSTemporaryDirectory() stringByAppendingPathComponent:@"com.APAudioPlaybackController.cache"];
+        if ( [NSFileManager.defaultManager fileExistsAtPath:ap_cacheFolder] ) {
+            [NSFileManager.defaultManager removeItemAtPath:ap_cacheFolder error:NULL];
+        }
     });
 }
 
@@ -436,8 +441,8 @@ AP_MD5(NSString *str) {
         int index = 0;
         dispatch_semaphore_wait(ap_semaphore, DISPATCH_TIME_FOREVER);
         while ( true ) {
-            NSString *path = [NSString stringWithFormat:@"com.APAudioPlaybackController.cache/%@/%d", foldername, index];
-            NSString *directory = [NSTemporaryDirectory() stringByAppendingPathComponent:path];
+            NSString *path = [NSString stringWithFormat:@"%@/%d", foldername, index];
+            NSString *directory = [ap_cacheFolder stringByAppendingPathComponent:path];
             if ( [NSFileManager.defaultManager fileExistsAtPath:directory] ) {
                 index += 1;
                 continue;
@@ -518,6 +523,7 @@ AP_MD5(NSString *str) {
     NSDictionary *_Nullable _HTTPAdditionalHeaders;
     APAudioContentDownloadItem *_Nullable _curItem; // 当前下载的项目
     NSInteger _retryCount;
+    NSMutableDictionary<NSNumber *, NSError *> *_responseError;
 }
 
 static dispatch_semaphore_t ap_semaphore;
@@ -535,6 +541,7 @@ static dispatch_semaphore_t ap_semaphore;
         _HTTPAdditionalHeaders = HTTPAdditionalHeaders;
         _queue = queue;
         _delegate = delegate;
+        _responseError = NSMutableDictionary.dictionary;
     }
     return self;
 }
@@ -676,29 +683,39 @@ static dispatch_semaphore_t ap_semaphore;
 #pragma mark - APAudioContentDownloaderTaskDelegate
 
 - (void)downloadTask:(NSURLSessionTask *)task didReceiveResponse:(NSHTTPURLResponse *)response {
-    APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, response: %@ }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, response);
-
-    dispatch_sync(_queue, ^{
+    dispatch_async(_queue, ^{
         if ( task.taskIdentifier != self->_curItem.task.taskIdentifier ) return;
-        
-        if ( _countOfBytesTotalLength == 0 ) {
-            NSDictionary *responseHeaders = response.allHeaderFields;
-            NSString *bytes = responseHeaders[@"Content-Range"] ?: responseHeaders[@"content-range"];
-            if ( bytes.length != 0 ) {
-                NSString *prefix = @"bytes ";
-                NSString *rangeString = [bytes substringWithRange:NSMakeRange(prefix.length, bytes.length - prefix.length)];
-                NSArray<NSString *> *components = [rangeString componentsSeparatedByString:@"-"];
-                _countOfBytesTotalLength = [components.lastObject.lastPathComponent longLongValue];
+        APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, response: %@ }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, response);
+
+        if ( self->_countOfBytesTotalLength == 0 ) {
+            if ( response.statusCode == 206 ) {
+                NSDictionary *responseHeaders = response.allHeaderFields;
+                NSString *bytes = responseHeaders[@"Content-Range"] ?: responseHeaders[@"content-range"];
+                if ( bytes.length != 0 ) {
+                    NSString *prefix = @"bytes ";
+                    NSString *rangeString = [bytes substringWithRange:NSMakeRange(prefix.length, bytes.length - prefix.length)];
+                    NSArray<NSString *> *components = [rangeString componentsSeparatedByString:@"-"];
+                    self->_countOfBytesTotalLength = [components.lastObject.lastPathComponent longLongValue];
+                }
+            }
+            else {
+                self->_responseError[@(task.taskIdentifier)] = [NSError ap_errorWithCode:APContentReaderErrorHTTPResponseInvalid userInfo:@{
+                    APErrorUserInfoHTTPTaskKey : task,
+                    APErrorUserInfoHTTPResponseKey : response,
+                    NSLocalizedDescriptionKey : APErrorLocalizedDescription(APContentReaderErrorHTTPResponseInvalid)
+                }];
+                [task cancel];
             }
         }
     });
 }
 
 - (void)downloadTask:(NSURLSessionTask *)task didReceiveData:(NSData *)data {
-    APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, length: %lu }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, (unsigned long)data.length);
-
     dispatch_async(_queue, ^{
         if ( task.taskIdentifier != self->_curItem.task.taskIdentifier ) return;
+        if ( self->_responseError[@(task.taskIdentifier)] != nil ) return;
+        APContentDownloadLineDebugLog(@"%@: <%p>.didReceiveData { task: %lu, length: %lu }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, (unsigned long)data.length);
+        
         NSError *error = nil;
         APAudioContentFile *file = self->_curItem.file;
         if ( file != nil && ![file writeData:data error:&error] ) {
@@ -710,16 +727,21 @@ static dispatch_semaphore_t ap_semaphore;
 }
 
 - (void)downloadTask:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-    APContentDownloadLineDebugLog(@"%@: <%p>.didCompleteWithError { task: %lu, error: %@ }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, error);
-
-    dispatch_sync(_queue, ^{
+    dispatch_async(_queue, ^{
         if ( task.taskIdentifier != self->_curItem.task.taskIdentifier ) return;
+        NSError *mError = error;
+        if ( self->_responseError[@(task.taskIdentifier)] != nil ) {
+            mError = self->_responseError[@(task.taskIdentifier)];
+            self->_responseError[@(task.taskIdentifier)] = nil;
+        }
+        APContentDownloadLineDebugLog(@"%@: <%p>.didCompleteWithError { task: %lu, error: %@ }\n", NSStringFromClass(self.class), self, (unsigned long)task.taskIdentifier, mError);
+
         APAudioContentFile *file = self->_curItem.file;
-        if ( error != nil ) {
-            if ( error.code != NSURLErrorCancelled ) {
-                if ( _retryCount < APDownload_MaxRetryCount ) {
-                    _retryCount += 1;
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(APDownload_RetryAfter * NSEC_PER_SEC)), _queue, ^{
+        if ( mError != nil ) {
+            if ( mError.code != NSURLErrorCancelled ) {
+                if ( self->_retryCount < APDownload_MaxRetryCount ) {
+                    self->_retryCount += 1;
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(APDownload_RetryAfter * NSEC_PER_SEC)), self->_queue, ^{
                         if ( self->_curItem.task.taskIdentifier != task.taskIdentifier ) return;
 #ifdef DEBUG
                         printf("%s.retry: %ld\n", NSStringFromClass(self.class).UTF8String, (long)self->_retryCount);
@@ -728,9 +750,9 @@ static dispatch_semaphore_t ap_semaphore;
                     });
                 }
                 else {
-                    _curItem = nil;
-                    _retryCount = 0;
-                    [self _onError:error]; // error
+                    self->_curItem = nil;
+                    self->_retryCount = 0;
+                    [self _onError:mError]; // error
                 }
             }
             return;

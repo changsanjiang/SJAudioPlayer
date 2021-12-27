@@ -15,6 +15,8 @@ NSString *const APErrorUserInfoAudioEngineKey = @"engine";
 NSString *const APErrorUserInfoExceptionKey = @"exception";
 NSString *const APErrorUserInfoFileTotalLengthKey = @"totalLength";
 NSString *const APErrorUserInfoFileSeekOffsetKey = @"offset";
+NSString *const APErrorUserInfoHTTPTaskKey = @"task";
+NSString *const APErrorUserInfoHTTPResponseKey = @"response";
 NSString *const APErrorUserInfoErrorStatusKey = @"status";
 NSString *const APErrorUserInfoInputFormatKey = @"inputFormat";
 NSString *const APErrorUserInfoOutputFormatKey = @"outputFormat";
@@ -102,6 +104,8 @@ APErrorLocalizedDescription(APErrorCode code, OSStatus status) {
             return @"Failed to seek";
         case APContentReaderErrorFileFailedToReadData:
             return @"Failed to read data";
+        case APContentReaderErrorHTTPResponseInvalid:
+            return @"Invalid HTTP response";
         case APContentParserErrorCouldNotOpenStream:
             return @"Could not open stream for parsing";
         case APContentParserErrorFailedToParseBytes:
