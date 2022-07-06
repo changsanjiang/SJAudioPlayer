@@ -38,7 +38,7 @@ static dispatch_queue_t ap_queue;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _timeoutInterval = 30.0f;
+        _timeoutInterval = 8.0f;
         _backgroundTask = UIBackgroundTaskInvalid;
         _errorDictionary = [NSMutableDictionary dictionary];
         _delegateDictionary = [NSMutableDictionary dictionary];

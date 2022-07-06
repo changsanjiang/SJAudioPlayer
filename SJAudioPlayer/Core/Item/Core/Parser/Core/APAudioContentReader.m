@@ -12,7 +12,7 @@
 #import "APLogger.h"
 
 #define APBytes_ThrottleValue       (8192)
-#define APDownload_MaxRetryCount    (5)
+#define APDownload_MaxRetryCount    (1)
 #define APDownload_RetryAfter       (1)
 
 typedef NS_ENUM(NSUInteger, APAudioContentReaderStatus) {
