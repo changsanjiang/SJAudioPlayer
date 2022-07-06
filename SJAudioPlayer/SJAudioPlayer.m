@@ -251,6 +251,13 @@ ap_queue_async(dispatch_block_t block) {
 
         if ( _status & APAudioPlaybackStatusPlaying )
             return;
+        
+        if ( _status == APAudioPlaybackStatusFailed ) {
+            [self _setStatus:APAudioPlaybackStatusEvaluating];
+            [self reload];
+            return;
+        }
+        
         [self _setStatus:APAudioPlaybackStatusEvaluating];
         [self _toEvaluating];
     });
