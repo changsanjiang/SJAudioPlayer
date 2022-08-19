@@ -9,6 +9,7 @@
 #import "APAudioItem.h"
 #import "APAudioContentParser.h"
 #import "APAudioContentConverter.h"
+#import "APAudioContentConverter_iOS_16_Later.h"
 
 typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
     APAudioItemInnerStatusSuspend,
@@ -20,7 +21,7 @@ typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
     NSURL *_URL;
     id<APAudioOptions>_Nullable _options;
     APAudioContentParser *_Nullable _parser;
-    APAudioContentConverter *_Nullable _converter;
+    id<APAudioContentConverter>_Nullable _converter;
     NSMutableArray<id<APAudioContentPacket>> *_Nullable _packetBuffer;
     BOOL _isPrepared;
     APAudioItemInnerStatus _innerStatus;
@@ -153,6 +154,7 @@ typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
 
 - (void)_onError:(NSError *)error {
     _error = error;
+    _innerStatus = APAudioItemInnerStatusSuspend;
     [_delegate audioItem:self anErrorOccurred:error];
 }
 
@@ -163,8 +165,14 @@ typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
     if ( _packetBuffer.count == 0 )
         return;
     
-    if ( _converter == nil )
-        _converter = [APAudioContentConverter.alloc initWithStreamFormat:_parser.contentFormat];
+    if ( _converter == nil ) {
+        if ( @available(iOS 16.0, *) ) {
+            _converter = [APAudioContentConverter_iOS_16_Later.alloc initWithStreamFormat:_parser.contentFormat];
+        }
+        else {
+            _converter = [APAudioContentConverter.alloc initWithStreamFormat:_parser.contentFormat];
+        }
+    }
 
     NSMutableArray<id<APAudioContentPacket>> *m = NSMutableArray.array;
     UInt64 packetLength = 0;

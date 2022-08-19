@@ -41,6 +41,7 @@
 		77EF40D1262E802A00A985A1 /* 网易游戏 - 长寿村.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 77EF40D0262E802A00A985A1 /* 网易游戏 - 长寿村.mp3 */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		89140F21B5BF792C68A94690 /* libPods-SJAudioPlayer_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54ABA5E259837B9C90EF7C7A /* libPods-SJAudioPlayer_Tests.a */; };
+		A6A1D5A928AF2882009CDFDD /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A6A1D5A828AF2882009CDFDD /* 1.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		77EF40D0262E802A00A985A1 /* 网易游戏 - 长寿村.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "网易游戏 - 长寿村.mp3"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A458E1DB0F5A924DAA4692A3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		A6A1D5A828AF2882009CDFDD /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
 		C5F4F3A367A6D5A00D051C10 /* SJAudioPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SJAudioPlayer.podspec; path = ../SJAudioPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
@@ -191,6 +193,7 @@
 				6003F5A5195388D20070C39A /* SJViewController.h */,
 				6003F5A6195388D20070C39A /* SJViewController.m */,
 				77EF40D0262E802A00A985A1 /* 网易游戏 - 长寿村.mp3 */,
+				A6A1D5A828AF2882009CDFDD /* 1.mp3 */,
 				77EF407B262DA10000A985A1 /* SJProgressView */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
@@ -397,6 +400,7 @@
 				77EF40D1262E802A00A985A1 /* 网易游戏 - 长寿村.mp3 in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				A6A1D5A928AF2882009CDFDD /* 1.mp3 in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				77EF40A2262DA10000A985A1 /* LICENSE in Resources */,

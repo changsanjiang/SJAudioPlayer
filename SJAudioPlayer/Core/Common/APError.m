@@ -93,27 +93,27 @@ NSString *
 APErrorLocalizedDescription(APErrorCode code, OSStatus status) {
     switch ( code ) {
         case APUnknownError:
-            return @"An unspecified error occurred";
+            return @"An unspecified error occurred!";
         case APAudioEngineErrorUnableToStartEngine:
-            return @"Unable to start audio engine";
+            return @"Unable to start audio engine!";
         case APAudioEngineErrorThrowException:
-            return @"Throw exception";
+            return @"Throw exception!";
         case APContentReaderErrorCouldNotOpenFile:
-            return @"Could not open file for reading";
+            return @"Could not open file for reading!";
         case APContentReaderErrorFileFailedToSeek:
-            return @"Failed to seek";
+            return @"Failed to seek!";
         case APContentReaderErrorFileFailedToReadData:
-            return @"Failed to read data";
+            return @"Failed to read data!";
         case APContentReaderErrorHTTPResponseInvalid:
-            return @"Invalid HTTP response";
+            return @"Invalid HTTP response!";
         case APContentParserErrorCouldNotOpenStream:
-            return @"Could not open stream for parsing";
+            return @"Could not open stream for parsing!";
         case APContentParserErrorFailedToParseBytes:
             return APErrorLocalizedDescriptionFromParseBytesError(status);
-        case APContentConverterErrorUnableToCreateConverter:
+        case APContentConverterErrorFailedToCreateConverter:
             return APErrorLocalizedDescriptionFromConverterError(status);
         case APContentConverterErrorFailedToCreatePCMBuffer:
-            return @"Failed to create PCM buffer for reading data";
+            return @"Failed to create PCM buffer for reading data!";
     }
 }
 

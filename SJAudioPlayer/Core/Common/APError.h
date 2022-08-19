@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, APErrorCode) {
     APContentParserErrorCouldNotOpenStream,
     APContentParserErrorFailedToParseBytes,
     
-    APContentConverterErrorUnableToCreateConverter,
+    APContentConverterErrorFailedToCreateConverter,
     APContentConverterErrorFailedToCreatePCMBuffer,
 };
 

@@ -1,15 +1,14 @@
 //
-//  APAudioContentConverter.h
-//  SJAudioPlayer_Example
+//  APAudioContentConverter_iOS_16_Later.h
+//  SJAudioPlayer
 //
-//  Created by 畅三江 on 2021/4/13.
-//  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
+//  Created by 畅三江 on 2022/8/19.
 //
 
 #import "APAudioInterfaces.h"
 
-NS_ASSUME_NONNULL_BEGIN
-@interface APAudioContentConverter : NSObject<APAudioContentConverter>
+API_AVAILABLE(ios(16.0)) NS_ASSUME_NONNULL_BEGIN
+@interface APAudioContentConverter_iOS_16_Later : NSObject<APAudioContentConverter>
 
 - (instancetype)initWithStreamFormat:(AVAudioFormat *)streamFormat;
 

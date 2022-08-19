@@ -62,5 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)contentReader:(id<APAudioContentReader>)reader hasNewAvailableData:(NSData *)data atOffset:(UInt64)offset;
 - (void)contentReader:(id<APAudioContentReader>)reader anErrorOccurred:(NSError *)error;
 @end
+
+
+@protocol APAudioContentConverter <NSObject>
+- (instancetype)initWithStreamFormat:(AVAudioFormat *)streamFormat;
+@property (nonatomic, strong, readonly) AVAudioFormat *streamFormat;
+@property (nonatomic, strong, readonly) AVAudioFormat *outputFormat;
+- (nullable AVAudioPCMBuffer *)convertPackets:(NSArray<id<APAudioContentPacket>> *)packets error:(NSError **)error;
+@end
 NS_ASSUME_NONNULL_END
 #endif /* APAudioInterfaces_h */
