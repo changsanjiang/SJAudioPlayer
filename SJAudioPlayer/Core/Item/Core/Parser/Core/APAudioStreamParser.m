@@ -15,6 +15,7 @@
     NSMutableArray<APAudioContentPacket *> *_foundPackets;
     UInt64 _nBytesTotalFoundPackets;
     UInt64 _nCountTotalFoundPackets;
+    Float64 _averageBytesPerPacket;
 }
 
 - (void)dealloc {
@@ -82,11 +83,15 @@
     return _foundPackets.count != 0 ? _foundPackets.copy : nil;
 }
 
+@synthesize bitRate = _bitRate;
 - (double)bitRate {
-    if ( _format == nil || _nCountTotalFoundPackets == 0 ) {
+    if ( _bitRate != 0 )
+        return _bitRate;
+    
+    if ( _format == nil || _nCountTotalFoundPackets == 0 )
         return 0;
-    }
-    double averagePacketByteSize = (double)_nBytesTotalFoundPackets / (double)_nCountTotalFoundPackets;
+    
+    double averagePacketByteSize = _averageBytesPerPacket != 0 ? _averageBytesPerPacket : (double)_nBytesTotalFoundPackets / (double)_nCountTotalFoundPackets;
     return averagePacketByteSize / _durationPerPacket * 8;
 }
 
@@ -103,8 +108,24 @@
         }
             break;
         case kAudioFileStreamProperty_DataOffset: {
+            SInt64 audioDataOffset = 0;
             UInt32 typeSize = sizeof(SInt64);
-            AudioFileStreamGetProperty(_streamParser, propertyID, &typeSize, &_audioDataOffset);
+            AudioFileStreamGetProperty(_streamParser, propertyID, &typeSize, &audioDataOffset);
+            _audioDataOffset = audioDataOffset;
+        }
+            break;
+        case kAudioFileStreamProperty_BitRate: {
+            UInt32 bitRate = 0;
+            UInt32 typeSize = sizeof(UInt32);
+            AudioFileStreamGetProperty(_streamParser, propertyID, &typeSize, &bitRate);
+            _bitRate = bitRate;
+        }
+            break;
+        case kAudioFileStreamProperty_AverageBytesPerPacket: {
+            Float64 averageBytesPerPacket = 0;
+            UInt32 typeSize = sizeof(Float64);
+            AudioFileStreamGetProperty(_streamParser, propertyID, &typeSize, &averageBytesPerPacket);
+            _averageBytesPerPacket = averageBytesPerPacket;
         }
             break;
         default:

@@ -9,7 +9,7 @@
 #import "APAudioInterfaces.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface APAudioContentConverter : NSObject
+@interface APAudioContentConverter : NSObject<APAudioContentConverter>
 
 - (instancetype)initWithStreamFormat:(AVAudioFormat *)streamFormat;
 

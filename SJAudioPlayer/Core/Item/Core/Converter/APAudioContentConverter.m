@@ -91,11 +91,11 @@ _mAudioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
         OSStatus status = AudioConverterNew(_streamFormat.streamDescription, _outputFormat.streamDescription, &_converter);
         if ( status != noErr ) {
             if ( error != NULL ) {
-                *error = [NSError ap_errorWithCode:APContentConverterErrorUnableToCreateConverter userInfo:@{
+                *error = [NSError ap_errorWithCode:APContentConverterErrorFailedToCreateConverter userInfo:@{
                     APErrorUserInfoInputFormatKey : _streamFormat,
                     APErrorUserInfoOutputFormatKey : _outputFormat,
                     APErrorUserInfoErrorStatusKey : @(status),
-                    NSLocalizedDescriptionKey : APErrorLocalizedDescription(APContentConverterErrorUnableToCreateConverter, status)
+                    NSLocalizedDescriptionKey : APErrorLocalizedDescription(APContentConverterErrorFailedToCreateConverter, status)
                 }];
             }
             return nil;
