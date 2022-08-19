@@ -7,6 +7,7 @@
 //
 
 #import "APAudioItem.h"
+#import "APError.h"
 #import "APAudioContentParser.h"
 #import "APAudioContentConverter.h"
 #import "APAudioContentConverter_iOS_16_Later.h"
@@ -121,10 +122,31 @@ typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
 }
 
 - (void)retry {
+    NSInteger errorCode = _error.code;
     _error = nil;
     _innerStatus = APAudioItemInnerStatusRunning;
-    [_packetBuffer removeAllObjects];
-    [_parser retry];
+    switch ( (APErrorCode)errorCode ) {
+        case 0:
+        case APUnknownError:
+        case APAudioEngineErrorUnableToStartEngine:
+        case APAudioEngineErrorThrowException:
+            break;
+        case APContentReaderErrorCouldNotOpenFile:
+        case APContentReaderErrorFileFailedToSeek:
+        case APContentReaderErrorFileFailedToReadData:
+        case APContentReaderErrorHTTPResponseInvalid:
+        case APContentParserErrorCouldNotOpenStream:
+        case APContentParserErrorFailedToParseBytes: {
+            [_packetBuffer removeAllObjects];
+            [_parser retry];
+        }
+            break;
+        case APContentConverterErrorFailedToCreateConverter:
+        case APContentConverterErrorFailedToCreatePCMBuffer: {
+            [self _convertPacketsToPCMBufferRecursively];
+        }
+            break;
+    }
 }
 
 - (void)cancelPlayableDurationLimit {
@@ -155,6 +177,7 @@ typedef NS_ENUM(NSUInteger, APAudioItemInnerStatus) {
 - (void)_onError:(NSError *)error {
     _error = error;
     _innerStatus = APAudioItemInnerStatusSuspend;
+    [_parser suspend];
     [_delegate audioItem:self anErrorOccurred:error];
 }
 
