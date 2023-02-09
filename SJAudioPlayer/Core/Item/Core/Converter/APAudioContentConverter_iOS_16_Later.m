@@ -24,7 +24,8 @@
 
 - (nullable AVAudioPCMBuffer *)convertPackets:(NSArray<id<APAudioContentPacket>> *)packets error:(NSError **)error {
     NSError *innerError = nil;
-    AVAudioFrameCount frameCapacity = (AVAudioFrameCount)(_streamFormat.streamDescription->mFramesPerPacket * packets.count);
+    Float64 sampleRateScaleFactor = (Float64)_outputFormat.streamDescription->mSampleRate / _streamFormat.streamDescription->mSampleRate;
+    AVAudioFrameCount frameCapacity = (AVAudioFrameCount)(_streamFormat.streamDescription->mFramesPerPacket * packets.count * sampleRateScaleFactor);
     AVAudioPCMBuffer *outputBuffer = [AVAudioPCMBuffer.alloc initWithPCMFormat:_outputFormat frameCapacity:frameCapacity];
     outputBuffer.frameLength = frameCapacity;
     __weak typeof(self) _self = self;

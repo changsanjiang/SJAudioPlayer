@@ -135,7 +135,7 @@
 
 - (IBAction)replace {
     NSURL *URL = nil;
-    URL = [NSBundle.mainBundle URLForResource:@"1" withExtension:@"mp3"];
+    URL = [NSBundle.mainBundle URLForResource:@"网易游戏 - 长寿村" withExtension:@"mp3"];
     [_player replaceAudioWithURL:URL];
     [_player play];
 }

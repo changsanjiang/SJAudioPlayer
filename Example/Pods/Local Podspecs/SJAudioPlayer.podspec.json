@@ -1,6 +1,6 @@
 {
   "name": "SJAudioPlayer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "summary": "iOS MP3 Audio Player using AVAudioEngine.",
   "description": "https://github.com/changsanjiang/SJAudioPlayer/blob/master/README.md",
   "homepage": "https://github.com/changsanjiang/SJAudioPlayer",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/changsanjiang/SJAudioPlayer.git",
-    "tag": "1.0.3"
+    "tag": "1.0.4"
   },
   "platforms": {
     "ios": "9.0"
