@@ -31,7 +31,7 @@
 static void *mAPQueueKey = &mAPQueueKey;
 static dispatch_queue_t mAPQueue;
 FOUNDATION_STATIC_INLINE void
-ap_queue_init() {
+ap_queue_init(void) {
     mAPQueue = dispatch_queue_create("queue.SJAudioPlayer", DISPATCH_QUEUE_SERIAL);
     dispatch_queue_set_specific(mAPQueue, mAPQueueKey, mAPQueueKey, NULL);
 }
