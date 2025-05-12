@@ -1,0 +1,6 @@
+framework module libffmpeg {
+  umbrella header "libffmpeg.h"
+  export *
+
+  module * { export * }
+}

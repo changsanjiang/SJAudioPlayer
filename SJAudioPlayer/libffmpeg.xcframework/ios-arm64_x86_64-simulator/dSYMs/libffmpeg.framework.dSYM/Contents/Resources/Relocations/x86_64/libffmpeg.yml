@@ -1,0 +1,253 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/db/Library/Developer/Xcode/DerivedData/libffmpeg-dcmasslwhlamjpcpwspycpbzwrll/Build/Intermediates.noindex/ArchiveIntermediates/libffmpeg/InstallationBuildProductsLocation/Library/Frameworks/libffmpeg.framework/libffmpeg'
+relocations:
+  - { offset: 0x33, size: 0x8, addend: 0x0, symName: _libffmpegVersionString, symObjAddr: 0x0, symBinAddr: 0x11D3E0, symSize: 0x0 }
+  - { offset: 0x67, size: 0x8, addend: 0x0, symName: _libffmpegVersionNumber, symObjAddr: 0x30, symBinAddr: 0x11D410, symSize: 0x0 }
+  - { offset: 0x332A, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoderC2Ev, symObjAddr: 0x0, symBinAddr: 0xDA0, symSize: 0xE }
+  - { offset: 0x3368, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoderC1Ev, symObjAddr: 0xE, symBinAddr: 0xDAE, symSize: 0xE }
+  - { offset: 0x33AD, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoderD2Ev, symObjAddr: 0x1C, symBinAddr: 0xDBC, symSize: 0x19 }
+  - { offset: 0x33F8, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoderD1Ev, symObjAddr: 0x44, symBinAddr: 0xDD6, symSize: 0xA }
+  - { offset: 0x3436, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoder4initEPK7AVCodec14AVSampleFormatiii, symObjAddr: 0x4E, symBinAddr: 0xDE0, symSize: 0x262 }
+  - { offset: 0x3686, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoder4sendEP7AVFrame, symObjAddr: 0x2B0, symBinAddr: 0x1042, symSize: 0xE }
+  - { offset: 0x36E6, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoder7receiveEP8AVPacket, symObjAddr: 0x2BE, symBinAddr: 0x1050, symSize: 0xE }
+  - { offset: 0x3746, size: 0x8, addend: 0x0, symName: __ZNK4FFAV12AudioEncoder15getSampleFormatEv, symObjAddr: 0x2CC, symBinAddr: 0x105E, symSize: 0x10 }
+  - { offset: 0x376B, size: 0x8, addend: 0x0, symName: __ZNK4FFAV12AudioEncoder13getSampleRateEv, symObjAddr: 0x2DC, symBinAddr: 0x106E, symSize: 0x10 }
+  - { offset: 0x3790, size: 0x8, addend: 0x0, symName: __ZNK4FFAV12AudioEncoder11getChannelsEv, symObjAddr: 0x2EC, symBinAddr: 0x107E, symSize: 0x10 }
+  - { offset: 0x37B5, size: 0x8, addend: 0x0, symName: __ZNK4FFAV12AudioEncoder16getChannelLayoutEv, symObjAddr: 0x2FC, symBinAddr: 0x108E, symSize: 0x22 }
+  - { offset: 0x37DA, size: 0x8, addend: 0x0, symName: __ZNK4FFAV12AudioEncoder11getTimeBaseEv, symObjAddr: 0x31E, symBinAddr: 0x10B0, symSize: 0xE }
+  - { offset: 0x37FF, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoder12getFrameSizeEv, symObjAddr: 0x32C, symBinAddr: 0x10BE, symSize: 0x10 }
+  - { offset: 0x3824, size: 0x8, addend: 0x0, symName: __ZN4FFAV12AudioEncoder15getCodecContextEv, symObjAddr: 0x33C, symBinAddr: 0x10CE, symSize: 0x9 }
+  - { offset: 0x4D0E, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoderC2Ev, symObjAddr: 0x0, symBinAddr: 0x10D8, symSize: 0xE }
+  - { offset: 0x4D4C, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoderC1Ev, symObjAddr: 0xE, symBinAddr: 0x10E6, symSize: 0xE }
+  - { offset: 0x4DA7, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoderD2Ev, symObjAddr: 0x1C, symBinAddr: 0x10F4, symSize: 0x1A }
+  - { offset: 0x4E0E, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder7releaseEv, symObjAddr: 0x36, symBinAddr: 0x110E, symSize: 0x12 }
+  - { offset: 0x4E3A, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoderD1Ev, symObjAddr: 0x56, symBinAddr: 0x112E, symSize: 0xA }
+  - { offset: 0x4E78, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder4initEP17AVCodecParameters, symObjAddr: 0x60, symBinAddr: 0x1138, symSize: 0x6C }
+  - { offset: 0x4F82, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder4sendEP8AVPacket, symObjAddr: 0xCC, symBinAddr: 0x11A4, symSize: 0x1A }
+  - { offset: 0x4FE4, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder7receiveEP7AVFrame, symObjAddr: 0xE6, symBinAddr: 0x11BE, symSize: 0x1A }
+  - { offset: 0x503C, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder5flushEv, symObjAddr: 0x100, symBinAddr: 0x11D8, symSize: 0x14 }
+  - { offset: 0x507E, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder25createBufferSrcParametersE10AVRational, symObjAddr: 0x114, symBinAddr: 0x11EC, symSize: 0xC6 }
+  - { offset: 0x5138, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder15getSampleFormatEv, symObjAddr: 0x1DA, symBinAddr: 0x12B2, symSize: 0x10 }
+  - { offset: 0x515D, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder13getSampleRateEv, symObjAddr: 0x1EA, symBinAddr: 0x12C2, symSize: 0x10 }
+  - { offset: 0x5182, size: 0x8, addend: 0x0, symName: __ZN4FFAV12MediaDecoder11getChannelsEv, symObjAddr: 0x1FA, symBinAddr: 0x12D2, symSize: 0xF }
+  - { offset: 0x536C, size: 0x8, addend: 0x0, symName: _FFAudioItemErrorDomain, symObjAddr: 0x1208, symBinAddr: 0x1651D0, symSize: 0x0 }
+  - { offset: 0x7787, size: 0x8, addend: 0x0, symName: '-[FFAudioItem initWithURL:options:delegate:]', symObjAddr: 0x0, symBinAddr: 0x12E1, symSize: 0x289 }
+  - { offset: 0x7A04, size: 0x8, addend: 0x0, symName: '-[FFAudioItem dealloc]', symObjAddr: 0x289, symBinAddr: 0x156A, symSize: 0xAA }
+  - { offset: 0x7A83, size: 0x8, addend: 0x0, symName: '-[FFAudioItem isReadyToRead]', symObjAddr: 0x341, symBinAddr: 0x1614, symSize: 0xB }
+  - { offset: 0x7AFD, size: 0x8, addend: 0x0, symName: '-[FFAudioItem duration]', symObjAddr: 0x34C, symBinAddr: 0x161F, symSize: 0x2C }
+  - { offset: 0x7BA7, size: 0x8, addend: 0x0, symName: '-[FFAudioItem playableTimeRange]', symObjAddr: 0x378, symBinAddr: 0x164B, symSize: 0x26 }
+  - { offset: 0x7C1F, size: 0x8, addend: 0x0, symName: '-[FFAudioItem outputFormat]', symObjAddr: 0x39E, symBinAddr: 0x1671, symSize: 0x19 }
+  - { offset: 0x7CF7, size: 0x8, addend: 0x0, symName: '-[FFAudioItem error]', symObjAddr: 0x3B7, symBinAddr: 0x168A, symSize: 0x37 }
+  - { offset: 0x7DA6, size: 0x8, addend: 0x0, symName: '-[FFAudioItem seekToTime:]', symObjAddr: 0x3EE, symBinAddr: 0x16C1, symSize: 0xA7 }
+  - { offset: 0x7FCE, size: 0x8, addend: 0x0, symName: '-[FFAudioItem audioReader:readyToReadStream:]', symObjAddr: 0x495, symBinAddr: 0x1768, symSize: 0x1B1 }
+  - { offset: 0x8299, size: 0x8, addend: 0x0, symName: '-[FFAudioItem audioReader:anErrorOccurred:]', symObjAddr: 0x646, symBinAddr: 0x1919, symSize: 0x12B }
+  - { offset: 0x8422, size: 0x8, addend: 0x0, symName: '-[FFAudioItem audioReader:didReadPacket:shouldFlush:]', symObjAddr: 0x771, symBinAddr: 0x1A44, symSize: 0x2B6 }
+  - { offset: 0x8693, size: 0x8, addend: 0x0, symName: '-[FFAudioItem tryTranscodeWithFrameCapacity:data:pts:eof:error:]', symObjAddr: 0xA27, symBinAddr: 0x1CFA, symSize: 0x104 }
+  - { offset: 0x88B7, size: 0x8, addend: 0x0, symName: '-[FFAudioItem _makeError:]', symObjAddr: 0xB2B, symBinAddr: 0x1DFE, symSize: 0x13D }
+  - { offset: 0x89CD, size: 0x8, addend: 0x0, symName: '-[FFAudioItem _setNeedsReprepareReader]', symObjAddr: 0xC68, symBinAddr: 0x1F3B, symSize: 0xB7 }
+  - { offset: 0x8B48, size: 0x8, addend: 0x0, symName: '___39-[FFAudioItem _setNeedsReprepareReader]_block_invoke', symObjAddr: 0xD1F, symBinAddr: 0x1FF2, symSize: 0x49 }
+  - { offset: 0x8BD4, size: 0x8, addend: 0x0, symName: ___copy_helper_block_ea8_32w, symObjAddr: 0xD68, symBinAddr: 0x203B, symSize: 0x12 }
+  - { offset: 0x8BFD, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_ea8_32w, symObjAddr: 0xD7A, symBinAddr: 0x204D, symSize: 0xE }
+  - { offset: 0x8C30, size: 0x8, addend: 0x0, symName: '-[FFAudioItem _reprepareReaderIfNeeded]', symObjAddr: 0xD88, symBinAddr: 0x205B, symSize: 0xDC }
+  - { offset: 0x8DD5, size: 0x8, addend: 0x0, symName: '-[FFAudioItem _reprepareReaderWithStartTimePosition:]', symObjAddr: 0xE64, symBinAddr: 0x2137, symSize: 0x5E }
+  - { offset: 0x8E39, size: 0x8, addend: 0x0, symName: '-[FFAudioItem delegate]', symObjAddr: 0xEC2, symBinAddr: 0x2195, symSize: 0x19 }
+  - { offset: 0x8E6E, size: 0x8, addend: 0x0, symName: '-[FFAudioItem .cxx_destruct]', symObjAddr: 0xEDB, symBinAddr: 0x21AE, symSize: 0x59 }
+  - { offset: 0x9050, size: 0x8, addend: 0x0, symName: '-[FFAudioItem .cxx_construct]', symObjAddr: 0xF34, symBinAddr: 0x2207, symSize: 0x44 }
+  - { offset: 0x9245, size: 0x8, addend: 0x0, symName: '-[FFAudioItemOptions init]', symObjAddr: 0xF78, symBinAddr: 0x224B, symSize: 0x45 }
+  - { offset: 0x927B, size: 0x8, addend: 0x0, symName: '-[FFAudioItemOptions startTimePosition]', symObjAddr: 0xFBD, symBinAddr: 0x2290, symSize: 0x18 }
+  - { offset: 0x92AE, size: 0x8, addend: 0x0, symName: '-[FFAudioItemOptions setStartTimePosition:]', symObjAddr: 0xFD5, symBinAddr: 0x22A8, symSize: 0x16 }
+  - { offset: 0xF9C8, size: 0x8, addend: 0x0, symName: __ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m, symObjAddr: 0x1D52, symBinAddr: 0x4002, symSize: 0x150 }
+  - { offset: 0x113B1, size: 0x8, addend: 0x0, symName: __ZNSt3__120__throw_length_errorB8ne190102EPKc, symObjAddr: 0x1C54, symBinAddr: 0x3F04, symSize: 0x4C }
+  - { offset: 0x119F2, size: 0x8, addend: 0x0, symName: __ZNSt3__116__pad_and_outputB8ne190102IcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_, symObjAddr: 0x1EA2, symBinAddr: 0x4152, symSize: 0x10C }
+  - { offset: 0x14326, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraphC2Ev, symObjAddr: 0x0, symBinAddr: 0x22BE, symSize: 0x20 }
+  - { offset: 0x1435F, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraphC1Ev, symObjAddr: 0x20, symBinAddr: 0x22DE, symSize: 0x20 }
+  - { offset: 0x143A4, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraphD2Ev, symObjAddr: 0x40, symBinAddr: 0x22FE, symSize: 0x14 }
+  - { offset: 0x143DB, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph7releaseEv, symObjAddr: 0x54, symBinAddr: 0x2312, symSize: 0x44 }
+  - { offset: 0x14478, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraphD1Ev, symObjAddr: 0xA6, symBinAddr: 0x2356, symSize: 0x14 }
+  - { offset: 0x144CE, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph4initEv, symObjAddr: 0xBA, symBinAddr: 0x236A, symSize: 0x26 }
+  - { offset: 0x147A1, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph26addAudioBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE10AVRationali14AVSampleFormatS9_, symObjAddr: 0xE0, symBinAddr: 0x2390, symSize: 0x27A }
+  - { offset: 0x15002, size: 0x8, addend: 0x0, symName: __ZNSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEC1B8ne190102Ev, symObjAddr: 0x35A, symBinAddr: 0x260A, symSize: 0xEE }
+  - { offset: 0x1515A, size: 0x8, addend: 0x0, symName: __ZNKSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE3strB8ne190102IS4_EENS_12basic_stringIcS2_T_EERKS8_, symObjAddr: 0x2036, symBinAddr: 0x42E6, symSize: 0x9E }
+  - { offset: 0x1545B, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph21addBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP15AVFilterContext, symObjAddr: 0x448, symBinAddr: 0x26F8, symSize: 0x80 }
+  - { offset: 0x15533, size: 0x8, addend: 0x0, symName: __ZNSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev, symObjAddr: 0x4C8, symBinAddr: 0x2778, symSize: 0x84 }
+  - { offset: 0x15811, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph26addVideoBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE10AVRationalii13AVPixelFormatSA_SA_, symObjAddr: 0x54C, symBinAddr: 0x27FC, symSize: 0x2E2 }
+  - { offset: 0x1606A, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph21addBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE11AVMediaTypePK21AVBufferSrcParameters, symObjAddr: 0x82E, symBinAddr: 0x2ADE, symSize: 0x116 }
+  - { offset: 0x1640A, size: 0x8, addend: 0x0, symName: __ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC2B8ne190102ILi0EEEPKc, symObjAddr: 0x1CC4, symBinAddr: 0x3F74, symSize: 0x8E }
+  - { offset: 0x166BB, size: 0x8, addend: 0x0, symName: __ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m, symObjAddr: 0x1D52, symBinAddr: 0x4002, symSize: 0x150 }
+  - { offset: 0x166D3, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph24addAudioBufferSinkFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEi14AVSampleFormatS9_, symObjAddr: 0x944, symBinAddr: 0x2BF4, symSize: 0x56 }
+  - { offset: 0x16781, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph24addAudioBufferSinkFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEPKiPK14AVSampleFormatS9_, symObjAddr: 0x99A, symBinAddr: 0x2C4A, symSize: 0x168 }
+  - { offset: 0x169F3, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph19addBufferSinkFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP15AVFilterContext, symObjAddr: 0xB02, symBinAddr: 0x2DB2, symSize: 0x80 }
+  - { offset: 0x16ACB, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph24addVideoBufferSinkFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEPK13AVPixelFormat, symObjAddr: 0xB82, symBinAddr: 0x2E32, symSize: 0xD6 }
+  - { offset: 0x16C40, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph5parseERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEENS1_8functionIFiPS0_P13AVFilterInOutSD_EEE, symObjAddr: 0xC58, symBinAddr: 0x2F08, symSize: 0x84 }
+  - { offset: 0x16DCE, size: 0x8, addend: 0x0, symName: __ZNKSt3__18functionIFiPN4FFAV11FilterGraphEP13AVFilterInOutS5_EEclES3_S5_S5_, symObjAddr: 0xCDC, symBinAddr: 0x2F8C, symSize: 0x3A }
+  - { offset: 0x16E7C, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph29createAudioBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE10AVRationali14AVSampleFormatS9_PP15AVFilterContext, symObjAddr: 0xD16, symBinAddr: 0x2FC6, symSize: 0x260 }
+  - { offset: 0x16EBE, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph29createAudioBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE10AVRationali14AVSampleFormatS9_PP15AVFilterContext, symObjAddr: 0xD16, symBinAddr: 0x2FC6, symSize: 0x260 }
+  - { offset: 0x17728, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph29createVideoBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE10AVRationalii13AVPixelFormatSA_SA_PP15AVFilterContext, symObjAddr: 0xF76, symBinAddr: 0x3226, symSize: 0x2CA }
+  - { offset: 0x17F99, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph24createBufferSourceFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE11AVMediaTypePK21AVBufferSrcParametersPP15AVFilterContext, symObjAddr: 0x1240, symBinAddr: 0x34F0, symSize: 0x13C }
+  - { offset: 0x18333, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph27createAudioBufferSinkFilterERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEi14AVSampleFormatS9_PP15AVFilterContext, symObjAddr: 0x137C, symBinAddr: 0x362C, symSize: 0x196 }
+  - { offset: 0x1858D, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph9configureEv, symObjAddr: 0x1512, symBinAddr: 0x37C2, symSize: 0x10 }
+  - { offset: 0x185E0, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph8addFrameERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP7AVFramei, symObjAddr: 0x1522, symBinAddr: 0x37D2, symSize: 0x42 }
+  - { offset: 0x18713, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph8getFrameERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP7AVFrame, symObjAddr: 0x1564, symBinAddr: 0x3814, symSize: 0x42 }
+  - { offset: 0x18819, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph11sendCommandERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES9_S9_i, symObjAddr: 0x15A6, symBinAddr: 0x3856, symSize: 0x4A }
+  - { offset: 0x18888, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph11sendCommandERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES9_S9_i, symObjAddr: 0x15A6, symBinAddr: 0x3856, symSize: 0x4A }
+  - { offset: 0x188A6, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph11sendCommandERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES9_S9_i, symObjAddr: 0x15A6, symBinAddr: 0x3856, symSize: 0x4A }
+  - { offset: 0x188C4, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph11sendCommandERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES9_S9_i, symObjAddr: 0x15A6, symBinAddr: 0x3856, symSize: 0x4A }
+  - { offset: 0x188E2, size: 0x8, addend: 0x0, symName: __ZN4FFAV11FilterGraph11sendCommandERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES9_S9_i, symObjAddr: 0x15A6, symBinAddr: 0x3856, symSize: 0x4A }
+  - { offset: 0x18A3C, size: 0x8, addend: 0x0, symName: __ZThn16_NSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev, symObjAddr: 0x15F0, symBinAddr: 0x38A0, symSize: 0x80 }
+  - { offset: 0x18BD8, size: 0x8, addend: 0x0, symName: __ZTv0_n24_NSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev, symObjAddr: 0x1670, symBinAddr: 0x3920, symSize: 0x8E }
+  - { offset: 0x18D89, size: 0x8, addend: 0x0, symName: __ZNSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEED0Ev, symObjAddr: 0x16FE, symBinAddr: 0x39AE, symSize: 0x8C }
+  - { offset: 0x18F5E, size: 0x8, addend: 0x0, symName: __ZThn16_NSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEED0Ev, symObjAddr: 0x178A, symBinAddr: 0x3A3A, symSize: 0x88 }
+  - { offset: 0x19116, size: 0x8, addend: 0x0, symName: __ZTv0_n24_NSt3__118basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEED0Ev, symObjAddr: 0x1812, symBinAddr: 0x3AC2, symSize: 0x96 }
+  - { offset: 0x192E3, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev, symObjAddr: 0x18A8, symBinAddr: 0x3B58, symSize: 0x34 }
+  - { offset: 0x1944B, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEED0Ev, symObjAddr: 0x18DC, symBinAddr: 0x3B8C, symSize: 0x3C }
+  - { offset: 0x196E0, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE7seekoffExNS_8ios_base7seekdirEj, symObjAddr: 0x1918, symBinAddr: 0x3BC8, symSize: 0x11C }
+  - { offset: 0x198B4, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE7seekposENS_4fposI11__mbstate_tEEj, symObjAddr: 0x1A34, symBinAddr: 0x3CE4, symSize: 0x26 }
+  - { offset: 0x19953, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE9underflowEv, symObjAddr: 0x1A5A, symBinAddr: 0x3D0A, symSize: 0x42 }
+  - { offset: 0x1997B, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE9underflowEv, symObjAddr: 0x1A5A, symBinAddr: 0x3D0A, symSize: 0x42 }
+  - { offset: 0x19A30, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE9pbackfailEi, symObjAddr: 0x1A9C, symBinAddr: 0x3D4C, symSize: 0x5A }
+  - { offset: 0x19A67, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE9pbackfailEi, symObjAddr: 0x1A9C, symBinAddr: 0x3D4C, symSize: 0x5A }
+  - { offset: 0x19C95, size: 0x8, addend: 0x0, symName: __ZNSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE8overflowEi, symObjAddr: 0x1AF6, symBinAddr: 0x3DA6, symSize: 0x14E }
+  - { offset: 0x1A0E5, size: 0x8, addend: 0x0, symName: __ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_length_errorB8ne190102Ev, symObjAddr: 0x1C44, symBinAddr: 0x3EF4, symSize: 0x10 }
+  - { offset: 0x1A10D, size: 0x8, addend: 0x0, symName: __ZNSt3__120__throw_length_errorB8ne190102EPKc, symObjAddr: 0x1C54, symBinAddr: 0x3F04, symSize: 0x4C }
+  - { offset: 0x1A118, size: 0x8, addend: 0x0, symName: __ZNSt12length_errorC1B8ne190102EPKc, symObjAddr: 0x1CA0, symBinAddr: 0x3F50, symSize: 0x24 }
+  - { offset: 0x1A571, size: 0x8, addend: 0x0, symName: __ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC2B8ne190102Emc, symObjAddr: 0x1FAE, symBinAddr: 0x425E, symSize: 0x88 }
+  - { offset: 0x1A910, size: 0x8, addend: 0x0, symName: __ZNKSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE4viewB8ne190102Ev, symObjAddr: 0x20D4, symBinAddr: 0x4384, symSize: 0x3F }
+  - { offset: 0x1AAD7, size: 0x8, addend: 0x0, symName: __ZNSt3__117bad_function_callD1Ev, symObjAddr: 0x2146, symBinAddr: 0x43C4, symSize: 0xA }
+  - { offset: 0x1AB2B, size: 0x8, addend: 0x0, symName: __ZNSt3__117bad_function_callD0Ev, symObjAddr: 0x2150, symBinAddr: 0x43CE, symSize: 0x1C }
+  - { offset: 0x1CB11, size: 0x8, addend: 0x0, symName: __ZN4FFAVL23FILTER_ABUFFER_SRC_NAMEE, symObjAddr: 0x1850, symBinAddr: 0x11D4A0, symSize: 0x0 }
+  - { offset: 0x1CB2B, size: 0x8, addend: 0x0, symName: __ZN4FFAVL24FILTER_ABUFFER_SINK_NAMEE, symObjAddr: 0x1868, symBinAddr: 0x11D4B8, symSize: 0x0 }
+  - { offset: 0x2416E, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriterC2Ev, symObjAddr: 0x0, symBinAddr: 0x43EA, symSize: 0x24 }
+  - { offset: 0x241AC, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriterC1Ev, symObjAddr: 0x24, symBinAddr: 0x440E, symSize: 0x24 }
+  - { offset: 0x241F1, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriterD2Ev, symObjAddr: 0x48, symBinAddr: 0x4432, symSize: 0xBF }
+  - { offset: 0x24280, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriterD1Ev, symObjAddr: 0x116, symBinAddr: 0x44F2, symSize: 0xA }
+  - { offset: 0x245CA, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter4initERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE14AVSampleFormatii, symObjAddr: 0x120, symBinAddr: 0x44FC, symSize: 0x638 }
+  - { offset: 0x25B47, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter4openEv, symObjAddr: 0x8CA, symBinAddr: 0x4B34, symSize: 0x2C }
+  - { offset: 0x25B7D, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter5writeEP7AVFrame, symObjAddr: 0x8F6, symBinAddr: 0x4B60, symSize: 0x3A }
+  - { offset: 0x25BCF, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter18consumeAbufferSinkEv, symObjAddr: 0x930, symBinAddr: 0x4B9A, symSize: 0x88 }
+  - { offset: 0x25C31, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter11consumeFifoEb, symObjAddr: 0xABC, symBinAddr: 0x4D26, symSize: 0x108 }
+  - { offset: 0x25C83, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter5writeEPvi, symObjAddr: 0x9B8, symBinAddr: 0x4C22, symSize: 0xBE }
+  - { offset: 0x25D8F, size: 0x8, addend: 0x0, symName: __ZN4FFAV11AudioWriter5closeEv, symObjAddr: 0xA76, symBinAddr: 0x4CE0, symSize: 0x46 }
+  - { offset: 0x2847D, size: 0x8, addend: 0x0, symName: __ZN12FFCoreFormatL22FF_OUTPUT_CHANNEL_DESCE, symObjAddr: 0x1F08, symBinAddr: 0x11D550, symSize: 0x0 }
+  - { offset: 0x284C1, size: 0x8, addend: 0x0, symName: __ZL25FF_FILTER_BUFFER_SRC_NAME, symObjAddr: 0x1ED8, symBinAddr: 0x11D520, symSize: 0x0 }
+  - { offset: 0x2E7E1, size: 0x8, addend: 0x0, symName: __ZL26FF_FILTER_BUFFER_SINK_NAME, symObjAddr: 0x1EF0, symBinAddr: 0x11D538, symSize: 0x0 }
+  - { offset: 0x2EFCC, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]', symObjAddr: 0x674, symBinAddr: 0x5494, symSize: 0x301 }
+  - { offset: 0x30D8C, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder init]', symObjAddr: 0x0, symBinAddr: 0x4E2E, symSize: 0xAE }
+  - { offset: 0x30E1C, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder dealloc]', symObjAddr: 0xAE, symBinAddr: 0x4EDC, symSize: 0x108 }
+  - { offset: 0x30ECC, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder isPacketBufferFull]', symObjAddr: 0x1C4, symBinAddr: 0x4FE4, symSize: 0x23 }
+  - { offset: 0x30F00, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder outputFormat]', symObjAddr: 0x1E7, symBinAddr: 0x5007, symSize: 0xE }
+  - { offset: 0x30F34, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder timeRange]', symObjAddr: 0x1F5, symBinAddr: 0x5015, symSize: 0x1B9 }
+  - { offset: 0x310EB, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder eof]', symObjAddr: 0x3AE, symBinAddr: 0x51CE, symSize: 0x1D }
+  - { offset: 0x3111F, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder fifoEndPts]', symObjAddr: 0x3CB, symBinAddr: 0x51EB, symSize: 0x6E }
+  - { offset: 0x3118D, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder prepareByAudioStream:]', symObjAddr: 0x439, symBinAddr: 0x5259, symSize: 0x12B }
+  - { offset: 0x31247, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder push:]', symObjAddr: 0x564, symBinAddr: 0x5384, symSize: 0x14 }
+  - { offset: 0x3128A, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder pushPacket:shouldFlush:]', symObjAddr: 0x578, symBinAddr: 0x5398, symSize: 0x7B }
+  - { offset: 0x3130B, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder pushPacket:shouldOnlyFlushPackets:]', symObjAddr: 0x5F3, symBinAddr: 0x5413, symSize: 0x81 }
+  - { offset: 0x3177C, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder _recreateFilterGraph]', symObjAddr: 0x975, symBinAddr: 0x5795, symSize: 0x55 }
+  - { offset: 0x319AF, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder _createFilterGraphWithError:]', symObjAddr: 0x9CA, symBinAddr: 0x57EA, symSize: 0x21C }
+  - { offset: 0x3207F, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioTranscoder .cxx_destruct]', symObjAddr: 0xBE6, symBinAddr: 0x5A06, symSize: 0x10 }
+  - { offset: 0x323AE, size: 0x8, addend: 0x0, symName: '__ZNSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEED1Ev', symObjAddr: 0xD04, symBinAddr: 0x5A16, symSize: 0x10 }
+  - { offset: 0x324E5, size: 0x8, addend: 0x0, symName: '__ZNSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEED0Ev', symObjAddr: 0xD14, symBinAddr: 0x5A26, symSize: 0x22 }
+  - { offset: 0x3283C, size: 0x8, addend: 0x0, symName: '__ZNKSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEE7__cloneEv', symObjAddr: 0xD36, symBinAddr: 0x5A48, symSize: 0x38 }
+  - { offset: 0x32BB1, size: 0x8, addend: 0x0, symName: '__ZNKSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEE7__cloneEPNS0_6__baseIS7_EE', symObjAddr: 0xD6E, symBinAddr: 0x5A80, symSize: 0x28 }
+  - { offset: 0x32D9C, size: 0x8, addend: 0x0, symName: '__ZNSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEE7destroyEv', symObjAddr: 0xD96, symBinAddr: 0x5AA8, symSize: 0x10 }
+  - { offset: 0x32EAD, size: 0x8, addend: 0x0, symName: '__ZNSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEE18destroy_deallocateEv', symObjAddr: 0xDA6, symBinAddr: 0x5AB8, symSize: 0x22 }
+  - { offset: 0x33131, size: 0x8, addend: 0x0, symName: '__ZNSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEEclEOS6_', symObjAddr: 0xDC8, symBinAddr: 0x5ADA, symSize: 0xF8 }
+  - { offset: 0x332A5, size: 0x8, addend: 0x0, symName: '__ZNKSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEE6targetERKSt9type_info', symObjAddr: 0xEC0, symBinAddr: 0x5BD2, symSize: 0x1C }
+  - { offset: 0x33314, size: 0x8, addend: 0x0, symName: '__ZNKSt3__110__function6__funcIZ68-[FFCoreAudioTranscoder tryTranscodeWithFrameCapacity:data:pts:eof:]E3$_0NS_9allocatorIS2_EEFiP7AVFrameEE11target_typeEv', symObjAddr: 0xEDC, symBinAddr: 0x5BEE, symSize: 0xD }
+  - { offset: 0x352DE, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioUtils9transcodeEP8AVPacketPNS_12MediaDecoderEP7AVFramePNS_11FilterGraphES6_RKNSt3__112basic_stringIcNS9_11char_traitsIcEENS9_9allocatorIcEEEESH_NS9_8functionIFiS6_EEE, symObjAddr: 0x0, symBinAddr: 0x5BFC, symSize: 0xEE }
+  - { offset: 0x379E7, size: 0x8, addend: 0x0, symName: __ZNSt3__125__throw_bad_function_callB8ne190102Ev, symObjAddr: 0x3F8, symBinAddr: 0x5FF4, symSize: 0x32 }
+  - { offset: 0x39C26, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioUtils9transcodeEP8AVPacketPNS_12MediaDecoderEP7AVFramePNS_11FilterGraphES6_RKNSt3__112basic_stringIcNS9_11char_traitsIcEENS9_9allocatorIcEEEESH_NS9_8functionIFiS6_EEE, symObjAddr: 0x0, symBinAddr: 0x5BFC, symSize: 0xEE }
+  - { offset: 0x39E6D, size: 0x8, addend: 0x0, symName: __ZNSt3__110__function12__value_funcIFiP7AVFrameEEC2B8ne190102ERKS5_, symObjAddr: 0x3AC, symBinAddr: 0x5FA8, symSize: 0x4C }
+  - { offset: 0x39EBE, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioUtils22process_decoded_framesEPNS_12MediaDecoderEP7AVFramePNS_11FilterGraphES4_RKNSt3__112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEESF_NS7_8functionIFiS4_EEE, symObjAddr: 0xEE, symBinAddr: 0x5CEA, symSize: 0x164 }
+  - { offset: 0x3A320, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioUtils20process_filter_frameEP7AVFramePNS_11FilterGraphES2_RKNSt3__112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEESD_NS5_8functionIFiS2_EEE, symObjAddr: 0x252, symBinAddr: 0x5E4E, symSize: 0xEA }
+  - { offset: 0x3A565, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioUtils24transfer_filtered_framesEPNS_11FilterGraphEP7AVFrameRKNSt3__112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEENS5_8functionIFiS4_EEE, symObjAddr: 0x33C, symBinAddr: 0x5F38, symSize: 0x70 }
+  - { offset: 0x3A63C, size: 0x8, addend: 0x0, symName: __ZNSt3__110__function12__value_funcIFiP7AVFrameEEC2B8ne190102ERKS5_, symObjAddr: 0x3AC, symBinAddr: 0x5FA8, symSize: 0x4C }
+  - { offset: 0x3C494, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader initWithURL:delegate:]', symObjAddr: 0x0, symBinAddr: 0x6026, symSize: 0xF2 }
+  - { offset: 0x41494, size: 0x8, addend: 0x0, symName: __ZNSt3__112__destroy_atB8ne190102INS_4pairIKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEES7_EELi0EEEvPT_, symObjAddr: 0x9FE, symBinAddr: 0x6916, symSize: 0x33 }
+  - { offset: 0x43289, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader initWithURL:delegate:]', symObjAddr: 0x0, symBinAddr: 0x6026, symSize: 0xF2 }
+  - { offset: 0x433AD, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader dealloc]', symObjAddr: 0xF2, symBinAddr: 0x6118, symSize: 0x4E }
+  - { offset: 0x433DD, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader prepareWithStartTimePosition:]', symObjAddr: 0x140, symBinAddr: 0x6166, symSize: 0x4F }
+  - { offset: 0x4344A, size: 0x8, addend: 0x0, symName: '___50-[FFCoreAudioReader prepareWithStartTimePosition:]_block_invoke', symObjAddr: 0x18F, symBinAddr: 0x61B5, symSize: 0x1D }
+  - { offset: 0x434A3, size: 0x8, addend: 0x0, symName: ___copy_helper_block_ea8_32s, symObjAddr: 0x1AC, symBinAddr: 0x61D2, symSize: 0xF }
+  - { offset: 0x434D5, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_ea8_32s, symObjAddr: 0x1BB, symBinAddr: 0x61E1, symSize: 0xF }
+  - { offset: 0x434FE, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader start]', symObjAddr: 0x1CA, symBinAddr: 0x61F0, symSize: 0x4B }
+  - { offset: 0x43543, size: 0x8, addend: 0x0, symName: '___26-[FFCoreAudioReader start]_block_invoke', symObjAddr: 0x215, symBinAddr: 0x623B, symSize: 0x16 }
+  - { offset: 0x435C0, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader stop]', symObjAddr: 0x22B, symBinAddr: 0x6251, symSize: 0x1C }
+  - { offset: 0x43646, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader reset]', symObjAddr: 0x247, symBinAddr: 0x626D, symSize: 0x4B }
+  - { offset: 0x4368B, size: 0x8, addend: 0x0, symName: '___26-[FFCoreAudioReader reset]_block_invoke', symObjAddr: 0x292, symBinAddr: 0x62B8, symSize: 0x16 }
+  - { offset: 0x43708, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader seekToTime:]', symObjAddr: 0x2A8, symBinAddr: 0x62CE, symSize: 0x1F }
+  - { offset: 0x437C5, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader setPacketBufferFull:]', symObjAddr: 0x2C7, symBinAddr: 0x62ED, symSize: 0x1A }
+  - { offset: 0x4389B, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader isPacketBufferFull]', symObjAddr: 0x2E1, symBinAddr: 0x6307, symSize: 0xB }
+  - { offset: 0x43BF0, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader onPrepareWithStartTimePosition:]', symObjAddr: 0x2EC, symBinAddr: 0x6312, symSize: 0x243 }
+  - { offset: 0x44283, size: 0x8, addend: 0x0, symName: __ZNSt3__16__treeINS_12__value_typeINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEES7_EENS_19__map_value_compareIS7_S8_NS_4lessIS7_EELb1EEENS5_IS8_EEE7destroyEPNS_11__tree_nodeIS8_PvEE, symObjAddr: 0x9C2, symBinAddr: 0x68DA, symSize: 0x3C }
+  - { offset: 0x44463, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader _onRead]', symObjAddr: 0x52F, symBinAddr: 0x6555, symSize: 0x294 }
+  - { offset: 0x44B00, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader _onReset]', symObjAddr: 0x7C3, symBinAddr: 0x67E9, symSize: 0x58 }
+  - { offset: 0x44C49, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader .cxx_destruct]', symObjAddr: 0x81B, symBinAddr: 0x6841, symSize: 0x46 }
+  - { offset: 0x44E78, size: 0x8, addend: 0x0, symName: '-[FFCoreAudioReader .cxx_construct]', symObjAddr: 0x861, symBinAddr: 0x6887, symSize: 0x53 }
+  - { offset: 0x49DBE, size: 0x8, addend: 0x0, symName: __ZNSt3__119__allocate_at_leastB8ne190102INS_9allocatorIPP8AVPacketEEEENS_19__allocation_resultINS_16allocator_traitsIT_E7pointerEEERS8_m, symObjAddr: 0xB3F, symBinAddr: 0x747B, symSize: 0x2F }
+  - { offset: 0x4AB8A, size: 0x8, addend: 0x0, symName: __ZSt28__throw_bad_array_new_lengthB8ne190102v, symObjAddr: 0xB0E, symBinAddr: 0x744A, symSize: 0x31 }
+  - { offset: 0x4B035, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueueC2Ev, symObjAddr: 0x0, symBinAddr: 0x694A, symSize: 0x2E }
+  - { offset: 0x4B073, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueueC1Ev, symObjAddr: 0x2E, symBinAddr: 0x6978, symSize: 0x2E }
+  - { offset: 0x4B112, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueueD2Ev, symObjAddr: 0x5C, symBinAddr: 0x69A6, symSize: 0x24 }
+  - { offset: 0x4B1BB, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue5clearEv, symObjAddr: 0x80, symBinAddr: 0x69CA, symSize: 0x8D }
+  - { offset: 0x4B30B, size: 0x8, addend: 0x0, symName: __ZNSt3__15dequeIP8AVPacketNS_9allocatorIS2_EEED2B8ne190102Ev, symObjAddr: 0x26E, symBinAddr: 0x6BAA, symSize: 0x96 }
+  - { offset: 0x4B6F4, size: 0x8, addend: 0x0, symName: __ZNSt3__15dequeIP8AVPacketNS_9allocatorIS2_EEE26__maybe_remove_front_spareB8ne190102Eb, symObjAddr: 0xB6E, symBinAddr: 0x74AA, symSize: 0x4E }
+  - { offset: 0x4B8B7, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueueD1Ev, symObjAddr: 0x11C, symBinAddr: 0x6A58, symSize: 0xA }
+  - { offset: 0x4B915, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue4pushEP8AVPacket, symObjAddr: 0x126, symBinAddr: 0x6A62, symSize: 0x50 }
+  - { offset: 0x4B9E9, size: 0x8, addend: 0x0, symName: __ZNSt3__15dequeIP8AVPacketNS_9allocatorIS2_EEE9push_backERKS2_, symObjAddr: 0x338, symBinAddr: 0x6C74, symSize: 0x76 }
+  - { offset: 0x4BB6D, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue3popEP8AVPacket, symObjAddr: 0x176, symBinAddr: 0x6AB2, symSize: 0x96 }
+  - { offset: 0x4BCE9, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue14getLastPushPtsEv, symObjAddr: 0x20C, symBinAddr: 0x6B48, symSize: 0xA }
+  - { offset: 0x4BD0E, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue13getLastPopPtsEv, symObjAddr: 0x216, symBinAddr: 0x6B52, symSize: 0xA }
+  - { offset: 0x4BD33, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue17getFrontPacketPtsEv, symObjAddr: 0x220, symBinAddr: 0x6B5C, symSize: 0x3A }
+  - { offset: 0x4BD5B, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue17getFrontPacketPtsEv, symObjAddr: 0x220, symBinAddr: 0x6B5C, symSize: 0x3A }
+  - { offset: 0x4BD76, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue17getFrontPacketPtsEv, symObjAddr: 0x220, symBinAddr: 0x6B5C, symSize: 0x3A }
+  - { offset: 0x4BDFB, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue8getCountEv, symObjAddr: 0x25A, symBinAddr: 0x6B96, symSize: 0xA }
+  - { offset: 0x4BE59, size: 0x8, addend: 0x0, symName: __ZN4FFAV11PacketQueue7getSizeEv, symObjAddr: 0x264, symBinAddr: 0x6BA0, symSize: 0xA }
+  - { offset: 0x4BFE5, size: 0x8, addend: 0x0, symName: __ZNSt3__114__split_bufferIPP8AVPacketNS_9allocatorIS3_EEED2Ev, symObjAddr: 0x304, symBinAddr: 0x6C40, symSize: 0x34 }
+  - { offset: 0x4C269, size: 0x8, addend: 0x0, symName: __ZNSt3__15dequeIP8AVPacketNS_9allocatorIS2_EEE19__add_back_capacityEv, symObjAddr: 0x3AE, symBinAddr: 0x6CEA, symSize: 0x334 }
+  - { offset: 0x4D632, size: 0x8, addend: 0x0, symName: __ZNSt3__114__split_bufferIPP8AVPacketNS_9allocatorIS3_EEE9push_backEOS3_, symObjAddr: 0x6E2, symBinAddr: 0x701E, symSize: 0x10C }
+  - { offset: 0x4DAD4, size: 0x8, addend: 0x0, symName: __ZNSt3__114__split_bufferIPP8AVPacketRNS_9allocatorIS3_EEE9push_backEOS3_, symObjAddr: 0x8F8, symBinAddr: 0x7234, symSize: 0x10C }
+  - { offset: 0x4DFC7, size: 0x8, addend: 0x0, symName: __ZNSt3__114__split_bufferIPP8AVPacketRNS_9allocatorIS3_EEE10push_frontERKS3_, symObjAddr: 0xA04, symBinAddr: 0x7340, symSize: 0x10A }
+  - { offset: 0x4E4C2, size: 0x8, addend: 0x0, symName: __ZNSt3__114__split_bufferIPP8AVPacketNS_9allocatorIS3_EEE10push_frontEOS3_, symObjAddr: 0x7EE, symBinAddr: 0x712A, symSize: 0x10A }
+  - { offset: 0x54C43, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxerC2Ev, symObjAddr: 0x0, symBinAddr: 0x74F8, symSize: 0x18 }
+  - { offset: 0x54C81, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxerC1Ev, symObjAddr: 0x18, symBinAddr: 0x7510, symSize: 0x18 }
+  - { offset: 0x54D88, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxerD2Ev, symObjAddr: 0x30, symBinAddr: 0x7528, symSize: 0x60 }
+  - { offset: 0x54EEB, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxerD1Ev, symObjAddr: 0x9E, symBinAddr: 0x7588, symSize: 0xA }
+  - { offset: 0x54F65, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxer4initERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP14AVCodecContext, symObjAddr: 0xA8, symBinAddr: 0x7592, symSize: 0x50 }
+  - { offset: 0x550A9, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxer4initERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP14AVCodecContextP15AVFormatContext, symObjAddr: 0xF8, symBinAddr: 0x75E2, symSize: 0x74 }
+  - { offset: 0x5519A, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxer4openEv, symObjAddr: 0x16C, symBinAddr: 0x7656, symSize: 0x36 }
+  - { offset: 0x55290, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxer11writeHeaderEv, symObjAddr: 0x1A2, symBinAddr: 0x768C, symSize: 0x10 }
+  - { offset: 0x552E0, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxer11writePacketEP8AVPacket, symObjAddr: 0x1B2, symBinAddr: 0x769C, symSize: 0x38 }
+  - { offset: 0x55366, size: 0x8, addend: 0x0, symName: __ZN4FFAV10AudioMuxer12writeTrailerEv, symObjAddr: 0x1EA, symBinAddr: 0x76D4, symSize: 0xE }
+  - { offset: 0x57538, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifoC2Ev, symObjAddr: 0x0, symBinAddr: 0x76E2, symSize: 0x1C }
+  - { offset: 0x57576, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifoC1Ev, symObjAddr: 0x1C, symBinAddr: 0x76FE, symSize: 0x1C }
+  - { offset: 0x575D1, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifoD2Ev, symObjAddr: 0x38, symBinAddr: 0x771A, symSize: 0x2C }
+  - { offset: 0x57632, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo7releaseEv, symObjAddr: 0x64, symBinAddr: 0x7746, symSize: 0x24 }
+  - { offset: 0x57660, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifoD1Ev, symObjAddr: 0x96, symBinAddr: 0x776A, symSize: 0xA }
+  - { offset: 0x5769E, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo4initE14AVSampleFormatii, symObjAddr: 0xA0, symBinAddr: 0x7774, symSize: 0x76 }
+  - { offset: 0x5771B, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo5writeEPPvix, symObjAddr: 0x116, symBinAddr: 0x77EA, symSize: 0x6E }
+  - { offset: 0x57796, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo4readEPPviPx, symObjAddr: 0x184, symBinAddr: 0x7858, symSize: 0x7E }
+  - { offset: 0x57821, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo5clearEv, symObjAddr: 0x202, symBinAddr: 0x78D6, symSize: 0x26 }
+  - { offset: 0x57862, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo18getNumberOfSamplesEv, symObjAddr: 0x228, symBinAddr: 0x78FC, symSize: 0x16 }
+  - { offset: 0x578A1, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo10getNextPtsEv, symObjAddr: 0x23E, symBinAddr: 0x7912, symSize: 0xA }
+  - { offset: 0x578DC, size: 0x8, addend: 0x0, symName: __ZN4FFAV9AudioFifo9getEndPtsEv, symObjAddr: 0x248, symBinAddr: 0x791C, symSize: 0x3B }
+  - { offset: 0x5C80E, size: 0x8, addend: 0x0, symName: __ZN4FFAVL12interrupt_cbEPv, symObjAddr: 0x24B, symBinAddr: 0x7B95, symSize: 0xF }
+  - { offset: 0x5D178, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReaderC2Ev, symObjAddr: 0x0, symBinAddr: 0x7958, symSize: 0x12 }
+  - { offset: 0x5D29A, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReaderC1Ev, symObjAddr: 0x12, symBinAddr: 0x796A, symSize: 0x12 }
+  - { offset: 0x5D419, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReaderD2Ev, symObjAddr: 0x24, symBinAddr: 0x797C, symSize: 0x1E }
+  - { offset: 0x5D4F2, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader7releaseEv, symObjAddr: 0x42, symBinAddr: 0x799A, symSize: 0x17 }
+  - { offset: 0x5D590, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReaderD1Ev, symObjAddr: 0x68, symBinAddr: 0x79B2, symSize: 0xA }
+  - { offset: 0x5D82A, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader4openERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEERKNS1_3mapIS7_S7_NS1_4lessIS7_EENS5_INS1_4pairIS8_S7_EEEEEE, symObjAddr: 0x72, symBinAddr: 0x79BC, symSize: 0x1D9 }
+  - { offset: 0x5DFD9, size: 0x8, addend: 0x0, symName: __ZNSt3__14pairIKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEES6_EC2B8ne190102ERKS8_, symObjAddr: 0x480, symBinAddr: 0x7DCA, symSize: 0x7E }
+  - { offset: 0x5E2AF, size: 0x8, addend: 0x0, symName: __ZNSt3__14pairIKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEES6_ED1Ev, symObjAddr: 0x25A, symBinAddr: 0x7BA4, symSize: 0x34 }
+  - { offset: 0x5E507, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader14getStreamCountEv, symObjAddr: 0x28E, symBinAddr: 0x7BD8, symSize: 0x14 }
+  - { offset: 0x5E52C, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader9getStreamEi, symObjAddr: 0x2A2, symBinAddr: 0x7BEC, symSize: 0x2E }
+  - { offset: 0x5E573, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader13getBestStreamE11AVMediaType, symObjAddr: 0x2D0, symBinAddr: 0x7C1A, symSize: 0x3C }
+  - { offset: 0x5E5EA, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader14findBestStreamE11AVMediaType, symObjAddr: 0x30C, symBinAddr: 0x7C56, symSize: 0x6E }
+  - { offset: 0x5E674, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader10getStreamsEv, symObjAddr: 0x37A, symBinAddr: 0x7CC4, symSize: 0xE }
+  - { offset: 0x5E699, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader10readPacketEP8AVPacket, symObjAddr: 0x388, symBinAddr: 0x7CD2, symSize: 0x70 }
+  - { offset: 0x5E73B, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader4seekExii, symObjAddr: 0x3F8, symBinAddr: 0x7D42, symSize: 0x7C }
+  - { offset: 0x5E811, size: 0x8, addend: 0x0, symName: __ZN4FFAV11MediaReader9interruptEv, symObjAddr: 0x474, symBinAddr: 0x7DBE, symSize: 0xC }
+  - { offset: 0x5E8F7, size: 0x8, addend: 0x0, symName: __ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE25__init_copy_ctor_externalEPKcm, symObjAddr: 0x4FE, symBinAddr: 0x7E48, symSize: 0x7E }
+...

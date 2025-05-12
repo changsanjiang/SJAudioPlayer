@@ -1,73 +1,73 @@
 //
 //  SJAudioPlayer.h
-//  SJAudioPlayer_Example
+//  LWZFFmpegLib
 //
-//  Created by BlueDancer on 2021/4/14.
-//  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
+//  Created by db on 2025/4/15.
 //
 
-#import "APDefines.h"
-#import "APInterfaces.h"
-#import "APAudioOptions.h"
-@protocol SJAudioPlayerObserver;
+#import "SJAudioPlaybackController.h"
+@protocol SJAudioPlayerObserver, SJAudioPlaybackController;
+@class SJAudioPlayerOptions;
+
+typedef NS_ENUM(NSUInteger, SJPlayWhenReadyChangeReason) {
+    SJPlayWhenReadyChangeReasonUserRequest,
+    SJPlayWhenReadyChangeReasonAudioSessionInterrupted,
+    SJPlayWhenReadyChangeReasonAudioSessionInterruptionEnded,
+    SJPlayWhenReadyChangeReasonOldDeviceUnavailable,
+    SJPlayWhenReadyChangeReasonReachedEndPosition,
+    SJPlayWhenReadyChangeReasonReachedMaximumPlayableDurationPosition
+};
 
 NS_ASSUME_NONNULL_BEGIN
 @interface SJAudioPlayer : NSObject
-+ (instancetype)player;
+- (instancetype)initWithPlaybackController:(id<SJAudioPlaybackController>)playbackController;
 - (instancetype)init;
-- (instancetype)initWithPlaybackController:(id<APAudioPlaybackController>)playbackController;
++ (instancetype)player;
 
-/// The current audio URL of the player.
-///
-///     You can call the `replaceAudioWithURL:` to replace the current URL with a new URL of audio.
-///
 @property (nonatomic, strong, readonly, nullable) NSURL *URL;
-@property (nonatomic, strong, readonly, nullable) __kindof id<APAudioOptions> options;
-
-/// If the player.status is APAudioPlaybackStatusFailed, this describes the error that caused the failure.
-///
+@property (nonatomic, copy, readonly, nullable) __kindof SJAudioPlayerOptions *options;
 @property (nonatomic, strong, readonly, nullable) NSError *error;
+@property (nonatomic, readonly) BOOL playWhenReady;
 
-/// The current status of the player.
-///
-@property (nonatomic, readonly) APAudioPlaybackStatus status;
-
-@property (nonatomic, readonly) NSTimeInterval currentTime;
-@property (nonatomic, readonly) NSTimeInterval duration;
-@property (nonatomic, readonly) float bufferProgress;
+@property (nonatomic, readonly) CMTime currentTime;
+@property (nonatomic, readonly) CMTime duration;
+@property (nonatomic, readonly) CMTimeRange playableTimeRange;
+@property (nonatomic, readonly) CMTime playableDurationLimit;
 
 @property (nonatomic) float rate;
 @property (nonatomic) float volume;
-@property (nonatomic, getter=isMuted) BOOL muted;
+@property (nonatomic, getter=isMute) BOOL mute;
 
 /// Replaces the current audio with a new URL of audio.
 ///
 - (void)replaceAudioWithURL:(nullable NSURL *)URL;
-- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable __kindof id<APAudioOptions>)options;
-- (void)seekToTime:(NSTimeInterval)time;
+- (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable __kindof SJAudioPlayerOptions *)options;
+- (void)seekToTime:(CMTime)time;
 
 - (void)play;
 - (void)pause;
 
 - (void)registerObserver:(id<SJAudioPlayerObserver>)observer;
 - (void)removeObserver:(id<SJAudioPlayerObserver>)observer;
-- (void)reload;
 - (void)cancelPlayableDurationLimit;
-@property (nonatomic, readonly, getter=isReachedEndPosition) BOOL reachedEndPosition;
-@property (nonatomic, readonly, getter=isReachedMaximumPlayableDurationPosition) BOOL reachedMaximumPlayableDurationPosition;
 @end
 
-@interface SJAudioPlayer (SJAVAudioSessionExtended)
+@interface SJAudioPlayer (FFAVAudioSessionExtended)
 - (void)setCategory:(AVAudioSessionCategory)category withOptions:(AVAudioSessionCategoryOptions)options;
 - (void)setActiveOptions:(AVAudioSessionSetActiveOptions)options;
 @end
 
-@protocol SJAudioPlayerObserver <NSObject>
-@optional
-- (void)audioPlayer:(SJAudioPlayer *)player statusDidChange:(APAudioPlaybackStatus)status;
-- (void)audioPlayer:(SJAudioPlayer *)player bufferProgressDidChange:(float)progress;
+@interface SJAudioPlayerOptions : NSObject<NSCopying>
+- (instancetype)initWithStartTimePosition:(CMTime)startTimePosition;
+- (instancetype)initWithStartTimePosition:(CMTime)startTimePosition playableDurationLimit:(CMTime)playableDurationLimit;
+@property (nonatomic) CMTime startTimePosition;
+@property (nonatomic) CMTime playableDurationLimit; // 播放时长限制; 默认值 kCMTimeZero, 表示不限制;
 @end
 
-FOUNDATION_EXPORT NSNotificationName const SJAudioPlayerStatusDidChangeNotification;
-FOUNDATION_EXPORT NSNotificationName const SJAudioPlayerBufferProgressDidChangeNotification;
+@protocol SJAudioPlayerObserver <NSObject>
+@optional
+- (void)audioPlayer:(SJAudioPlayer *)player playWhenReadyDidChange:(BOOL)isPlayWhenReady reason:(SJPlayWhenReadyChangeReason)reason;
+- (void)audioPlayer:(SJAudioPlayer *)player durationDidChange:(CMTime)duration;
+- (void)audioPlayer:(SJAudioPlayer *)player errorDidChange:(NSError *_Nullable)error;
+@end
 NS_ASSUME_NONNULL_END
