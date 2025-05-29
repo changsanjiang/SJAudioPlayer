@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SJAudioPlayer'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'iOS Audio Player using AVAudioEngine.'
 
 # This description is used to generate tags and improve search results.
@@ -30,10 +30,12 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SJAudioPlayer/*.{h,m,mm}'
   s.libraries = 'c++'
+  s.framework = 'SystemConfiguration'
   s.vendored_frameworks = 'SJAudioPlayer/libffmpeg.xcframework'
   
+#  s.xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'FFAV_PLATFORM_IOS=1' }
 #  s.subspec 'libffmpeg' do |ss|
-#    ss.source_files = 'libffmpeg/libffmpeg/src/**/*.{h,m,mm,c,cpp}'
+#    ss.source_files = 'libffmpeg/libffmpeg/src/**/*.{h,hpp,m,mm,c,cpp}'
 #
 #    ss.vendored_frameworks =
 #      'libffmpeg/libffmpeg/frameworks/libavcodec.xcframework',
@@ -43,6 +45,5 @@ Pod::Spec.new do |s|
 #      'libffmpeg/libffmpeg/frameworks/libmp3lame.xcframework',
 #      'libffmpeg/libffmpeg/frameworks/libswresample.xcframework',
 #      'libffmpeg/libffmpeg/frameworks/libswscale.xcframework'
-#    end
 #  end
 end

@@ -7,11 +7,10 @@
 
 #import <AVFAudio/AVAudioFormat.h>
 #import <string>
-#import "common.h"
 
-EXTERN_C_START
+extern "C" {
 #include <libavutil/samplefmt.h>
-EXTERN_C_END
+}
 
 namespace FFCoreFormat {
 

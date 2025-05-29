@@ -1,22 +1,31 @@
+/**
+    This file is part of @sj/ffmpeg.
+    
+    @sj/ffmpeg is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    @sj/ffmpeg is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with @sj/ffmpeg. If not, see <http://www.gnu.org/licenses/>.
+ * */
 //
-// Created on 2025/1/7.
+// Created by sj on 2025/1/7.
 //
 // Node APIs are not fully supported. To solve the compilation error of the interface cannot be found,
 // please include "napi/native_api.h".
 
-#ifndef FFMPEGPROJ_MEDIAREADER_H
-#define FFMPEGPROJ_MEDIAREADER_H
+#ifndef FFAV_MediaReader_hpp
+#define FFAV_MediaReader_hpp
 
 #include <string>
 #include <map>
-
-extern "C" {
-#include <libavformat/avformat.h>
-#include <libavcodec/packet.h>
-#include <libavcodec/avcodec.h>
-#include <libavcodec/codec.h>
-#include <libavutil/avutil.h>
-}
+#include "ff_types.hpp"
 
 namespace FFAV {
 
@@ -62,16 +71,15 @@ public:
     */
     int seek(int64_t timestamp, int stream_index, int flags = AVSEEK_FLAG_BACKWARD);
 
-    // 中断读取
-    void interrupt();
-
+    void setInterrupted();
+    
 private:
-    AVFormatContext* _Nullable fmt_ctx = nullptr;     // AVFormatContext 用于管理媒体文件
-    std::atomic<bool> interrupt_requested { false };  // 请求读取中断
-
-    // 关闭媒体文件
     void release();
+    
+private:
+    AVFormatContext* _Nullable _fmt_ctx = nullptr;     // AVFormatContext 用于管理媒体文件
+    std::atomic<bool> _interrupt_requested { false };  // 请求读取中断
 };
 
 }
-#endif //FFMPEGPROJ_MEDIAREADER_H
+#endif //FFAV_MediaReader_hpp

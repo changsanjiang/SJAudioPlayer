@@ -1,25 +1,33 @@
+/**
+    This file is part of @sj/ffmpeg.
+    
+    @sj/ffmpeg is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    @sj/ffmpeg is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with @sj/ffmpeg. If not, see <http://www.gnu.org/licenses/>.
+ * */
 //
-// Created on 2025/1/10.
+// Created by sj on 2025/1/10.
 //
 // Node APIs are not fully supported. To solve the compilation error of the interface cannot be found,
 // please include "napi/native_api.h".
 
-#ifndef FFMPEGPROJ_FILTERGRAPH_H
-#define FFMPEGPROJ_FILTERGRAPH_H
+#ifndef FFAV_FilterGraph_hpp
+#define FFAV_FilterGraph_hpp
 
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include "ff_types.hpp"
 
-extern "C" {
-#include "libavfilter/avfilter.h"
-#include "libavutil/avutil.h"
-#include "libavutil/samplefmt.h"
-#include "libavutil/pixfmt.h"
-#include "libavfilter/buffersrc.h"
-#include "libavutil/frame.h"
-#include "libavutil/rational.h"
-}
 namespace FFAV {
 
 class FilterGraph {
@@ -107,21 +115,23 @@ public:
     int sendCommand(const std::string& target_name, const std::string& cmd, const std::string& arg, int flags = AVFILTER_CMD_FLAG_ONE);
     
 private:
-    AVFilterGraph* _Nullable filter_graph = nullptr;
-    AVFilterInOut* _Nullable outputs = nullptr;
-    AVFilterInOut* _Nullable inputs = nullptr;
-    AVFilterInOut* _Nullable lastOutput = nullptr;
-    AVFilterInOut* _Nullable lastInput = nullptr;
-    
-    const AVFilter* _Nullable abuffer = nullptr;
-    const AVFilter* _Nullable vbuffer = nullptr;
-
-    const AVFilter* _Nullable abuffersink = nullptr;
-    const AVFilter* _Nullable vbuffersink = nullptr;
     int addBufferSourceFilter(const std::string& name, AVFilterContext* _Nonnull buffer_ctx);
     int addBufferSinkFilter(const std::string& name, AVFilterContext* _Nonnull buffersink_ctx);
     void release();
+    
+private:
+    AVFilterGraph* _Nullable _filter_graph = nullptr;
+    AVFilterInOut* _Nullable _outputs = nullptr;
+    AVFilterInOut* _Nullable _inputs = nullptr;
+    AVFilterInOut* _Nullable _lastOutput = nullptr;
+    AVFilterInOut* _Nullable _lastInput = nullptr;
+    
+    const AVFilter* _Nullable _abuffer = nullptr;
+    const AVFilter* _Nullable _vbuffer = nullptr;
+
+    const AVFilter* _Nullable _abuffersink = nullptr;
+    const AVFilter* _Nullable _vbuffersink = nullptr;
 };
 
 }
-#endif //FFMPEGPROJ_FILTERGRAPH_H
+#endif //FFAV_FilterGraph_hpp

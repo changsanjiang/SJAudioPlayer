@@ -27,19 +27,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) NSURL *URL;
 @property (nonatomic, copy, readonly, nullable) __kindof SJAudioPlayerOptions *options;
 @property (nonatomic, strong, readonly, nullable) NSError *error;
+
 @property (nonatomic, readonly) BOOL playWhenReady;
 
 @property (nonatomic, readonly) CMTime currentTime;
 @property (nonatomic, readonly) CMTime duration;
-@property (nonatomic, readonly) CMTimeRange playableTimeRange;
+@property (nonatomic, readonly) CMTime bufferedTime;
 @property (nonatomic, readonly) CMTime playableDurationLimit;
 
 @property (nonatomic) float rate;
 @property (nonatomic) float volume;
 @property (nonatomic, getter=isMute) BOOL mute;
 
-/// Replaces the current audio with a new URL of audio.
-///
 - (void)replaceAudioWithURL:(nullable NSURL *)URL;
 - (void)replaceAudioWithURL:(nullable NSURL *)URL options:(nullable __kindof SJAudioPlayerOptions *)options;
 - (void)seekToTime:(CMTime)time;

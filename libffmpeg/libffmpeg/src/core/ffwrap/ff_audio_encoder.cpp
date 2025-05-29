@@ -1,10 +1,29 @@
+/**
+    This file is part of @sj/ffmpeg.
+    
+    @sj/ffmpeg is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    @sj/ffmpeg is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with @sj/ffmpeg. If not, see <http://www.gnu.org/licenses/>.
+ * */
 //
-// Created on 2025/3/11.
+// Created by sj on 2025/3/11.
 //
 // Node APIs are not fully supported. To solve the compilation error of the interface cannot be found,
 // please include "napi/native_api.h".
 
-#include "AudioEncoder.h"
+#include "ff_audio_encoder.hpp"
+#include "ff_includes.hpp"
+#include "ff_throw.hpp"
+#include <sstream>
 
 namespace FFAV {
 
@@ -123,8 +142,8 @@ AudioEncoder::AudioEncoder() {
 }
 
 AudioEncoder::~AudioEncoder() {
-    if ( codec_ctx ) {
-        avcodec_free_context(&codec_ctx);
+    if ( _codec_ctx ) {
+        avcodec_free_context(&_codec_ctx);
     }
 }
 
@@ -135,48 +154,93 @@ int AudioEncoder::init(
     int preferred_nb_channels,
     int bit_rate
 ) {
-    codec_ctx = avcodec_alloc_context3(codec);
-    if ( !codec_ctx ) return AVERROR(ENOMEM);
+    if ( _codec_ctx != nullptr ) {
+        throw_error("AudioEncoder::init - AudioEncoder is already initialized");
+    }
+    
+    _codec_ctx = avcodec_alloc_context3(codec);
+    if ( !_codec_ctx ) return AVERROR(ENOMEM);
 
     // Set encoder parameters
-    codec_ctx->sample_fmt = find_best_sample_fmt(codec->sample_fmts, preferred_sample_fmt);
-    codec_ctx->sample_rate = find_best_sample_rate(codec->supported_samplerates, preferred_sample_rate);
-    codec_ctx->ch_layout = find_best_channel_layout(codec->ch_layouts, preferred_nb_channels);
-    codec_ctx->bit_rate = bit_rate;
-    codec_ctx->time_base = (AVRational){ 1, codec_ctx->sample_rate };
+    _codec_ctx->sample_fmt = find_best_sample_fmt(codec->sample_fmts, preferred_sample_fmt);
+    _codec_ctx->sample_rate = find_best_sample_rate(codec->supported_samplerates, preferred_sample_rate);
+    _codec_ctx->ch_layout = find_best_channel_layout(codec->ch_layouts, preferred_nb_channels);
+    _codec_ctx->bit_rate = bit_rate;
+    _codec_ctx->time_base = (AVRational){ 1, _codec_ctx->sample_rate };
 
-    return avcodec_open2(codec_ctx, codec, nullptr);
+    return avcodec_open2(_codec_ctx, codec, nullptr);
 }
 
 int AudioEncoder::send(AVFrame* _Nullable frame) {
-    return avcodec_send_frame(codec_ctx, frame);
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::send - AudioEncoder is not initialized");
+    }
+    
+    if ( frame && frame->pts != AV_NOPTS_VALUE ) {
+        if ( _next_pts != AV_NOPTS_VALUE && frame->pts != _next_pts ) {
+            std::ostringstream oss;
+            oss << "AudioEncoder::send - Mismatch pts. Expected: " << _next_pts << ", Provided: " << frame->pts;
+            throw_error(oss.str());
+        }
+        _next_pts = frame->pts + frame->nb_samples;
+    }
+    return avcodec_send_frame(_codec_ctx, frame);
 }
 
 int AudioEncoder::receive(AVPacket* _Nonnull pkt) {
-    return avcodec_receive_packet(codec_ctx, pkt);
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::receive - AudioEncoder is not initialized");
+    }
+    return avcodec_receive_packet(_codec_ctx, pkt);
 }
 
 AVSampleFormat AudioEncoder::getSampleFormat() const {
-    return codec_ctx->sample_fmt;
-}
-int AudioEncoder::getSampleRate() const {
-    return codec_ctx->sample_rate;
-}
-int AudioEncoder::getChannels() const {
-    return codec_ctx->ch_layout.nb_channels;
-}
-AVChannelLayout AudioEncoder::getChannelLayout() const {
-    return codec_ctx->ch_layout;
-}
-AVRational AudioEncoder::getTimeBase() const {
-    return codec_ctx->time_base;
-}
-int AudioEncoder::getFrameSize() {
-    return codec_ctx->frame_size;
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getSampleFormat - AudioEncoder is not initialized");
+    }
+    return _codec_ctx->sample_fmt;
 }
 
-AVCodecContext* AudioEncoder::getCodecContext() {
-    return codec_ctx;
+int AudioEncoder::getSampleRate() const {
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getSampleRate - AudioEncoder is not initialized");
+    }
+    return _codec_ctx->sample_rate;
+}
+
+int AudioEncoder::getChannels() const {
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getChannels - AudioEncoder is not initialized");
+    }
+    return _codec_ctx->ch_layout.nb_channels;
+}
+
+AVChannelLayout AudioEncoder::getChannelLayout() const {
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getChannelLayout - AudioEncoder is not initialized");
+    }
+    return _codec_ctx->ch_layout;
+}
+
+AVRational AudioEncoder::getTimeBase() const {
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getTimeBase - AudioEncoder is not initialized");
+    }
+    return _codec_ctx->time_base;
+}
+
+int AudioEncoder::getFrameSize() const {
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getFrameSize - AudioEncoder is not initialized");
+    }
+    return _codec_ctx->frame_size;
+}
+
+AVCodecContext* AudioEncoder::getCodecContext() const {
+    if ( _codec_ctx == nullptr ) {
+        throw_error("AudioEncoder::getCodecContext - AudioEncoder is not initialized");
+    }
+    return _codec_ctx;
 }
 
 }

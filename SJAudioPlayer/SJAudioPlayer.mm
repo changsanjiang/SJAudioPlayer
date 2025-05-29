@@ -11,7 +11,6 @@
 #else
 #import "FFAudioItem.h"
 #endif
-
 #import "SJAudioPlaybackController.h"
 #include <atomic>
 #include <mutex>
@@ -21,7 +20,7 @@ NSErrorDomain const SJAudioPlaybackControllerErrorDomain = @"SJAudioPlaybackCont
 static void *FF_AUDIO_PLAYER_QUEUE = &FF_AUDIO_PLAYER_QUEUE;
 
 FOUNDATION_STATIC_INLINE void
-SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
+FFQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
     if ( dispatch_get_specific(FF_AUDIO_PLAYER_QUEUE) != NULL ) {
         block();
     }
@@ -39,7 +38,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
     
     std::atomic<CMTime> _mDuration;
     std::atomic<CMTime> _mCurrentTime;
-    std::atomic<CMTimeRange> _mPlayableTimeRange;
+    std::atomic<CMTime> _mBufferedTime;
     std::atomic<CMTime> _mPlayableDurationLimit;
 
     std::atomic<BOOL> _mPlayWhenReady;
@@ -58,7 +57,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 - (void)setPlayWhenReady:(BOOL)playWhenReady changeReason:(SJPlayWhenReadyChangeReason)reason;
 @property (nonatomic) CMTime currentTime;
 @property (nonatomic) CMTime duration;
-@property (nonatomic) CMTimeRange playableTimeRange;
+@property (nonatomic) CMTime bufferedTime;
 @end
 
 @implementation SJAudioPlayer
@@ -78,24 +77,24 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
     
     _mDuration.store(kCMTimeZero, std::__1::memory_order_relaxed);
     _mCurrentTime.store(kCMTimeZero, std::__1::memory_order_relaxed);
-    _mPlayableTimeRange.store(kCMTimeRangeZero, std::__1::memory_order_relaxed);
+    _mBufferedTime.store(kCMTimeZero, std::__1::memory_order_relaxed);
     _mPlayWhenReady.store(false, std::__1::memory_order_relaxed);
     
     _mPlaybackController = playbackController;
     __weak typeof(self) _self = self;
-    _mPlaybackController.audioEngineConfigurationChangeHandler = ^(id<SJAudioPlaybackController>  _Nonnull playbackController) {
-        __strong typeof(_self) self = _self;
-        if ( self == nil ) return;
-        [self handleAudioEngineConfigurationChange];
-    };
-    
     if ( @available(iOS 13.0, *) ) {
-        _mPlaybackController.renderBlock = ^(BOOL * _Nonnull isSilence, AVAudioFrameCount frameCount, AudioBufferList * _Nonnull outputData, int64_t * _Nonnull pts) {
+        _mPlaybackController.audioEngineConfigurationChangeHandler = ^(id<SJAudioPlaybackController>  _Nonnull playbackController) {
             __strong typeof(_self) self = _self;
             if ( self == nil ) return;
-            [self handleRenderWithSilence:isSilence frameCount:frameCount outputData:outputData pts:pts];
+            [self handleAudioEngineConfigurationChange];
         };
     }
+    
+    _mPlaybackController.renderBlock = ^(BOOL * _Nonnull isSilence, AVAudioFrameCount frameCount, AudioBufferList * _Nonnull outputData, int64_t * _Nonnull pts) {
+        __strong typeof(_self) self = _self;
+        if ( self == nil ) return;
+        [self handleRenderWithSilence:isSilence frameCount:frameCount outputData:outputData pts:pts];
+    };
     
     _mCategory = AVAudioSessionCategoryPlayback;
     _mCategoryOptions = AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionDuckOthers;
@@ -117,7 +116,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 
 - (NSURL *)URL {
     __block NSURL *ret = nil;
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         ret = _mURL;
     });
     return ret;
@@ -125,7 +124,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 
 - (__kindof SJAudioPlayerOptions *)options {
     __block __kindof SJAudioPlayerOptions *ret = nil;
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         ret = _mOptions.copy;
     });
     return ret;
@@ -133,7 +132,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 
 - (NSError *)error {
     __block NSError *ret = nil;
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         ret = _mError;
     });
     return ret;
@@ -169,12 +168,12 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
     return _mDuration.load(std::__1::memory_order_relaxed);
 }
 
-- (void)setPlayableTimeRange:(CMTimeRange)timeRange {
-    _mPlayableTimeRange.store(timeRange, std::__1::memory_order_relaxed);
+- (void)setBufferedTime:(CMTime)bufferedTime {
+    _mBufferedTime.store(bufferedTime, std::__1::memory_order_relaxed);
 }
 
-- (CMTimeRange)playableTimeRange {
-    return _mPlayableTimeRange.load(std::__1::memory_order_relaxed);
+- (CMTime)bufferedTime {
+    return _mBufferedTime.load(std::__1::memory_order_relaxed);
 }
 
 - (CMTime)playableDurationLimit {
@@ -190,42 +189,42 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 }
 
 - (void)setRate:(float)rate {
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         _mPlaybackController.rate = rate;
     });
 }
 
 - (float)rate {
     __block float ret;
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         ret = _mPlaybackController.rate;
     });
     return ret;
 }
 
 - (void)setVolume:(float)volume {
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         _mPlaybackController.volume = volume;
     });
 }
 
 - (float)volume {
     __block float ret;
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         ret = _mPlaybackController.volume;
     });
     return ret;
 }
 
 - (void)setMute:(BOOL)mute {
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         _mPlaybackController.mute = mute;
     });
 }
 
 - (BOOL)isMute {
     __block BOOL ret;
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         ret = _mPlaybackController.isMute;
     });
     return ret;
@@ -258,9 +257,8 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
         }
         
         if ( URL ) {
-            FFAudioItemOptions *itemOptions = nil;
+            FFAudioItemOptions *itemOptions = [FFAudioItemOptions.alloc init];
             if ( options ) {
-                itemOptions = [FFAudioItemOptions.alloc init];
                 itemOptions.startTimePosition = options.startTimePosition;
             }
             self.audioItem = [FFAudioItem.alloc initWithURL:URL options:itemOptions delegate:self];
@@ -273,7 +271,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
         self->_mOptions = options;
         self.playableDurationLimit = options ? options.playableDurationLimit : kCMTimeZero;
         self.currentTime = kCMTimeZero;
-        self.playableTimeRange = kCMTimeRangeZero;
+        self.bufferedTime = kCMTimeZero;
         self.duration = kCMTimeZero;
         [self onError:nil];
         
@@ -313,7 +311,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
             [self onError:error];
             return;
         }
-        [self setPlayWhenReady:YES changeReason:SJPlayWhenReadyChangeReasonUserRequest];
+        [self _onPlay:SJPlayWhenReadyChangeReasonUserRequest];
     });
 }
 
@@ -321,15 +319,14 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
     dispatch_async(_mQueue, ^{
         if ( self->_mError ) {
             [self _onReprepareByErrorWithStartTimePosition:self->_mCurrentTime];
-            return;
         }
-
-        if ( self->_mPlaybackWhenReadyChangeReason == SJPlayWhenReadyChangeReasonReachedEndPosition ||
-             self->_mPlaybackWhenReadyChangeReason == SJPlayWhenReadyChangeReasonReachedMaximumPlayableDurationPosition ) {
-            [self.audioItem seekToTime:kCMTimeZero];
+        else {
+            if ( self->_mPlaybackWhenReadyChangeReason == SJPlayWhenReadyChangeReasonReachedEndPosition ) {
+                [self.audioItem seekToTime:kCMTimeZero];
+            }
+            
+            [self _onPlay:SJPlayWhenReadyChangeReasonUserRequest];
         }
-        
-        [self _onPlay:SJPlayWhenReadyChangeReasonUserRequest];
     });
 }
 
@@ -343,7 +340,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 }
 
 - (void)registerObserver:(id<SJAudioPlayerObserver>)observer {
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         if ( _mObservers == nil ) {
             _mObservers = NSHashTable.weakObjectsHashTable;
         }
@@ -352,7 +349,7 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 }
 
 - (void)removeObserver:(id<SJAudioPlayerObserver>)observer {
-    SJQueueSync(_mQueue, ^{
+    FFQueueSync(_mQueue, ^{
         if ( _mObservers ) {
             [_mObservers removeObject:observer];
         }
@@ -362,10 +359,6 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 #pragma mark - mark
 
 - (void)_onPlay:(SJPlayWhenReadyChangeReason)reason {
-    if ( _mPlaybackWhenReadyChangeReason == SJPlayWhenReadyChangeReasonReachedEndPosition ) {
-        return;
-    }
-    
     [self setPlayWhenReady:true changeReason:reason];
     
     [AVAudioSession.sharedInstance setCategory:_mCategory withOptions:_mCategoryOptions error:NULL];
@@ -416,15 +409,16 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
 }
 
 - (void)onError:(NSError *_Nullable)error {
-    if ( _mError != error ) {
 #ifdef DEBUG
     NSLog(@"%@<%p>: %d : %s, error: %@", NSStringFromClass(self.class), self, __LINE__, sel_getName(_cmd), error);
 #endif
 
+    if ( _mError != error ) {
         _mError = error;
         
         if ( error ) {
             [self->_mPlaybackController stop:nil];
+            [self setAudioItem:nil];
         }
         [self _notifyOnErrorChange:error];
     }
@@ -485,26 +479,8 @@ SJQueueSync(dispatch_queue_t queue, NS_NOESCAPE dispatch_block_t block) {
     });
 }
 
-- (void)audioItem:(FFAudioItem *)item playableTimeRangeDidChange:(CMTimeRange)timeRange {
-    self.playableTimeRange = timeRange;
-}
-
-- (void)audioItemDidSeek:(FFAudioItem *)item {
-    dispatch_async(_mQueue, ^{
-        if ( self.playWhenReady ) {
-            NSError *error = nil;
-            // 重置播放
-            if ( ![self->_mPlaybackController stop:&error] && ![self->_mPlaybackController reset:&error] ) {
-                [self onError:error];
-                return;
-            }
-            // 恢复播放
-            if ( ![self->_mPlaybackController play:&error] ) {
-                [self onError:error];
-                return;
-            }
-        }
-    });
+- (void)audioItem:(FFAudioItem *)item bufferedTimeDidChange:(CMTime)time {
+    self.bufferedTime = time;
 }
 
 - (void)handleRenderWithSilence:(BOOL *)isSilence frameCount:(AVAudioFrameCount)frameCount outputData:(AudioBufferList *)outputData pts:(int64_t *)outPts {

@@ -25,7 +25,7 @@ FOUNDATION_EXPORT NSErrorDomain const FFAudioItemErrorDomain;
 @property (nonatomic, weak, readonly, nullable) id<FFAudioItemDelegate> delegate;
 
 @property (nonatomic, readonly) CMTime duration;
-@property (nonatomic, readonly) CMTimeRange playableTimeRange;
+@property (nonatomic, readonly) CMTime bufferedTime;
 @property (nonatomic, strong, readonly, nullable) NSError *error;
 
 - (void)seekToTime:(CMTime)time;
@@ -42,7 +42,6 @@ FOUNDATION_EXPORT NSErrorDomain const FFAudioItemErrorDomain;
 @protocol FFAudioItemDelegate <NSObject>
 - (void)audioItemDidReadyToRead:(FFAudioItem *)item; // 可以通过`readBufferWithPts:`读取数据了;
 - (void)audioItem:(FFAudioItem *)item anErrorOccurred:(NSError *)error; // 发生了不可恢复的错误;
-- (void)audioItem:(FFAudioItem *)item playableTimeRangeDidChange:(CMTimeRange)timeRange;
-- (void)audioItemDidSeek:(FFAudioItem *)item; // seek 完成的回调
+- (void)audioItem:(FFAudioItem *)item bufferedTimeDidChange:(CMTime)time;
 @end
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23A69F612DE80E6100F96BF2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A69F602DE80E6100F96BF2 /* SystemConfiguration.framework */; };
 		23FECEBC2DCF158B009D5000 /* libffmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FECEB02DCF158A009D5000 /* libffmpeg.framework */; };
 		23FED1BE2DCF4038009D5000 /* AVFAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FED1BD2DCF4038009D5000 /* AVFAudio.framework */; };
 		23FED1C02DCF4047009D5000 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FED1BF2DCF4047009D5000 /* CoreMedia.framework */; };
@@ -24,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		23A69F602DE80E6100F96BF2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		23FECEB02DCF158A009D5000 /* libffmpeg.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libffmpeg.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23FECEBB2DCF158B009D5000 /* libffmpegTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libffmpegTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23FED1BD2DCF4038009D5000 /* AVFAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFAudio.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.4.sdk/System/Library/Frameworks/AVFAudio.framework; sourceTree = DEVELOPER_DIR; };
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A69F612DE80E6100F96BF2 /* SystemConfiguration.framework in Frameworks */,
 				23FED1C02DCF4047009D5000 /* CoreMedia.framework in Frameworks */,
 				23FED1BE2DCF4038009D5000 /* AVFAudio.framework in Frameworks */,
 				23FED1C22DCF4050009D5000 /* AVFoundation.framework in Frameworks */,
@@ -106,6 +109,7 @@
 		23FED1BC2DCF4038009D5000 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				23A69F602DE80E6100F96BF2 /* SystemConfiguration.framework */,
 				23FED1C12DCF4050009D5000 /* AVFoundation.framework */,
 				23FED1BF2DCF4047009D5000 /* CoreMedia.framework */,
 				23FED1BD2DCF4038009D5000 /* AVFAudio.framework */,
@@ -263,6 +267,11 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"FFAV_PLATFORM_IOS=1",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -295,6 +304,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "FFAV_PLATFORM_IOS=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

@@ -1,6 +1,6 @@
 {
   "name": "SJAudioPlayer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "summary": "iOS Audio Player using AVAudioEngine.",
   "description": "https://github.com/changsanjiang/SJAudioPlayer/blob/master/README.md",
   "homepage": "https://github.com/changsanjiang/SJAudioPlayer",
@@ -13,12 +13,13 @@
   },
   "source": {
     "git": "https://github.com/changsanjiang/SJAudioPlayer.git",
-    "tag": "1.1.0"
+    "tag": "1.1.1"
   },
   "platforms": {
     "ios": "13.0"
   },
   "source_files": "SJAudioPlayer/*.{h,m,mm}",
   "libraries": "c++",
+  "frameworks": "SystemConfiguration",
   "vendored_frameworks": "SJAudioPlayer/libffmpeg.xcframework"
 }
